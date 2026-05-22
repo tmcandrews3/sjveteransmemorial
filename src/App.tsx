@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       {isAdmin ? (
-        <AdminPage onExit={() => setIsAdmin(false)} />
+        <AdminPage />
       ) : (
         <BrickFinder />
       )}
