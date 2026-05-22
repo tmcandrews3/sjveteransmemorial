@@ -13,7 +13,7 @@ interface Brick {
   purchased?: boolean;
 }
 
-export default function BrickFinder({ onEnterAdmin }: { onEnterAdmin: () => void }) {
+export default function BrickFinder() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBrick, setSelectedBrick] = useState<Brick | null>(null);
   const [bricks, setBricks] = useState<Brick[]>([]);

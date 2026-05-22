@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import BrickFinder from './pages/BrickFinder';
 import AdminPage from './pages/Admin';
 
@@ -9,7 +10,7 @@ function App() {
       {isAdmin ? (
         <AdminPage onExit={() => setIsAdmin(false)} />
       ) : (
-        <BrickFinder onEnterAdmin={() => setIsAdmin(true)} />
+        <BrickFinder />
       )}
     </>
   );
