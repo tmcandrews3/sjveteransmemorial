@@ -1,7 +1,19 @@
-import AdminPage from './pages/Admin'
+import { useState } from 'react';
+import BrickFinder from './pages/BrickFinder';
+import AdminPage from './pages/Admin';
 
 function App() {
-  return <AdminPage />
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  return (
+    <>
+      {isAdmin ? (
+        <AdminPage onExit={() => setIsAdmin(false)} />
+      ) : (
+        <BrickFinder onEnterAdmin={() => setIsAdmin(true)} />
+      )}
+    </>
+  );
 }
 
-export default App
+export default App;
