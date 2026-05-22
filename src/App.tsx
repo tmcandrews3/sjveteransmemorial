@@ -1,19 +1,10 @@
-import { useState } from 'react';
 import BrickFinder from './pages/BrickFinder';
 import AdminPage from './pages/Admin';
 
 function App() {
-  const [isAdmin, setIsAdmin] = useState(false);
+  const isAdmin = false; // Simple version for demo
 
-  return (
-    <>
-      {isAdmin ? (
-        <AdminPage />
-      ) : (
-        <BrickFinder />
-      )}
-    </>
-  );
+  return isAdmin ? <AdminPage /> : <BrickFinder />;
 }
 
 export default App;

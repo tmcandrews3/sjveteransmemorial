@@ -18,16 +18,16 @@ export default function BrickFinder() {
   const [selectedBrick, setSelectedBrick] = useState<Brick | null>(null);
   const [bricks, setBricks] = useState<Brick[]>([]);
   const [sideView, setSideView] = useState<'Left' | 'Right'>('Right');
-  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     fetch('/data/bricks.json')
       .then(res => res.json())
       .then(data => {
         setBricks(data);
-        setLoading(false);
+        /*setLoading(false)*/;
       })
-      .catch(() => setLoading(false));
+      /*.catch(() => setLoading(false));*/
   }, []);
 
   const suggestions = useMemo(() => {
