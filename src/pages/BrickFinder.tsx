@@ -10,6 +10,7 @@ interface Brick {
   section?: number;
   physicalRow?: number;
   sectRow?: number;
+  purchased?: boolean;
 }
 
 export default function BrickFinder({ onEnterAdmin }: { onEnterAdmin: () => void }) {
