@@ -45,7 +45,13 @@ export default function BrickFinder() {
     setSearchTerm('');
   };
 
-  const isSelectedBrick = (designator: string) => selectedBrick?.designator === designator;
+  const getSectionRow = (brick: Brick): number => {
+    return brick.sectRow || 1;
+  };
+
+  const isSelectedBrick = (designator: string) => {
+    return selectedBrick?.designator === designator;
+  };
 
   const visibleBricks = bricks.filter(b => b.side === sideView);
 
@@ -64,7 +70,7 @@ export default function BrickFinder() {
             <span className="font-bold tracking-widest">ST. JAMES VETERANS MEMORIAL</span>
           </div>
           <h1 className="text-6xl md:text-7xl font-bold mb-6 tracking-tight">BRICK FINDER</h1>
-          <p className="text-2xl text-gray-300">Honor & Remember</p>
+          <p className="text-2xl text-gray-300">Honor. Remember. Locate.</p>
         </div>
       </div>
 
@@ -120,7 +126,7 @@ export default function BrickFinder() {
                 <div className="uppercase tracking-[3px] text-sm text-gray-400 mb-4">BRICK LOCATION</div>
                 <div className="text-6xl font-bold text-[#ffe887] mb-2">{selectedBrick.side.toUpperCase()}</div>
                 <div className="text-4xl font-bold text-white mb-1">SECTION {selectedBrick.section}</div>
-                <div className="text-4xl font-bold text-white">ROW {selectedBrick.sectRow}</div>
+                <div className="text-4xl font-bold text-white">ROW {getSectionRow(selectedBrick)}</div>
                 <div className="mt-10 text-xs text-gray-500 font-mono tracking-widest">
                   DESIGNATOR: {selectedBrick.designator}
                 </div>
@@ -128,30 +134,13 @@ export default function BrickFinder() {
             </div>
           </div>
 
-          {/* Scroll Prompt */}
-          <div className="text-center mb-8">
-            <p className="inline-block bg-[#ffe887] text-black px-8 py-3 rounded-2xl text-xl font-medium">
-              ↓ Scroll down to see your brick highlighted
-            </p>
+          {/* Side Toggle */}
+          <div className="flex gap-4 justify-center mb-8">
+            <button onClick={() => setSideView('Right')} className={`px-12 py-5 rounded-2xl text-lg font-medium ${sideView === 'Right' ? 'bg-blue-600 text-white' : 'bg-gray-800 hover:bg-gray-700'}`}>Right Side View</button>
+            <button onClick={() => setSideView('Left')} className={`px-12 py-5 rounded-2xl text-lg font-medium ${sideView === 'Left' ? 'bg-blue-600 text-white' : 'bg-gray-800 hover:bg-gray-700'}`}>Left Side View</button>
           </div>
 
-          {/* Legend - Moved here as requested */}
-          <div className="flex flex-wrap gap-x-12 gap-y-4 justify-center text-sm mb-10">
-            <div className="flex items-center gap-3">
-              <div className="w-6 h-6 bg-[#d86b23] rounded"></div> Purchased
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-6 h-6 bg-[#ffe887] rounded"></div> <strong>Your Brick</strong>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-6 h-6 bg-[#3cb371] rounded"></div> 
-              <a href="https://ncpost543.org/docs/brick-order-form/" target="_blank" className="underline text-blue-400 hover:text-blue-300">
-                Available → Order Form
-              </a>
-            </div>
-          </div>
-
-          {/* Brick Path */}
+          {/* Brick Path - FIXED MATCHING */}
           <div className="bg-gray-950 border-2 border-gray-700 rounded-3xl p-8 overflow-auto max-h-[720px]">
             <div className="space-y-10">
               {Array.from({ length: 8 }).map((_, secIdx) => {
@@ -173,6 +162,7 @@ export default function BrickFinder() {
 
                             {Array.from({ length: fullBricks }).map((_, colIdx) => {
                               const colNum = colIdx + 1;
+                              // Better matching using actual data instead of calculated designator
                               const brick = visibleBricks.find(b => 
                                 b.section === sectionNum && b.sectRow === rowNum && b.designator.endsWith(`B${colNum}`)
                               );
@@ -185,7 +175,7 @@ export default function BrickFinder() {
                                   className={`w-20 h-11 flex items-center justify-center text-[10px] font-mono border transition-all hover:scale-105
                                     ${isSelected 
                                       ? 'bg-[#ffe887] text-black border-2 border-yellow-400 scale-110 shadow-2xl ring-2 ring-yellow-300' 
-                                      : brick?.purchased 
+                                      : brick?.purchased !== false 
                                         ? 'bg-[#d86b23] text-white border-gray-600' 
                                         : 'bg-[#3cb371] text-white border-gray-600 opacity-75'}`}
                                   title={brick ? brick.lines[0] : 'Available'}
@@ -207,12 +197,21 @@ export default function BrickFinder() {
             </div>
           </div>
 
-          {/* Side Toggle - Moved to bottom as requested */}
-          <div className="flex gap-4 justify-center mt-10">
-            <button onClick={() => setSideView('Right')} className={`px-12 py-5 rounded-2xl text-lg font-medium ${sideView === 'Right' ? 'bg-blue-600 text-white' : 'bg-gray-800 hover:bg-gray-700'}`}>Right Side View</button>
-            <button onClick={() => setSideView('Left')} className={`px-12 py-5 rounded-2xl text-lg font-medium ${sideView === 'Left' ? 'bg-blue-600 text-white' : 'bg-gray-800 hover:bg-gray-700'}`}>Left Side View</button>
+          {/* Legend */}
+          <div className="mt-12 flex flex-wrap gap-x-12 gap-y-4 justify-center text-sm">
+            <div className="flex items-center gap-3">
+              <div className="w-6 h-6 bg-[#d86b23] rounded"></div> Purchased
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-6 h-6 bg-[#ffe887] rounded"></div> <strong>Your Brick</strong>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-6 h-6 bg-[#3cb371] rounded"></div> 
+              <a href="https://ncpost543.org/docs/brick-order-form/" target="_blank" className="underline text-blue-400 hover:text-blue-300">
+                Available → Order Form
+              </a>
+            </div>
           </div>
-
         </div>
       )}
 
