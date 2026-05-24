@@ -68,32 +68,32 @@ export default function BrickFinder() {
         </div>
       </div>
 
-      {/* Search */}
+      {/* Search - Lighter & More Visible */}
       <div className="max-w-3xl mx-auto px-6 -mt-10 relative z-20">
-        <div className="bg-gray-900 rounded-3xl p-6 shadow-2xl border border-gray-700">
-          <div className="flex items-center bg-gray-950 rounded-2xl px-6 py-5">
-            <Search className="w-6 h-6 text-gray-400 mr-4" />
+        <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 shadow-2xl border border-gray-300">
+          <div className="flex items-center bg-white rounded-2xl px-6 py-5 border border-gray-300">
+            <Search className="w-6 h-6 text-gray-500 mr-4" />
             <input
               type="text"
               placeholder="Search by name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="flex-1 bg-transparent outline-none text-xl placeholder-gray-400"
+              className="flex-1 bg-transparent outline-none text-xl text-gray-900 placeholder-gray-500"
             />
-            {searchTerm && <button onClick={clearSelection} className="ml-4 text-gray-400 hover:text-white"><X size={24} /></button>}
+            {searchTerm && <button onClick={clearSelection} className="ml-4 text-gray-500 hover:text-gray-700"><X size={24} /></button>}
           </div>
 
           {suggestions.length > 0 && (
-            <div className="absolute mt-3 w-full bg-gray-900 rounded-2xl border border-gray-700 shadow-2xl max-h-[420px] overflow-auto z-50">
+            <div className="absolute mt-3 w-full bg-white rounded-2xl border border-gray-300 shadow-2xl max-h-[420px] overflow-auto z-50">
               {suggestions.map(brick => (
                 <div 
                   key={brick.designator} 
                   onClick={() => handleSelect(brick)}
-                  className="px-6 py-5 hover:bg-gray-800 cursor-pointer border-b border-gray-800 last:border-none flex justify-between items-center"
+                  className="px-6 py-5 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-none flex justify-between items-center text-gray-900"
                 >
                   <div>
                     <div className="font-medium">{brick.lines[0]}</div>
-                    <div className="text-sm text-gray-400">{brick.lines[1] || ''}</div>
+                    <div className="text-sm text-gray-600">{brick.lines[1] || ''}</div>
                   </div>
                   <div className="text-xs text-gray-500 font-mono">{brick.designator}</div>
                 </div>
