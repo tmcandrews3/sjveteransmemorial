@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Search, Award, X } from 'lucide-react';
-// Mobile optimized version - updated May 26
+
 interface Brick {
   id: string;
   lines: string[];
@@ -45,12 +45,11 @@ export default function BrickFinder() {
     setSearchTerm('');
   };
 
-  const isSelectedBrick = (designator: string) => selectedBrick?.designator === designator;
   const visibleBricks = bricks.filter(b => b.side === sideView);
 
   return (
     <div className="min-h-screen bg-[#0a1625] text-white">
-      {/* Hero - Responsive */}
+      {/* Hero */}
       <div 
         className="relative h-[50vh] md:h-[65vh] bg-cover bg-center flex items-center justify-center"
         style={{ 
@@ -67,7 +66,7 @@ export default function BrickFinder() {
         </div>
       </div>
 
-      {/* Instructions + Search */}
+      {/* Search Section */}
       <div className="max-w-3xl mx-auto px-4 md:px-6 -mt-8 md:-mt-10 relative z-20">
         <div className="text-center mb-3 px-4">
           <p className="text-gray-400 text-base md:text-lg">
@@ -108,7 +107,6 @@ export default function BrickFinder() {
           </div>
         )}
 
-        {/* Suggestions */}
         {suggestions.length > 0 && (
           <div className="absolute mt-3 w-full bg-gray-900 rounded-2xl border border-gray-700 shadow-2xl max-h-[420px] overflow-auto z-50">
             {suggestions.map(brick => (
@@ -196,7 +194,7 @@ export default function BrickFinder() {
             </div>
           </div>
 
-          {/* Brick Path and Side Toggle - keep your current grid code here */}
+          {/* Brick Path and Side Toggle go here - keep your current grid code */}
         </div>
       )}
 
