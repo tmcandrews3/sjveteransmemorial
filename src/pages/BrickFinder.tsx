@@ -16,7 +16,6 @@ export default function BrickFinder() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBrick, setSelectedBrick] = useState<Brick | null>(null);
   const [bricks, setBricks] = useState<Brick[]>([]);
-  const [sideView, setSideView] = useState<'Left' | 'Right'>('Right');
 
   useEffect(() => {
     fetch('/data/bricks.json')
@@ -37,7 +36,6 @@ export default function BrickFinder() {
   const handleSelect = (brick: Brick) => {
     setSelectedBrick(brick);
     setSearchTerm(brick.lines[0] || '');
-    setSideView(brick.side as 'Left' | 'Right');
   };
 
   const clearSelection = () => {
@@ -191,8 +189,6 @@ export default function BrickFinder() {
               </a>
             </div>
           </div>
-
-          {/* Brick Path and Side Toggle go here */}
         </div>
       )}
 
