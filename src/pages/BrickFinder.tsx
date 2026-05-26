@@ -16,7 +16,6 @@ export default function BrickFinder() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBrick, setSelectedBrick] = useState<Brick | null>(null);
   const [bricks, setBricks] = useState<Brick[]>([]);
-  const [sideView, setSideView] = useState<'Left' | 'Right'>('Right');
 
   useEffect(() => {
     fetch('/data/bricks.json')
@@ -37,16 +36,12 @@ export default function BrickFinder() {
   const handleSelect = (brick: Brick) => {
     setSelectedBrick(brick);
     setSearchTerm(brick.lines[0] || '');
-    setSideView(brick.side as 'Left' | 'Right');
   };
 
   const clearSelection = () => {
     setSelectedBrick(null);
     setSearchTerm('');
   };
-
-  const isSelectedBrick = (designator: string) => selectedBrick?.designator === designator;
-  const visibleBricks = bricks.filter(b => b.side === sideView);
 
   return (
     <div className="min-h-screen bg-[#0a1625] text-white">
@@ -194,12 +189,11 @@ export default function BrickFinder() {
               </a>
             </div>
           </div>
-
         </div>
       )}
 
+      {/* Footer with Download Button */}
       <footer className="bg-black/50 py-12 text-center text-gray-500">
-        {/* Download Button - Always Visible */}
         <div className="flex justify-center mb-8">
           <a 
             href="/data/St-James-Veterans-Brick-List.xlsx" 
