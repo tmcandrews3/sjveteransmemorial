@@ -45,8 +45,6 @@ export default function BrickFinder() {
     setSearchTerm('');
   };
 
-  const visibleBricks = bricks.filter(b => b.side === sideView);
-
   return (
     <div className="min-h-screen bg-[#0a1625] text-white">
       {/* Hero */}
@@ -194,7 +192,7 @@ export default function BrickFinder() {
             </div>
           </div>
 
-          {/* Brick Path and Side Toggle go here - keep your current grid code */}
+          {/* Brick Path and Side Toggle go here */}
         </div>
       )}
 
