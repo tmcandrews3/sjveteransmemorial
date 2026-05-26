@@ -46,99 +46,144 @@ export default function BrickFinder() {
   };
 
   const isSelectedBrick = (designator: string) => selectedBrick?.designator === designator;
-
   const visibleBricks = bricks.filter(b => b.side === sideView);
 
   return (
     <div className="min-h-screen bg-[#0a1625] text-white">
-      {/* Hero */}
+      {/* Hero - Responsive */}
       <div 
-        className="relative h-[65vh] bg-cover bg-center flex items-center justify-center"
+        className="relative h-[50vh] md:h-[65vh] bg-cover bg-center flex items-center justify-center"
         style={{ 
-          backgroundImage: `linear-gradient(rgba(10,22,37,0.78), rgba(10,22,37,0.88)), url('/images/memorial-wall.jpg')` 
+          backgroundImage: `linear-gradient(rgba(10,22,37,0.85), rgba(10,22,37,0.9)), url('/images/memorial-wall.jpg')` 
         }}
       >
         <div className="text-center z-10 px-6">
           <div className="inline-flex items-center gap-3 bg-red-600/90 px-6 py-2 rounded-full mb-6">
-            <Award className="w-8 h-8" />
-            <span className="font-bold tracking-widest">ST. JAMES VETERANS MEMORIAL</span>
+            <Award className="w-7 h-7 md:w-8 md:h-8" />
+            <span className="font-bold tracking-widest text-sm md:text-base">ST. JAMES VETERANS MEMORIAL</span>
           </div>
-          <h1 className="text-6xl md:text-7xl font-bold mb-6 tracking-tight">BRICK FINDER</h1>
-          <p className="text-2xl text-gray-300">Honor & Remember</p>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 tracking-tight">BRICK FINDER</h1>
+          <p className="text-xl md:text-2xl text-gray-300">Honor & Remember</p>
         </div>
       </div>
 
-      {/* Search - Lighter & More Visible */}
-      <div className="max-w-3xl mx-auto px-6 -mt-10 relative z-20">
-        <div className="bg-white/95 backdrop-blur-md rounded-3xl p-6 shadow-2xl border border-gray-300">
-          <div className="flex items-center bg-white rounded-2xl px-6 py-5 border border-gray-300">
-            <Search className="w-6 h-6 text-gray-500 mr-4" />
+      {/* Instructions + Search */}
+      <div className="max-w-3xl mx-auto px-4 md:px-6 -mt-8 md:-mt-10 relative z-20">
+        <div className="text-center mb-3 px-4">
+          <p className="text-gray-400 text-base md:text-lg">
+            Please type in a name below to begin:
+          </p>
+        </div>
+
+        <div 
+          className="bg-gray-900 rounded-3xl p-5 md:p-6 shadow-2xl border border-gray-700 cursor-pointer"
+          onClick={clearSelection}
+        >
+          <div className="flex items-center bg-gray-950 rounded-2xl px-5 py-4 md:px-6 md:py-5">
+            <Search className="w-5 h-5 md:w-6 md:h-6 text-gray-400 mr-4" />
             <input
               type="text"
               placeholder="Search by name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="flex-1 bg-transparent outline-none text-xl text-gray-900 placeholder-gray-500"
+              className="flex-1 bg-transparent outline-none text-lg md:text-xl placeholder-gray-400"
+              onClick={(e) => e.stopPropagation()}
             />
-            {searchTerm && <button onClick={clearSelection} className="ml-4 text-gray-500 hover:text-gray-700"><X size={24} /></button>}
+            
+            {searchTerm && (
+              <button 
+                onClick={(e) => { e.stopPropagation(); clearSelection(); }} 
+                className="ml-2 flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-xl text-sm font-medium text-gray-300"
+              >
+                <X size={18} />
+                CLEAR
+              </button>
+            )}
           </div>
-
-          {suggestions.length > 0 && (
-            <div className="absolute mt-3 w-full bg-white rounded-2xl border border-gray-300 shadow-2xl max-h-[420px] overflow-auto z-50">
-              {suggestions.map(brick => (
-                <div 
-                  key={brick.designator} 
-                  onClick={() => handleSelect(brick)}
-                  className="px-6 py-5 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-none flex justify-between items-center text-gray-900"
-                >
-                  <div>
-                    <div className="font-medium">{brick.lines[0]}</div>
-                    <div className="text-sm text-gray-600">{brick.lines[1] || ''}</div>
-                  </div>
-                  <div className="text-xs text-gray-500 font-mono">{brick.designator}</div>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
+
+        {selectedBrick && (
+          <div className="text-center mt-4">
+            <p className="text-gray-400 text-sm">Tap the search box or CLEAR to start a new search</p>
+          </div>
+        )}
+
+        {/* Suggestions */}
+        {suggestions.length > 0 && (
+          <div className="absolute mt-3 w-full bg-gray-900 rounded-2xl border border-gray-700 shadow-2xl max-h-[420px] overflow-auto z-50">
+            {suggestions.map(brick => (
+              <div 
+                key={brick.designator} 
+                onClick={() => handleSelect(brick)}
+                className="px-6 py-5 hover:bg-gray-800 cursor-pointer border-b border-gray-800 last:border-none flex justify-between items-center"
+              >
+                <div>
+                  <div className="font-medium">{brick.lines[0]}</div>
+                  <div className="text-sm text-gray-400">{brick.lines[1] || ''}</div>
+                </div>
+                <div className="text-xs text-gray-500 font-mono">{brick.designator}</div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {selectedBrick && (
-        <div className="max-w-7xl mx-auto px-6 py-12">
-          {/* Brick Info */}
-          <div className="bg-gray-900 rounded-3xl p-10 mb-12 border border-gray-700">
-            <div className="flex flex-col md:flex-row gap-12">
-              <div className="flex-1">
-                <h2 className="text-4xl font-bold mb-6">{selectedBrick.lines[0]}</h2>
-                <div className="space-y-3 text-xl text-gray-200">
-                  {selectedBrick.lines.slice(1).map((line, i) => line && <p key={i}>{line}</p>)}
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
+          {/* Brick Visual */}
+          <div className="flex justify-center mb-10">
+            <div className="w-full max-w-[620px]">
+              <div 
+                className="bg-[#f05f33] aspect-[2/1] rounded-3xl shadow-2xl border-8 border-[#c14a28] flex items-center justify-center p-6 md:p-8 text-center"
+                style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}
+              >
+                <div className="space-y-2 md:space-y-3 text-[#010109] font-bold leading-tight text-2xl md:text-[2.5rem]">
+                  {selectedBrick.lines.map((line, index) => (
+                    line && <div key={index}>{line}</div>
+                  ))}
                 </div>
-                {selectedBrick.sponsor && <p className="text-blue-400 mt-8 text-lg">Sponsor: {selectedBrick.sponsor}</p>}
+              </div>
+            </div>
+          </div>
+
+          {/* Info Box */}
+          <div className="max-w-3xl mx-auto bg-gray-900 rounded-3xl p-8 md:p-10 border border-gray-400">
+            {selectedBrick.sponsor && (
+              <p className="text-blue-400 text-xl md:text-2xl mb-8 text-center">
+                Sponsor: <span className="font-medium">{selectedBrick.sponsor}</span>
+              </p>
+            )}
+
+            <div className="text-center">
+              <div className="uppercase tracking-[3px] text-base md:text-xl text-gray-400 mb-6">BRICK LOCATION</div>
+              
+              <div className="text-5xl md:text-6xl font-bold text-[#ffe887] mb-3">
+                {selectedBrick.side.toUpperCase()}
+              </div>
+              <div className="text-4xl md:text-5xl font-bold text-white mb-2">
+                SECTION {selectedBrick.section}
+              </div>
+              <div className="text-4xl md:text-5xl font-bold text-white mb-8">
+                ROW {selectedBrick.sectRow}
               </div>
 
-              <div className="text-center md:text-right">
-                <div className="uppercase tracking-[3px] text-sm text-gray-400 mb-4">BRICK LOCATION</div>
-                <div className="text-6xl font-bold text-[#ffe887] mb-2">{selectedBrick.side.toUpperCase()}</div>
-                <div className="text-4xl font-bold text-white mb-1">SECTION {selectedBrick.section}</div>
-                <div className="text-4xl font-bold text-white">ROW {selectedBrick.sectRow}</div>
-                <div className="mt-10 text-xs text-gray-500 font-mono tracking-widest">
-                  DESIGNATOR: {selectedBrick.designator}
-                </div>
+              <div className="text-sm md:text-base text-gray-500 font-mono tracking-widest">
+                DESIGNATOR: {selectedBrick.designator}
               </div>
             </div>
           </div>
 
           {/* Scroll Prompt */}
-          <div className="text-center mb-8">
-            <p className="inline-block bg-[#ffe887] text-black px-8 py-3 rounded-2xl text-xl font-medium">
+          <div className="text-center mt-10 mb-8">
+            <p className="inline-block bg-[#ffe887] text-black px-8 py-3 rounded-2xl text-lg md:text-xl font-medium">
               ↓ Scroll down to see your brick highlighted
             </p>
           </div>
 
-          {/* Legend - Moved here as requested */}
-          <div className="flex flex-wrap gap-x-12 gap-y-4 justify-center text-sm mb-10">
+          {/* Legend */}
+          <div className="flex flex-wrap gap-x-8 md:gap-x-12 gap-y-4 justify-center text-sm mb-10">
             <div className="flex items-center gap-3">
-              <div className="w-6 h-6 bg-[#d86b23] rounded"></div> Purchased
+              <div className="w-6 h-6 bg-[#f05f33] rounded"></div> Purchased
             </div>
             <div className="flex items-center gap-3">
               <div className="w-6 h-6 bg-[#ffe887] rounded"></div> <strong>Your Brick</strong>
@@ -151,73 +196,16 @@ export default function BrickFinder() {
             </div>
           </div>
 
-          {/* Brick Path */}
-          <div className="bg-gray-950 border-2 border-gray-700 rounded-3xl p-8 overflow-auto max-h-[720px]">
-            <div className="space-y-10">
-              {Array.from({ length: 8 }).map((_, secIdx) => {
-                const sectionNum = secIdx + 1;
-                return (
-                  <div key={sectionNum}>
-                    <div className="text-center mb-6">
-                      <div className="inline-block bg-red-900/50 text-red-400 px-8 py-2 rounded-full text-sm tracking-widest">SECTION {sectionNum}</div>
-                    </div>
-                    <div className="space-y-5">
-                      {Array.from({ length: 12 }).map((_, rowIdx) => {
-                        const rowNum = rowIdx + 1;
-                        const isEvenRow = rowNum % 2 === 0;
-                        const fullBricks = isEvenRow ? 5 : 6;
-
-                        return (
-                          <div key={rowNum} className="flex justify-center items-center gap-1.5">
-                            {isEvenRow && <div className="w-11 h-11 bg-gray-500 border border-gray-600 rounded-l opacity-50"></div>}
-
-                            {Array.from({ length: fullBricks }).map((_, colIdx) => {
-                              const colNum = colIdx + 1;
-                              const brick = visibleBricks.find(b => 
-                                b.section === sectionNum && b.sectRow === rowNum && b.designator.endsWith(`B${colNum}`)
-                              );
-
-                              const isSelected = brick && isSelectedBrick(brick.designator);
-
-                              return (
-                                <div
-                                  key={colIdx}
-                                  className={`w-20 h-11 flex items-center justify-center text-[10px] font-mono border transition-all hover:scale-105
-                                    ${isSelected 
-                                      ? 'bg-[#ffe887] text-black border-2 border-yellow-400 scale-110 shadow-2xl ring-2 ring-yellow-300' 
-                                      : brick?.purchased 
-                                        ? 'bg-[#d86b23] text-white border-gray-600' 
-                                        : 'bg-[#3cb371] text-white border-gray-600 opacity-75'}`}
-                                  title={brick ? brick.lines[0] : 'Available'}
-                                >
-                                  {brick ? colNum : ''}
-                                </div>
-                              );
-                            })}
-
-                            {isEvenRow && <div className="w-11 h-11 bg-gray-500 border border-gray-600 rounded-r opacity-50"></div>}
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div className="h-8 bg-gray-700 my-8 rounded"></div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Side Toggle - Moved to bottom as requested */}
-          <div className="flex gap-4 justify-center mt-10">
-            <button onClick={() => setSideView('Right')} className={`px-12 py-5 rounded-2xl text-lg font-medium ${sideView === 'Right' ? 'bg-blue-600 text-white' : 'bg-gray-800 hover:bg-gray-700'}`}>Right Side View</button>
-            <button onClick={() => setSideView('Left')} className={`px-12 py-5 rounded-2xl text-lg font-medium ${sideView === 'Left' ? 'bg-blue-600 text-white' : 'bg-gray-800 hover:bg-gray-700'}`}>Left Side View</button>
-          </div>
-
+          {/* Brick Path and Side Toggle - keep your current grid code here */}
         </div>
       )}
 
       <footer className="bg-black/50 py-12 text-center text-gray-500">
-        Built with ❤️ for St. James Veterans Memorial • Post 543 • Southport, NC
+        <div>Built with ❤️ for St. James Veterans Memorial • Post 543 • Southport, NC</div>
+        <div className="mt-2">
+          For questions or to report issues, please contact{" "}
+          <a href="mailto:tmcandrews3@gmail.com" className="text-blue-400 hover:underline">tmcandrews3@gmail.com</a>
+        </div>
       </footer>
     </div>
   );
