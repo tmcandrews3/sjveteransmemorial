@@ -16,6 +16,7 @@ export default function BrickFinder() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBrick, setSelectedBrick] = useState<Brick | null>(null);
   const [bricks, setBricks] = useState<Brick[]>([]);
+  const [sideView, setSideView] = useState<'Left' | 'Right'>('Right');
 
   useEffect(() => {
     fetch('/data/bricks.json')
@@ -36,12 +37,16 @@ export default function BrickFinder() {
   const handleSelect = (brick: Brick) => {
     setSelectedBrick(brick);
     setSearchTerm(brick.lines[0] || '');
+    setSideView(brick.side as 'Left' | 'Right');
   };
 
   const clearSelection = () => {
     setSelectedBrick(null);
     setSearchTerm('');
   };
+
+  const isSelectedBrick = (designator: string) => selectedBrick?.designator === designator;
+  const visibleBricks = bricks.filter(b => b.side === sideView);
 
   return (
     <div className="min-h-screen bg-[#0a1625] text-white">
@@ -189,21 +194,77 @@ export default function BrickFinder() {
               </a>
             </div>
           </div>
+
+          {/* Brick Path Grid */}
+          <div className="bg-gray-950 border-2 border-gray-700 rounded-3xl p-6 md:p-8 overflow-auto max-h-[620px]">
+            <div className="space-y-8 md:space-y-10">
+              {Array.from({ length: 8 }).map((_, secIdx) => {
+                const sectionNum = secIdx + 1;
+                return (
+                  <div key={sectionNum}>
+                    <div className="text-center mb-6">
+                      <div className="inline-block bg-red-900/50 text-red-400 px-8 py-2 rounded-full text-sm tracking-widest">SECTION {sectionNum}</div>
+                    </div>
+                    <div className="space-y-4">
+                      {Array.from({ length: 12 }).map((_, rowIdx) => {
+                        const rowNum = rowIdx + 1;
+                        const isEvenRow = rowNum % 2 === 0;
+                        const fullBricks = isEvenRow ? 5 : 6;
+
+                        return (
+                          <div key={rowNum} className="flex justify-center items-center gap-1">
+                            {isEvenRow && <div className="w-9 h-9 md:w-11 md:h-11 bg-gray-500 border border-gray-600 rounded-l opacity-50"></div>}
+
+                            {Array.from({ length: fullBricks }).map((_, colIdx) => {
+                              const colNum = colIdx + 1;
+                              const brick = visibleBricks.find(b => 
+                                b.section === sectionNum && b.sectRow === rowNum && b.designator.endsWith(`B${colNum}`)
+                              );
+
+                              const isSelected = brick && isSelectedBrick(brick.designator);
+
+                              return (
+                                <div
+                                  key={colIdx}
+                                  className={`w-16 h-9 md:w-20 md:h-11 flex items-center justify-center text-[9px] md:text-[10px] font-mono border transition-all hover:scale-105
+                                    ${isSelected 
+                                      ? 'bg-[#ffe887] text-black border-2 border-yellow-400 scale-110 shadow-2xl ring-2 ring-yellow-300' 
+                                      : brick?.purchased 
+                                        ? 'bg-[#f05f33] text-white border-gray-600' 
+                                        : 'bg-[#3cb371] text-white border-gray-600 opacity-75'}`}
+                                  title={brick ? brick.lines[0] : 'Available'}
+                                >
+                                  {brick ? colNum : ''}
+                                </div>
+                              );
+                            })}
+
+                            {isEvenRow && <div className="w-9 h-9 md:w-11 md:h-11 bg-gray-500 border border-gray-600 rounded-r opacity-50"></div>}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="h-6 md:h-8 bg-gray-700 my-6 md:my-8 rounded"></div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Download Button */}
+          <div className="flex justify-center mt-12">
+            <a 
+              href="/data/St-James-Veterans-Brick-List.xlsx" 
+              download="St-James-Veterans-Brick-List.xlsx"
+              className="flex items-center gap-3 bg-gray-800 hover:bg-gray-700 px-10 py-5 rounded-2xl text-lg font-medium transition-all border border-gray-600 hover:border-gray-500"
+            >
+              📥 Download Complete Brick List (XLSX)
+            </a>
+          </div>
         </div>
       )}
 
-      {/* Footer with Download Button */}
       <footer className="bg-black/50 py-12 text-center text-gray-500">
-        <div className="flex justify-center mb-8">
-          <a 
-            href="/data/St-James-Veterans-Brick-List.xlsx" 
-            download="St-James-Veterans-Brick-List.xlsx"
-            className="flex items-center gap-3 bg-gray-800 hover:bg-gray-700 px-10 py-5 rounded-2xl text-lg font-medium transition-all border border-gray-600 hover:border-gray-500"
-          >
-            📥 Download Complete Brick List (XLSX)
-          </a>
-        </div>
-
         <div>Built with ❤️ for St. James Veterans Memorial • Post 543 • Southport, NC</div>
         <div className="mt-2">
           For questions or to report issues, please contact{" "}
