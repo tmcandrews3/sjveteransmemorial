@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Search, Award, X } from 'lucide-react';
-
+// Mobile optimized version - updated May 26
 interface Brick {
   id: string;
   lines: string[];
