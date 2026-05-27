@@ -102,10 +102,10 @@ export default function BrickFinder() {
           </div>
         </div>
 
-       {selectedBrick && (
-        <div className="text-center mt-4">
-        <p className="text-gray-400 text-sm">Hit CLEAR to start a new search</p>
-       </div>
+        {selectedBrick && (
+          <div className="text-center mt-4">
+            <p className="text-gray-400 text-sm">Tap the search box or CLEAR to start a new search</p>
+          </div>
         )}
 
         {suggestions.length > 0 && (
@@ -251,12 +251,8 @@ export default function BrickFinder() {
             </div>
           </div>
 
-          {/* Download Section */}
-          <div className="flex flex-col items-center mt-12 space-y-4">
-            <p className="text-gray-400 text-center max-w-md text-sm md:text-base px-4">
-              If you are unable to find the brick you are looking for, tap here to download the alpha roster of all memorial bricks
-            </p>
-            
+          {/* Download Button */}
+          <div className="flex justify-center mt-12">
             <a 
               href="/data/St-James-Veterans-Brick-List.xlsx" 
               download="St-James-Veterans-Brick-List.xlsx"
