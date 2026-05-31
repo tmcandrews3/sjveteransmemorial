@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Upload, Award, LogOut, Lock, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const ADMIN_PASSWORD = "Post543Admin2026";   // ← CHANGE THIS TO SOMETHING SECURE
+const ADMIN_PASSWORD = "Post543Admin####";   // ← CHANGE THIS TO SOMETHING SECURE
 
 export default function Admin() {
   const navigate = useNavigate();
