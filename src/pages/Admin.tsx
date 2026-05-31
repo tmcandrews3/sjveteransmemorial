@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Upload, Award, LogOut, Lock, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const ADMIN_PASSWORD = "Post543Admin2026";   // ← Change this!
+const ADMIN_PASSWORD = "Post543Admin2026";   // ← CHANGE THIS TO SOMETHING SECURE
 
 export default function Admin() {
   const navigate = useNavigate();
@@ -113,4 +113,11 @@ export default function Admin() {
               </div>
               <p className="mb-4">{message}</p>
               <p className="font-mono text-sm bg-black/50 p-3 rounded">node update-bricks.mjs</p>
-              <p className="text-sm mt-4 text-green-300">Run the command above in your terminal to complete the update.</
+              <p className="text-sm mt-4 text-green-300">Run the command above in your terminal to complete the update.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
