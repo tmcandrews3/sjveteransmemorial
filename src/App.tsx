@@ -1,10 +1,14 @@
+import { Routes, Route } from 'react-router-dom';
 import BrickFinder from './pages/BrickFinder';
-import AdminPage from './pages/Admin';
+import Admin from './pages/Admin';
 
 function App() {
-  const isAdmin = false; // Simple version for demo
-
-  return isAdmin ? <AdminPage /> : <BrickFinder />;
+  return (
+    <Routes>
+      <Route path="/" element={<BrickFinder />} />
+      <Route path="/admin" element={<Admin />} />
+    </Routes>
+  );
 }
 
 export default App;

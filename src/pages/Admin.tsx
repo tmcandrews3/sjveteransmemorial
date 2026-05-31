@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Upload, Award, LogOut, Lock, CheckCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const ADMIN_PASSWORD = "Post543Admin####";   
 
@@ -76,10 +77,10 @@ export default function Admin() {
             <h1 className="text-4xl font-bold">Admin Dashboard</h1>
           </div>
           <button 
-            onClick={() => setIsAuthenticated(false)}
+            onClick={() => navigate('/')}
             className="flex items-center gap-2 text-gray-400 hover:text-white"
           >
-            <LogOut size={20} /> Logout
+            <LogOut size={20} /> Exit Admin
           </button>
         </div>
 
