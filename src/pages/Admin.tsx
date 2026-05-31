@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Upload, Award, LogOut, Lock, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const ADMIN_PASSWORD = "Post543Admin####";   
+const ADMIN_PASSWORD = "Post543Admin2026";   // ← Change this!
 
 export default function Admin() {
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [file, setFile] = useState<File | null>(null);
@@ -32,11 +33,7 @@ export default function Admin() {
     if (!file) return;
 
     setStatus('success');
-    setMessage('✅ File received. Now run this command in your terminal to update the database:');
-
-    // Instructions for user
-    console.log('%cRun this command in terminal:', 'color: #ffe887; font-weight: bold');
-    console.log('node update-bricks.mjs');
+    setMessage('✅ File received. Now run this command in your terminal:');
   };
 
   if (!isAuthenticated) {
@@ -105,22 +102,15 @@ export default function Admin() {
             disabled={!file}
             className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-700 py-5 rounded-2xl text-xl font-medium transition-colors disabled:cursor-not-allowed"
           >
-            Process Uploaded CSV
+            {status === 'success' ? 'File Ready' : 'Process Uploaded CSV'}
           </button>
 
           {status === 'success' && message && (
             <div className="mt-8 p-6 bg-green-900/30 border border-green-700 rounded-2xl text-green-400">
               <div className="flex items-center gap-3 mb-4">
                 <CheckCircle className="w-6 h-6" />
-                <strong>File Ready</strong>
+                <strong>Next Step</strong>
               </div>
               <p className="mb-4">{message}</p>
               <p className="font-mono text-sm bg-black/50 p-3 rounded">node update-bricks.mjs</p>
-              <p className="text-sm mt-4 text-green-300">Run the command above in your terminal to complete the update.</p>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
+              <p className="text-sm mt-4 text-green-300">Run the command above in your terminal to complete the update.</
