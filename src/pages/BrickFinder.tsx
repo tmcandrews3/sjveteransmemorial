@@ -195,10 +195,10 @@ export default function BrickFinder() {
             </div>
           </div>
 
-          {/* Brick Path Grid */}
+          {/* Brick Path - Dynamic Sections */}
           <div className="bg-gray-950 border-2 border-gray-700 rounded-3xl p-6 md:p-8 overflow-auto max-h-[620px]">
             <div className="space-y-8 md:space-y-10">
-              {Array.from({ length: 8 }).map((_, secIdx) => {
+              {Array.from({ length: Math.max(9, ...visibleBricks.map(b => b.section)) }).map((_, secIdx) => {
                 const sectionNum = secIdx + 1;
                 return (
                   <div key={sectionNum}>
