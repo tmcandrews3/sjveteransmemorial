@@ -127,7 +127,7 @@ export default function BrickFinder() {
         )}
       </div>
 
-      {selectedBrick && (
+{selectedBrick && (
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
           {/* Brick Visual */}
           <div className="flex justify-center mb-10">
@@ -172,6 +172,19 @@ export default function BrickFinder() {
             </div>
           </div>
 
+          {/* Share Button */}
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={() => {
+                const text = `Found this brick at St. James Veterans Memorial!\n\n${selectedBrick.lines[0]}\n${selectedBrick.side} - Section ${selectedBrick.section}, Row ${selectedBrick.sectRow}\n\nView it here: ${window.location.href}`;
+                navigator.clipboard.writeText(text);
+                alert("✅ Brick information copied to clipboard! You can now paste it anywhere.");
+              }}
+              className="flex items-center gap-3 bg-[#0e1cdd] hover:bg-[#0a1ab8] text-white px-8 py-4 rounded-2xl text-lg font-medium transition-all shadow-lg"
+            >
+              🔗 Share this Brick
+            </button>
+          </div>
           {/* Scroll Prompt */}
           <div className="text-center mt-10 mb-8">
             <p className="inline-block bg-[#ffe887] text-black px-8 py-3 rounded-2xl text-lg md:text-xl font-medium">
