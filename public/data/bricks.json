@@ -496,19 +496,6 @@
     "purchased": true
   },
   {
-    "id": "S1R15B6",
-    "lines": [
-      "W CABELL RIVES III"
-    ],
-    "sponsor": "Linda Rives",
-    "designator": "S1R15B6",
-    "side": "Right",
-    "section": 2,
-    "sectRow": 3,
-    "physicalRow": 17,
-    "purchased": true
-  },
-  {
     "id": "S1R16B1",
     "lines": [
       "SP4 LEONARD C MUUSS",
@@ -7889,6 +7876,118 @@
     "purchased": true
   },
   {
+    "id": "S1R97B1",
+    "lines": [
+      "NC POST 543",
+      "COMMANDER",
+      "2012 - 2014",
+      "DONALD MCGUIRE"
+    ],
+    "sponsor": "",
+    "designator": "S1R97B1",
+    "side": "Right",
+    "section": 9,
+    "sectRow": 1,
+    "physicalRow": 113,
+    "purchased": true
+  },
+  {
+    "id": "S1R97B2",
+    "lines": [
+      "NC POST 543",
+      "COMMANDER",
+      "2014 - 2016",
+      "RICHARD J SESSA"
+    ],
+    "sponsor": "",
+    "designator": "S1R97B2",
+    "side": "Right",
+    "section": 9,
+    "sectRow": 1,
+    "physicalRow": 113,
+    "purchased": true
+  },
+  {
+    "id": "S1R97B3",
+    "lines": [
+      "NC POST 543",
+      "COMMANDER",
+      "2016 - 2017",
+      "GARY G CROWDEN"
+    ],
+    "sponsor": "",
+    "designator": "S1R97B3",
+    "side": "Right",
+    "section": 9,
+    "sectRow": 1,
+    "physicalRow": 113,
+    "purchased": true
+  },
+  {
+    "id": "S1R97B4",
+    "lines": [
+      "NC POST 543",
+      "COMMANDER",
+      "2017 - 2019",
+      "MIKE FEGAN"
+    ],
+    "sponsor": "",
+    "designator": "S1R97B4",
+    "side": "Right",
+    "section": 9,
+    "sectRow": 1,
+    "physicalRow": 113,
+    "purchased": true
+  },
+  {
+    "id": "S1R97B5",
+    "lines": [
+      "NC POST 543",
+      "COMMANDER",
+      "2019 - 2021",
+      "GEORGE R FREEMAN"
+    ],
+    "sponsor": "",
+    "designator": "S1R97B5",
+    "side": "Right",
+    "section": 9,
+    "sectRow": 1,
+    "physicalRow": 113,
+    "purchased": true
+  },
+  {
+    "id": "S1R97B6",
+    "lines": [
+      "NC POST 543",
+      "COMMANDER",
+      "2021 - 2023",
+      "STEVE RATTI"
+    ],
+    "sponsor": "",
+    "designator": "S1R97B6",
+    "side": "Right",
+    "section": 9,
+    "sectRow": 1,
+    "physicalRow": 113,
+    "purchased": true
+  },
+  {
+    "id": "S1R98B1",
+    "lines": [
+      "NC POST 543",
+      "COMMANDER",
+      "2023 - 2025",
+      "PHILLIP MCGHEE"
+    ],
+    "sponsor": "",
+    "designator": "S1R98B1",
+    "side": "Right",
+    "section": 9,
+    "sectRow": 2,
+    "physicalRow": 114,
+    "purchased": true
+  },
+  {
     "id": "S1R9B1",
     "lines": [
       "ALBERT MATTEOTTI",
@@ -15129,20 +15228,6 @@
     ],
     "sponsor": "",
     "designator": "S6R76B3",
-    "side": "Left",
-    "section": 7,
-    "sectRow": 4,
-    "physicalRow": 88,
-    "purchased": true
-  },
-  {
-    "id": "S7R76B4",
-    "lines": [
-      "DONALD P. McGUIRE",
-      "UNITED STATES ARMY"
-    ],
-    "sponsor": "",
-    "designator": "S7R76B4",
     "side": "Left",
     "section": 7,
     "sectRow": 4,
