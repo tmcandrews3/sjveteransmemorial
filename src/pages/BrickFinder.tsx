@@ -16,7 +16,6 @@ export default function BrickFinder() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBrick, setSelectedBrick] = useState<Brick | null>(null);
   const [bricks, setBricks] = useState<Brick[]>([]);
-  const [sideView, setSideView] = useState<'Left' | 'Right'>('Right');
   const [showShare, setShowShare] = useState(false);
 
   useEffect(() => {
@@ -38,7 +37,6 @@ export default function BrickFinder() {
   const handleSelect = (brick: Brick) => {
     setSelectedBrick(brick);
     setSearchTerm(brick.lines[0] || '');
-    setSideView(brick.side as 'Left' | 'Right');
   };
 
   const clearSelection = () => {
@@ -46,9 +44,6 @@ export default function BrickFinder() {
     setSearchTerm('');
     setShowShare(false);
   };
-
-  const isSelectedBrick = (designator: string) => selectedBrick?.designator === designator;
-  const visibleBricks = bricks.filter(b => b.side === sideView);
 
   return (
     <div className="min-h-screen bg-[#0a1625] text-white">
