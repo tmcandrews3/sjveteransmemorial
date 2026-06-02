@@ -227,41 +227,19 @@ export default function BrickFinder() {
             <h3 className="text-2xl font-bold mb-6 text-center">Share this Brick</h3>
             
             <div className="grid grid-cols-2 gap-4">
-              {/* Facebook */}
-              <a
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`}
-                target="_blank"
-                className="flex flex-col items-center gap-2 p-6 bg-[#1877F2] hover:bg-[#1666d6] rounded-2xl text-white"
-              >
+              <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank" className="flex flex-col items-center gap-2 p-6 bg-[#1877F2] hover:bg-[#1666d6] rounded-2xl text-white">
                 <span className="text-3xl">📘</span>
                 <span>Facebook</span>
               </a>
-
-              {/* X / Twitter */}
-              <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Found this brick at St. James Veterans Memorial!\n\n${selectedBrick.lines[0]}`)}&url=${encodeURIComponent(window.location.href)}`}
-                target="_blank"
-                className="flex flex-col items-center gap-2 p-6 bg-black hover:bg-gray-900 rounded-2xl text-white border border-gray-700"
-              >
+              <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Found this brick at St. James Veterans Memorial!\n\n${selectedBrick.lines[0]}`)}&url=${encodeURIComponent(window.location.href)}`} target="_blank" className="flex flex-col items-center gap-2 p-6 bg-black hover:bg-gray-900 rounded-2xl text-white border border-gray-700">
                 <span className="text-3xl">𝕏</span>
                 <span>X</span>
               </a>
-
-              {/* WhatsApp */}
-              <a
-                href={`https://wa.me/?text=${encodeURIComponent(`Found this brick at St. James Veterans Memorial!\n\n${selectedBrick.lines[0]}\n\nView it here: ${window.location.href}`)}`}
-                target="_blank"
-                className="flex flex-col items-center gap-2 p-6 bg-[#25D366] hover:bg-[#20b557] rounded-2xl text-white"
-              >
+              <a href={`https://wa.me/?text=${encodeURIComponent(`Found this brick at St. James Veterans Memorial!\n\n${selectedBrick.lines[0]}\n\nView it here: ${window.location.href}`)}`} target="_blank" className="flex flex-col items-center gap-2 p-6 bg-[#25D366] hover:bg-[#20b557] rounded-2xl text-white">
                 <span className="text-3xl">💬</span>
                 <span>WhatsApp</span>
               </a>
-
-              {/* Email */}
-              <a
-                href={`mailto:?subject=Found this brick at St. James Veterans Memorial&body=${encodeURIComponent(`Found this brick at St. James Veterans Memorial!\n\n${selectedBrick.lines.join('\n')}\n\nView it here: ${window.location.href}`)}`}
-                className="flex flex-col items-center gap-2 p-6 bg-gray-700 hover:bg-gray-600 rounded-2xl text-white"
-              >
+              <a href={`mailto:?subject=Found this brick at St. James Veterans Memorial&body=${encodeURIComponent(`Found this brick at St. James Veterans Memorial!\n\n${selectedBrick.lines.join('\n')}\n\nView it here: ${window.location.href}`)}`} className="flex flex-col items-center gap-2 p-6 bg-gray-700 hover:bg-gray-600 rounded-2xl text-white">
                 <span className="text-3xl">✉️</span>
                 <span>Email</span>
               </a>
@@ -274,7 +252,7 @@ export default function BrickFinder() {
         </div>
       )}
 
-       <footer className="bg-black/50 py-12 text-center text-gray-500">
+      <footer className="bg-black/50 py-12 text-center text-gray-500">
         <div>Veterans Memorial • Post 543 • St. James, NC</div>
         <div className="mt-3">
           For questions or to report issues, please visit our{" "}
