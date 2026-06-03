@@ -11,11 +11,11 @@ export default function Admin() {
   const [file, setFile] = useState<File | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   
-  const [stats, setStats] = useState({
+const [stats, setStats] = useState({
     totalBricks: 0,
-    visitorsToday: "—",
-    totalVisitors: "—",
-    downloads: "—",
+    visitorsToday: 0,
+    totalVisitors: 0,
+    downloads: 0,
     lastUpdated: new Date().toLocaleString()
   });
 
@@ -102,7 +102,7 @@ export default function Admin() {
           </div>
         </div>
 
-        {/* Stats Grid */}
+        {/* Live Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
             <Users className="w-10 h-10 text-blue-400 mb-4" />
