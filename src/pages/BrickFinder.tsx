@@ -169,10 +169,19 @@ export default function BrickFinder() {
             </div>
           </div>
 
-          {/* Share Button */}
+          {/* Share Button with Tracking */}
           <div className="flex justify-center mt-8">
             <button
-              onClick={() => setShowShare(true)}
+              onClick={() => {
+                setShowShare(true);
+                // Track share opened
+                if (typeof window !== 'undefined' && (window as any).gtag) {
+                  (window as any).gtag('event', 'share_opened', {
+                    event_category: 'engagement',
+                    event_label: selectedBrick.designator
+                  });
+                }
+              }}
               className="flex items-center gap-3 bg-[#0e1cdd] hover:bg-[#0a1ab8] text-white px-8 py-4 rounded-2xl text-lg font-medium transition-all shadow-lg"
             >
               🔗 Share this Brick
@@ -202,11 +211,20 @@ export default function BrickFinder() {
             </div>
           </div>
 
-          {/* Download Button */}
+          {/* Download Button with Tracking */}
           <div className="flex justify-center mt-12">
             <a 
               href="/data/St-James-Veterans-Brick-List.xlsx" 
               download="St-James-Veterans-Brick-List.xlsx"
+              onClick={() => {
+                // Track download
+                if (typeof window !== 'undefined' && (window as any).gtag) {
+                  (window as any).gtag('event', 'download', {
+                    event_category: 'engagement',
+                    event_label: 'brick_list'
+                  });
+                }
+              }}
               className="flex items-center gap-3 bg-gray-800 hover:bg-gray-700 px-10 py-5 rounded-2xl text-lg font-medium transition-all border border-gray-600 hover:border-gray-500"
             >
               📥 Download Complete Brick List (XLSX)
