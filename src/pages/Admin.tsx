@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Upload, Award, LogOut, Lock, Users, Clock, Activity, Download, RefreshCw, TrendingUp } from 'lucide-react';
+import { Upload, Award, LogOut, Lock, Users, Clock, Activity, Download, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const ADMIN_PASSWORD = "Post543Admin2026";   // ← Change this
+const ADMIN_PASSWORD = "Post543Admin2026";   // ← Change this to something secure
 
 export default function Admin() {
   const navigate = useNavigate();
@@ -12,10 +12,10 @@ export default function Admin() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   
   const [stats, setStats] = useState({
-    totalBricks: 982,
-    visitorsToday: 24,
-    totalVisitors: 1847,
-    downloads: 12,
+    totalBricks: 0,
+    visitorsToday: "—",
+    totalVisitors: "—",
+    downloads: "—",
     lastUpdated: new Date().toLocaleString()
   });
 
@@ -57,7 +57,7 @@ export default function Admin() {
 
   const processFile = () => {
     if (!file) return;
-    alert("✅ File uploaded successfully.\n\nNext step: Run this command in your terminal:\n\nnode update-bricks.mjs");
+    alert("✅ File uploaded.\n\nNext: Run this command in your terminal:\n\nnode update-bricks.mjs");
   };
 
   if (!isAuthenticated) {
