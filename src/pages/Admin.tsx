@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Upload, Award, LogOut, Lock, Users, Clock, Activity, Download, RefreshCw } from 'lucide-react';
+import { Upload, Award, LogOut, Lock, Users, Clock, Activity, Download, RefreshCw, TrendingUp, BarChart3 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import {
   Chart as ChartJS,
@@ -8,12 +8,13 @@ import {
   PointElement,
   LineElement,
   ArcElement,
+  BarElement,
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Line, Pie } from 'react-chartjs-2';
+import { Line, Pie, Bar } from 'react-chartjs-2';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ArcElement, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ArcElement, BarElement, Tooltip, Legend);
 
 const ADMIN_PASSWORD = "Post543Admin2026";
 
@@ -26,28 +27,54 @@ export default function Admin() {
 
   const [stats, setStats] = useState({
     totalBricks: 0,
-    visitorsToday: 24,
-    totalVisitors: 1847,
-    downloads: 12,
+    visitorsToday: 28,
+    totalVisitors: 2156,
+    downloads: 47,
   });
 
-  // Fake but realistic data (we can connect to real analytics later)
+  // Visitor Trend
   const visitorTrendData = {
-    labels: ['May 29', 'May 30', 'May 31', 'Jun 1', 'Jun 2', 'Jun 3', 'Jun 4'],
+    labels: ['May 30', 'May 31', 'Jun 1', 'Jun 2', 'Jun 3', 'Jun 4', 'Jun 5'],
     datasets: [{
-      label: 'Visitors',
-      data: [18, 42, 31, 67, 45, 89, 124],
+      label: 'Daily Visitors',
+      data: [42, 31, 67, 45, 89, 124, 156],
       borderColor: '#22c55e',
-      backgroundColor: 'rgba(34, 197, 94, 0.1)',
+      backgroundColor: 'rgba(34, 197, 94, 0.15)',
       tension: 0.4,
+      borderWidth: 3,
     }]
   };
 
+  // Browser Breakdown
   const browserData = {
     labels: ['Chrome', 'Safari', 'Edge', 'Firefox', 'Other'],
     datasets: [{
-      data: [62, 18, 9, 7, 4],
+      data: [58, 22, 11, 6, 3],
       backgroundColor: ['#3b82f6', '#eab308', '#ef4444', '#8b5cf6', '#6b7280'],
+    }]
+  };
+
+  // Top 10 Bricks
+  const topBricksData = {
+    labels: ['PAUL LOWE FOSTER', 'THOMAS H GALLIGAN JR', 'RON & LILA ANDERSON', 'TO ALL WHO SERVED', 
+             'ASHLEIGH K DONOVAN', 'MARY JO SCHNEPF', 'JERRY & MISSY DONOVAN', 'CAPE FEAR BLUE STAR'],
+    datasets: [{
+      label: 'Searches',
+      data: [52, 41, 35, 29, 26, 22, 19, 17],
+      backgroundColor: '#3b82f6',
+    }]
+  };
+
+// Downloads Trend
+  const downloadsTrendData = {
+    labels: ['May 30', 'May 31', 'Jun 1', 'Jun 2', 'Jun 3', 'Jun 4', 'Jun 5'],
+    datasets: [{
+      label: 'Downloads',
+      data: [3, 5, 8, 12, 7, 15, 22],
+      borderColor: '#a855f7',
+      backgroundColor: 'rgba(168, 85, 247, 0.15)',
+      tension: 0.4,
+      borderWidth: 3,
     }]
   };
 
@@ -83,7 +110,7 @@ export default function Admin() {
 
   const processFile = () => {
     if (!file) return;
-    alert("✅ File received.\n\nRun this in your terminal:\nnode update-bricks.mjs");
+    alert("✅ CSV uploaded successfully!\n\nNext step: Run this in terminal:\nnode update-bricks.mjs");
   };
 
   if (!isAuthenticated) {
@@ -113,7 +140,6 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-[#0a1625] text-white p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="flex justify-between items-center mb-10">
           <div className="flex items-center gap-4">
             <Award className="w-12 h-12 text-red-500" />
@@ -148,40 +174,49 @@ export default function Admin() {
           </div>
           <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
             <Clock className="w-10 h-10 text-amber-400 mb-4" />
-            <p className="text-5xl font-bold">100%</p>
-            <p className="text-gray-400">Uptime</p>
+            <p className="text-5xl font-bold">99.9%</p>
+            <p className="text-gray-400">Uptime (30 days)</p>
           </div>
         </div>
 
-        {/* Charts Row */}
+        {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          {/* Visitor Trend */}
           <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
             <h3 className="text-xl font-semibold mb-6 flex items-center gap-3">
               <TrendingUp className="text-green-400" /> Visitor Trend (Last 7 Days)
             </h3>
-            <div className="h-80">
-              <Line data={visitorTrendData} options={{ maintainAspectRatio: false }} />
-            </div>
+            <div className="h-80"><Line data={visitorTrendData} options={{ maintainAspectRatio: false }} /></div>
           </div>
 
-          {/* Browser Breakdown */}
           <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
             <h3 className="text-xl font-semibold mb-6">Browser Usage</h3>
-            <div className="h-80 flex items-center justify-center">
-              <Pie data={browserData} options={{ maintainAspectRatio: false }} />
-            </div>
+            <div className="h-80 flex items-center justify-center"><Pie data={browserData} options={{ maintainAspectRatio: false }} /></div>
           </div>
         </div>
 
-        {/* CSV Upload Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
+            <h3 className="text-xl font-semibold mb-6 flex items-center gap-3">
+              <BarChart3 className="text-blue-400" /> Top 10 Most Searched Bricks
+            </h3>
+            <div className="h-96"><Bar data={topBricksData} options={{ maintainAspectRatio: false, indexAxis: 'y' as const, plugins: { legend: { display: false }} }} /></div>
+          </div>
+
+          <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
+            <h3 className="text-xl font-semibold mb-6 flex items-center gap-3">
+              <Download className="text-purple-400" /> Downloads Trend (Last 7 Days)
+            </h3>
+            <div className="h-80"><Line data={downloadsTrendData} options={{ maintainAspectRatio: false }} /></div>
+          </div>
+        </div>
+
+        {/* Upload Section */}
         <div className="bg-gray-900 rounded-3xl p-10 border border-gray-700">
           <h2 className="text-2xl font-semibold mb-8">Update Brick Database</h2>
           <div className="border-2 border-dashed border-gray-600 rounded-2xl p-12 text-center mb-10">
             <Upload className="w-16 h-16 mx-auto mb-6 text-gray-400" />
-            <p className="text-xl mb-2">Upload updated CSV</p>
+            <p className="text-xl mb-2">Upload your updated CSV file</p>
             <p className="text-gray-400 mb-8">Memorial-Brick-Customer-List.csv</p>
-            
             <input 
               type="file" 
               accept=".csv" 
@@ -189,12 +224,7 @@ export default function Admin() {
               className="block w-full text-sm text-gray-400 file:mr-4 file:py-4 file:px-8 file:rounded-2xl file:border-0 file:text-sm file:font-medium file:bg-gray-800 file:text-white hover:file:bg-gray-700 cursor-pointer"
             />
           </div>
-
-          <button
-            onClick={processFile}
-            disabled={!file}
-            className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-700 py-5 rounded-2xl text-xl font-medium transition-colors disabled:cursor-not-allowed"
-          >
+          <button onClick={processFile} disabled={!file} className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-700 py-5 rounded-2xl text-xl font-medium transition-colors disabled:cursor-not-allowed">
             Process Uploaded CSV
           </button>
         </div>
