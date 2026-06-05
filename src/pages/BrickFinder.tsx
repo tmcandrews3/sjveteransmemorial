@@ -16,6 +16,7 @@ export default function BrickFinder() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBrick, setSelectedBrick] = useState<Brick | null>(null);
   const [bricks, setBricks] = useState<Brick[]>([]);
+  const [sideView, setSideView] = useState<'Left' | 'Right'>('Right');
   const [showShare, setShowShare] = useState(false);
 
   useEffect(() => {
@@ -37,6 +38,7 @@ export default function BrickFinder() {
   const handleSelect = (brick: Brick) => {
     setSelectedBrick(brick);
     setSearchTerm(brick.lines[0] || '');
+    setSideView(brick.side as 'Left' | 'Right');
   };
 
   const clearSelection = () => {
@@ -44,6 +46,9 @@ export default function BrickFinder() {
     setSearchTerm('');
     setShowShare(false);
   };
+
+  const isSelectedBrick = (designator: string) => selectedBrick?.designator === designator;
+  const visibleBricks = bricks.filter(b => b.side === sideView);
 
   return (
     <div className="min-h-screen bg-[#0a1625] text-white">
@@ -169,19 +174,10 @@ export default function BrickFinder() {
             </div>
           </div>
 
-          {/* Share Button with Tracking */}
+          {/* Share Button */}
           <div className="flex justify-center mt-8">
             <button
-              onClick={() => {
-                setShowShare(true);
-                // Track share opened
-                if (typeof window !== 'undefined' && (window as any).gtag) {
-                  (window as any).gtag('event', 'share_opened', {
-                    event_category: 'engagement',
-                    event_label: selectedBrick.designator
-                  });
-                }
-              }}
+              onClick={() => setShowShare(true)}
               className="flex items-center gap-3 bg-[#0e1cdd] hover:bg-[#0a1ab8] text-white px-8 py-4 rounded-2xl text-lg font-medium transition-all shadow-lg"
             >
               🔗 Share this Brick
@@ -211,20 +207,67 @@ export default function BrickFinder() {
             </div>
           </div>
 
-          {/* Download Button with Tracking */}
+          {/* Brick Path Grid */}
+          <div className="bg-gray-950 border-2 border-gray-700 rounded-3xl p-6 md:p-8 overflow-auto max-h-[620px]">
+            <div className="space-y-8 md:space-y-10">
+              {Array.from({ length: 9 }).map((_, secIdx) => {
+                const sectionNum = secIdx + 1;
+                return (
+                  <div key={sectionNum}>
+                    <div className="text-center mb-6">
+                      <div className="inline-block bg-red-900/50 text-red-400 px-8 py-2 rounded-full text-sm tracking-widest">SECTION {sectionNum}</div>
+                    </div>
+                    <div className="space-y-4">
+                      {Array.from({ length: 12 }).map((_, rowIdx) => {
+                        const rowNum = rowIdx + 1;
+                        const isEvenRow = rowNum % 2 === 0;
+                        const fullBricks = isEvenRow ? 5 : 6;
+
+                        return (
+                          <div key={rowNum} className="flex justify-center items-center gap-1">
+                            {isEvenRow && <div className="w-9 h-9 md:w-11 md:h-11 bg-gray-500 border border-gray-600 rounded-l opacity-50"></div>}
+
+                            {Array.from({ length: fullBricks }).map((_, colIdx) => {
+                              const colNum = colIdx + 1;
+                              const brick = visibleBricks.find(b => 
+                                b.section === sectionNum && b.sectRow === rowNum && b.designator.endsWith(`B${colNum}`)
+                              );
+
+                              const isSelected = brick && isSelectedBrick(brick.designator);
+
+                              return (
+                                <div
+                                  key={colIdx}
+                                  className={`w-16 h-9 md:w-20 md:h-11 flex items-center justify-center text-[9px] md:text-[10px] font-mono border transition-all hover:scale-105
+                                    ${isSelected 
+                                      ? 'bg-[#ffe887] text-black border-2 border-yellow-400 scale-110 shadow-2xl ring-2 ring-yellow-300' 
+                                      : brick?.purchased 
+                                        ? 'bg-[#f05f33] text-white border-gray-600' 
+                                        : 'bg-[#3cb371] text-white border-gray-600 opacity-75'}`}
+                                  title={brick ? brick.lines[0] : 'Available'}
+                                >
+                                  {brick ? colNum : ''}
+                                </div>
+                              );
+                            })}
+
+                            {isEvenRow && <div className="w-9 h-9 md:w-11 md:h-11 bg-gray-500 border border-gray-600 rounded-r opacity-50"></div>}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="h-6 md:h-8 bg-gray-700 my-6 md:my-8 rounded"></div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Download Button */}
           <div className="flex justify-center mt-12">
             <a 
               href="/data/St-James-Veterans-Brick-List.xlsx" 
               download="St-James-Veterans-Brick-List.xlsx"
-              onClick={() => {
-                // Track download
-                if (typeof window !== 'undefined' && (window as any).gtag) {
-                  (window as any).gtag('event', 'download', {
-                    event_category: 'engagement',
-                    event_label: 'brick_list'
-                  });
-                }
-              }}
               className="flex items-center gap-3 bg-gray-800 hover:bg-gray-700 px-10 py-5 rounded-2xl text-lg font-medium transition-all border border-gray-600 hover:border-gray-500"
             >
               📥 Download Complete Brick List (XLSX)
@@ -233,31 +276,28 @@ export default function BrickFinder() {
         </div>
       )}
 
-      {/* Share Modal - Simplified */}
+      {/* Share Modal */}
       {showShare && selectedBrick && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
           <div className="bg-gray-900 rounded-3xl p-8 max-w-md w-full">
             <h3 className="text-2xl font-bold mb-6 text-center">Share this Brick</h3>
             
-            <div className="space-y-4">
-              {/* Copy Link */}
-              <button
-                onClick={() => {
-                  const text = `Found this brick at St. James Veterans Memorial!\n\n${selectedBrick.lines.join('\n')}\n\nView it here: ${window.location.href}`;
-                  navigator.clipboard.writeText(text);
-                  alert("✅ Link and brick info copied to clipboard!");
-                }}
-                className="w-full flex items-center justify-center gap-3 bg-[#0e1cdd] hover:bg-[#0a1ab8] text-white py-5 rounded-2xl text-lg font-medium transition-all"
-              >
-                📋 Copy Link & Info
-              </button>
-
-              {/* Email */}
-              <a 
-                href={`mailto:?subject=A nice honor&body=${encodeURIComponent(`Found this brick at St. James Veterans Memorial!\n\n${selectedBrick.lines.join('\n')}\n\nView it here:\n${window.location.href}`)}`}
-                className="w-full flex items-center justify-center gap-3 bg-gray-700 hover:bg-gray-600 text-white py-5 rounded-2xl text-lg font-medium transition-all"
-              >
-                ✉️ Share via Email
+            <div className="grid grid-cols-2 gap-4">
+              <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank" className="flex flex-col items-center gap-2 p-6 bg-[#1877F2] hover:bg-[#1666d6] rounded-2xl text-white">
+                <span className="text-3xl">📘</span>
+                <span>Facebook</span>
+              </a>
+              <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`A nice honor\n\n${selectedBrick.lines[0]}`)}&url=${encodeURIComponent(window.location.href)}`} target="_blank" className="flex flex-col items-center gap-2 p-6 bg-black hover:bg-gray-900 rounded-2xl text-white border border-gray-700">
+                <span className="text-3xl">𝕏</span>
+                <span>X</span>
+              </a>
+              <a href={`https://wa.me/?text=${encodeURIComponent(`A nice honor\n\n${selectedBrick.lines[0]}\n\nView it here: ${window.location.href}`)}`} target="_blank" className="flex flex-col items-center gap-2 p-6 bg-[#25D366] hover:bg-[#20b557] rounded-2xl text-white">
+                <span className="text-3xl">💬</span>
+                <span>WhatsApp</span>
+              </a>
+              <a href={`mailto:?subject=A nice honor&body=${encodeURIComponent(`Found this brick at St. James Veterans Memorial!\n\n${selectedBrick.lines.join('\n')}\n\nView it here:\n${window.location.href}`)}`} className="flex flex-col items-center gap-2 p-6 bg-gray-700 hover:bg-gray-600 rounded-2xl text-white">
+                <span className="text-3xl">✉️</span>
+                <span>Email</span>
               </a>
             </div>
 
