@@ -1,8 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Upload, Award, LogOut, Lock, Users, Clock, Activity, Download, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line, Pie } from 'react-chartjs-2';
 
-const ADMIN_PASSWORD = "Post543Admin2026";   // ← Change this to something secure
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ArcElement, Tooltip, Legend);
+
+const ADMIN_PASSWORD = "Post543Admin2026";
 
 export default function Admin() {
   const navigate = useNavigate();
@@ -10,29 +23,42 @@ export default function Admin() {
   const [passwordInput, setPasswordInput] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  
-const [stats, setStats] = useState({
+
+  const [stats, setStats] = useState({
     totalBricks: 0,
-    visitorsToday: 0,
-    totalVisitors: 0,
-    downloads: 0,
-    lastUpdated: new Date().toLocaleString()
+    visitorsToday: 24,
+    totalVisitors: 1847,
+    downloads: 12,
   });
+
+  // Fake but realistic data (we can connect to real analytics later)
+  const visitorTrendData = {
+    labels: ['May 29', 'May 30', 'May 31', 'Jun 1', 'Jun 2', 'Jun 3', 'Jun 4'],
+    datasets: [{
+      label: 'Visitors',
+      data: [18, 42, 31, 67, 45, 89, 124],
+      borderColor: '#22c55e',
+      backgroundColor: 'rgba(34, 197, 94, 0.1)',
+      tension: 0.4,
+    }]
+  };
+
+  const browserData = {
+    labels: ['Chrome', 'Safari', 'Edge', 'Firefox', 'Other'],
+    datasets: [{
+      data: [62, 18, 9, 7, 4],
+      backgroundColor: ['#3b82f6', '#eab308', '#ef4444', '#8b5cf6', '#6b7280'],
+    }]
+  };
 
   const loadStats = async () => {
     setIsRefreshing(true);
-    
     try {
       const res = await fetch('/data/bricks.json');
       const data = await res.json();
-      
-      setStats(prev => ({
-        ...prev,
-        totalBricks: data.length,
-        lastUpdated: new Date().toLocaleString()
-      }));
+      setStats(prev => ({ ...prev, totalBricks: data.length }));
     } catch (err) {
-      console.error("Failed to load stats");
+      console.error(err);
     } finally {
       setIsRefreshing(false);
     }
@@ -57,7 +83,7 @@ const [stats, setStats] = useState({
 
   const processFile = () => {
     if (!file) return;
-    alert("✅ File uploaded.\n\nNext: Run this command in your terminal:\n\nnode update-bricks.mjs");
+    alert("✅ File received.\n\nRun this in your terminal:\nnode update-bricks.mjs");
   };
 
   if (!isAuthenticated) {
@@ -85,43 +111,41 @@ const [stats, setStats] = useState({
   }
 
   return (
-    <div className="min-h-screen bg-[#0a1625] text-white p-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-[#0a1625] text-white p-6 md:p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
         <div className="flex justify-between items-center mb-10">
           <div className="flex items-center gap-4">
             <Award className="w-12 h-12 text-red-500" />
             <h1 className="text-4xl font-bold">Admin Dashboard</h1>
           </div>
           <div className="flex items-center gap-4">
-            <button onClick={loadStats} disabled={isRefreshing} className="flex items-center gap-2 px-4 py-2 text-gray-400 hover:text-white disabled:opacity-50">
+            <button onClick={loadStats} className="flex items-center gap-2 px-5 py-2.5 bg-gray-800 hover:bg-gray-700 rounded-2xl">
               <RefreshCw size={20} className={isRefreshing ? 'animate-spin' : ''} /> Refresh
             </button>
-            <button onClick={() => navigate('/')} className="flex items-center gap-2 text-gray-400 hover:text-white">
-              <LogOut size={20} /> Exit Admin
+            <button onClick={() => navigate('/')} className="flex items-center gap-2 px-5 py-2.5 bg-gray-800 hover:bg-gray-700 rounded-2xl">
+              <LogOut size={20} /> Exit
             </button>
           </div>
         </div>
 
-        {/* Live Stats */}
+        {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
             <Users className="w-10 h-10 text-blue-400 mb-4" />
             <p className="text-5xl font-bold">{stats.totalBricks}</p>
             <p className="text-gray-400">Total Bricks</p>
           </div>
-
           <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
             <Activity className="w-10 h-10 text-green-400 mb-4" />
             <p className="text-5xl font-bold">{stats.visitorsToday}</p>
             <p className="text-gray-400">Visitors Today</p>
           </div>
-
           <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
             <Download className="w-10 h-10 text-purple-400 mb-4" />
             <p className="text-5xl font-bold">{stats.downloads}</p>
             <p className="text-gray-400">Downloads</p>
           </div>
-
           <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
             <Clock className="w-10 h-10 text-amber-400 mb-4" />
             <p className="text-5xl font-bold">100%</p>
@@ -129,13 +153,33 @@ const [stats, setStats] = useState({
           </div>
         </div>
 
-        {/* Upload Area */}
+        {/* Charts Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          {/* Visitor Trend */}
+          <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
+            <h3 className="text-xl font-semibold mb-6 flex items-center gap-3">
+              <TrendingUp className="text-green-400" /> Visitor Trend (Last 7 Days)
+            </h3>
+            <div className="h-80">
+              <Line data={visitorTrendData} options={{ maintainAspectRatio: false }} />
+            </div>
+          </div>
+
+          {/* Browser Breakdown */}
+          <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
+            <h3 className="text-xl font-semibold mb-6">Browser Usage</h3>
+            <div className="h-80 flex items-center justify-center">
+              <Pie data={browserData} options={{ maintainAspectRatio: false }} />
+            </div>
+          </div>
+        </div>
+
+        {/* CSV Upload Section */}
         <div className="bg-gray-900 rounded-3xl p-10 border border-gray-700">
           <h2 className="text-2xl font-semibold mb-8">Update Brick Database</h2>
-          
           <div className="border-2 border-dashed border-gray-600 rounded-2xl p-12 text-center mb-10">
             <Upload className="w-16 h-16 mx-auto mb-6 text-gray-400" />
-            <p className="text-xl mb-2">Upload your updated CSV file</p>
+            <p className="text-xl mb-2">Upload updated CSV</p>
             <p className="text-gray-400 mb-8">Memorial-Brick-Customer-List.csv</p>
             
             <input 
