@@ -276,32 +276,40 @@ export default function BrickFinder() {
         </div>
       )}
 
-      {/* Share Modal */}
+{/* Share Modal - Copy + Email Only */}
       {showShare && selectedBrick && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
           <div className="bg-gray-900 rounded-3xl p-8 max-w-md w-full">
             <h3 className="text-2xl font-bold mb-6 text-center">Share this Brick</h3>
             
-            <div className="grid grid-cols-2 gap-4">
-              <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`} target="_blank" className="flex flex-col items-center gap-2 p-6 bg-[#1877F2] hover:bg-[#1666d6] rounded-2xl text-white">
-                <span className="text-3xl">📘</span>
-                <span>Facebook</span>
-              </a>
-              <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`A nice honor\n\n${selectedBrick.lines[0]}`)}&url=${encodeURIComponent(window.location.href)}`} target="_blank" className="flex flex-col items-center gap-2 p-6 bg-black hover:bg-gray-900 rounded-2xl text-white border border-gray-700">
-                <span className="text-3xl">𝕏</span>
-                <span>X</span>
-              </a>
-              <a href={`https://wa.me/?text=${encodeURIComponent(`A nice honor\n\n${selectedBrick.lines[0]}\n\nView it here: ${window.location.href}`)}`} target="_blank" className="flex flex-col items-center gap-2 p-6 bg-[#25D366] hover:bg-[#20b557] rounded-2xl text-white">
-                <span className="text-3xl">💬</span>
-                <span>WhatsApp</span>
-              </a>
-              <a href={`mailto:?subject=A nice honor&body=${encodeURIComponent(`Found this brick at St. James Veterans Memorial!\n\n${selectedBrick.lines.join('\n')}\n\nView it here:\n${window.location.href}`)}`} className="flex flex-col items-center gap-2 p-6 bg-gray-700 hover:bg-gray-600 rounded-2xl text-white">
-                <span className="text-3xl">✉️</span>
-                <span>Email</span>
+            <div className="space-y-4">
+              {/* Copy Link */}
+              <button
+                onClick={() => {
+                  const text = `Found this brick at St. James Veterans Memorial!\n\n${selectedBrick.lines.join('\n')}\n\nView it here: ${window.location.href}`;
+                  navigator.clipboard.writeText(text);
+                  alert("✅ Brick info and link copied to clipboard!");
+                  setShowShare(false);
+                }}
+                className="w-full flex items-center justify-center gap-3 bg-[#0e1cdd] hover:bg-[#0a1ab8] text-white py-5 rounded-2xl text-lg font-medium transition-all"
+              >
+                📋 Copy Link & Info
+              </button>
+
+              {/* Email */}
+              <a 
+                href={`mailto:?subject=A nice honor&body=${encodeURIComponent(`Found this brick at St. James Veterans Memorial!\n\n${selectedBrick.lines.join('\n')}\n\nView it here:\n${window.location.href}`)}`}
+                onClick={() => setShowShare(false)}
+                className="w-full flex items-center justify-center gap-3 bg-gray-700 hover:bg-gray-600 text-white py-5 rounded-2xl text-lg font-medium transition-all"
+              >
+                ✉️ Share via Email
               </a>
             </div>
 
-            <button onClick={() => setShowShare(false)} className="mt-8 w-full py-3 text-gray-400 hover:text-white">
+            <button 
+              onClick={() => setShowShare(false)} 
+              className="mt-8 w-full py-3 text-gray-400 hover:text-white"
+            >
               Close
             </button>
           </div>
