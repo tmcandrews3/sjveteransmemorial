@@ -50,52 +50,77 @@ export default function BrickFinder() {
   const isSelectedBrick = (designator: string) => selectedBrick?.designator === designator;
   const visibleBricks = bricks.filter(b => b.side === sideView);
 
-  return (
-    <div className="min-h-screen bg-[#0a1625] text-white">
-      {/* Hero */}
-      <div 
-        className="relative h-[50vh] md:h-[65vh] bg-cover bg-center flex items-center justify-center"
-        style={{ 
-          backgroundImage: `linear-gradient(rgba(10,22,37,0.85), rgba(10,22,37,0.9)), url('/images/memorial-wall.jpg')` 
-        }}
-      >
-        <div className="text-center z-10 px-6">
-          <div className="inline-flex items-center gap-3 bg-red-600/90 px-6 py-2 rounded-full mb-6">
-            <Award className="w-7 h-7 md:w-8 md:h-8" />
-            <span className="font-bold tracking-widest text-sm md:text-base">ST. JAMES VETERANS MEMORIAL</span>
+return (
+    <div className="min-h-screen bg-white text-[#263b6c]">
+      {/* Updated Header */}
+      <div className="bg-white border-b-4 border-[#c43834]">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <a href="https://ncpost543.org" target="_blank" rel="noopener noreferrer">
+              <img 
+                src="/images/american-legion-logo.png" 
+                alt="American Legion Post 543" 
+                className="h-20 md:h-24 hover:opacity-90 transition-opacity"
+              />
+            </a>
+            <div className="text-center">
+              <div className="text-[#c43834] text-2xl md:text-3xl font-bold tracking-tight">
+                Richard H. Stewart, Jr. Post 543
+              </div>
+              <div className="text-[#c43834] text-lg md:text-xl">
+                St. James, NC 28461
+              </div>
+            </div>
           </div>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 tracking-tight">BRICK FINDER</h1>
-          <p className="text-xl md:text-2xl text-gray-300">Honor & Remember</p>
+
+          <a 
+            href="https://ncpost543.org" 
+            className="bg-[#c43834] hover:bg-red-700 text-white px-8 py-3 rounded-xl font-medium transition-colors"
+          >
+            Home
+          </a>
         </div>
       </div>
 
-      {/* Search Section */}
-      <div className="max-w-3xl mx-auto px-4 md:px-6 -mt-8 md:-mt-10 relative z-20">
-        <div className="text-center mb-3 px-4">
-          <p className="text-gray-400 text-base md:text-lg">
+      {/* Hero */}
+      <div className="bg-[#263b6c] py-12 md:py-16 text-white">
+        <div className="max-w-4xl mx-auto text-center px-6">
+          <div className="inline-flex items-center gap-3 bg-[#c43834] px-8 py-3 rounded-full mb-6">
+            <Award className="w-8 h-8" />
+            <span className="font-bold tracking-widest text-lg">BRICK FINDER</span>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">Honor & Remember</h1>
+          <p className="text-xl md:text-2xl text-blue-200">Search for a memorial brick</p>
+        </div>
+      </div>
+
+{/* Main Content Area - White Background */}
+      <div className="max-w-3xl mx-auto px-4 md:px-6 py-8">
+        <div className="text-center mb-6">
+          <p className="text-[#263b6c] text-lg md:text-xl font-semibold">
             Please type in a name below to begin:
           </p>
         </div>
 
         <div 
-          className="bg-gray-900 rounded-3xl p-5 md:p-6 shadow-2xl border border-gray-700 cursor-pointer"
+          className="bg-white rounded-3xl p-5 md:p-6 shadow-xl border-4 border-[#263b6c] cursor-pointer"
           onClick={clearSelection}
         >
-          <div className="flex items-center bg-gray-950 rounded-2xl px-5 py-4 md:px-6 md:py-5">
-            <Search className="w-5 h-5 md:w-6 md:h-6 text-gray-400 mr-4" />
+          <div className="flex items-center bg-gray-100 rounded-2xl px-5 py-4 md:px-6 md:py-5 border border-gray-300">
+            <Search className="w-6 h-6 text-gray-500 mr-4" />
             <input
               type="text"
               placeholder="Search by name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="flex-1 bg-transparent outline-none text-lg md:text-xl placeholder-gray-400"
+              className="flex-1 bg-transparent outline-none text-lg md:text-xl placeholder:text-[#c0972a] text-[#263b6c]"
               onClick={(e) => e.stopPropagation()}
             />
             
             {searchTerm && (
               <button 
                 onClick={(e) => { e.stopPropagation(); clearSelection(); }} 
-                className="ml-2 flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-xl text-sm font-medium text-gray-300"
+                className="ml-2 flex items-center gap-2 bg-[#c43834] hover:bg-red-700 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-colors"
               >
                 <X size={18} />
                 CLEAR
@@ -316,11 +341,15 @@ export default function BrickFinder() {
         </div>
       )}
 
-      <footer className="bg-black/50 py-12 text-center text-gray-500">
-        <div>Veterans Memorial • Post 543 • St. James, NC</div>
-        <div className="mt-3">
-          For questions or to report issues, please visit our{" "}
-          <a href="https://ncpost543.org/contact-2/" target="_blank" className="text-blue-400 hover:text-blue-300 underline">Contact Page</a>
+<footer className="bg-white border-t border-gray-200 py-12 text-center text-[#263b6c]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div>Veterans Memorial • Richard H. Stewart, Jr. Post 543 • St. James, NC 28461</div>
+          <div className="mt-3">
+            For questions or to report issues, please visit our{" "}
+            <a href="https://ncpost543.org/contact-2/" target="_blank" rel="noopener noreferrer" className="text-[#c43834] hover:underline">
+              Contact Page
+            </a>
+          </div>
         </div>
       </footer>
     </div>
