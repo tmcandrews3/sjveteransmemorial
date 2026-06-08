@@ -95,7 +95,7 @@ return (
       </div>
 
 {/* Main Content Area - White Background */}
-      <div className="max-w-3xl mx-auto px-4 md:px-6 py-8">
+<div className="max-w-3xl mx-auto px-4 md:px-6 py-8 font-sans">
         <div className="text-center mb-6">
           <p className="text-[#263b6c] text-lg md:text-xl font-semibold">
             Please type in a name below to begin:
