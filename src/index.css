@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 body {
-  font-family: "Myriad Pro Regular", "Myriad Pro", Arial, Helvetica, sans-serif;
+  font-family: "MinionPro-Regular", Georgia, "Times New Roman", serif;
   font-weight: 400;
+  color: #263b6c;
 }
 
-h1, h2, h3, .font-bold {
-  font-family: "Myriad Pro Regular", "Myriad Pro", Arial, Helvetica, sans-serif;
+h1, h2, h3, .font-bold, .text-5xl, .text-6xl {
+  font-family: "MyriadPro Bold", Arial Black, Arial, Helvetica, sans-serif;
   font-weight: 700;
 }

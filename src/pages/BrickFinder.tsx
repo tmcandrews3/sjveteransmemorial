@@ -64,7 +64,7 @@ return (
               />
             </a>
             <div className="text-center">
-              <div className="text-[#c43834] text-2xl md:text-3xl font-bold tracking-tight">
+              <div className="text-[#c43834] text-2xl md:text-3xl font-black tracking-tighter">
                 Richard H. Stewart, Jr. Post 543
               </div>
               <div className="text-[#c43834] text-lg md:text-xl">
