@@ -106,20 +106,21 @@ return (
         </div>
       </div>
 
-      {/* Main Content Area - White Background */}
+{/* Main Content Area - White Background */}
       <div className="max-w-3xl mx-auto px-4 md:px-6 py-8">
-        <div className="text-center mb-8">
-          <p className="text-[#263b6c] text-xl md:text-2xl font-semibold">
+        <div className="text-center mb-6">
+          <p className="text-[#263b6c] text-lg md:text-xl font-semibold">
             Please type in a name below to begin:
           </p>
         </div>
 
+        {/* Search Box - Better Mobile Touch Target */}
         <div 
-          className="bg-white rounded-3xl p-5 md:p-6 shadow-xl border-4 border-[#263b6c] cursor-pointer"
+          className="bg-white rounded-3xl p-4 md:p-6 shadow-xl border-4 border-[#263b6c] cursor-pointer mb-8"
           onClick={clearSelection}
         >
           <div className="flex items-center bg-gray-100 rounded-2xl px-5 py-4 md:px-6 md:py-5 border border-gray-300">
-            <Search className="w-6 h-6 text-gray-500 mr-4" />
+            <Search className="w-6 h-6 text-gray-500 mr-4 flex-shrink-0" />
             <input
               type="text"
               placeholder="Search by name..."
@@ -132,7 +133,7 @@ return (
             {searchTerm && (
               <button 
                 onClick={(e) => { e.stopPropagation(); clearSelection(); }} 
-                className="ml-2 flex items-center gap-2 bg-[#e04a38] hover:bg-red-700 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-colors"
+                className="ml-2 flex items-center gap-2 bg-[#e04a38] hover:bg-red-700 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-colors whitespace-nowrap"
               >
                 <X size={18} />
                 CLEAR
