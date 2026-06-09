@@ -114,12 +114,12 @@ return (
           </p>
         </div>
 
-        {/* Search Box - Better Mobile Touch Target */}
+        {/* Search Box */}
         <div 
           className="bg-white rounded-3xl p-4 md:p-6 shadow-xl border-4 border-[#263b6c] cursor-pointer mb-8"
           onClick={clearSelection}
         >
-          <div className="flex items-center bg-gray-100 rounded-2xl px-5 py-4 md:px-6 md:py-5 border border-gray-300">
+          <div className="flex items-center bg-gray-100 rounded-2xl px-4 py-4 md:px-6 md:py-5 border border-gray-300">
             <Search className="w-6 h-6 text-gray-500 mr-4 flex-shrink-0" />
             <input
               type="text"
@@ -133,7 +133,7 @@ return (
             {searchTerm && (
               <button 
                 onClick={(e) => { e.stopPropagation(); clearSelection(); }} 
-                className="ml-2 flex items-center gap-2 bg-[#e04a38] hover:bg-red-700 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-colors whitespace-nowrap"
+                className="ml-3 flex items-center gap-2 bg-[#e04a38] hover:bg-red-700 text-white px-5 py-3 rounded-xl text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0"
               >
                 <X size={18} />
                 CLEAR
@@ -143,8 +143,10 @@ return (
         </div>
 
         {selectedBrick && (
-          <div className="text-center mt-4">
-            <p className="text-gray-400 text-sm">Hit CLEAR to start a new search</p>
+          <div className="text-center mb-8">
+            <p className="text-[#263b6c] text-base md:text-lg font-medium">
+              Hit CLEAR to start a new search
+            </p>
           </div>
         )}
 
@@ -301,12 +303,16 @@ return (
             </div>
           </div>
 
-          {/* Download Button */}
-          <div className="flex justify-center mt-12">
+          {/* Download Instructions + Button */}
+          <div className="flex flex-col items-center mt-12 space-y-4">
+            <p className="text-[#263b6c] text-center text-base md:text-lg font-medium max-w-md">
+              If you're unable to find your brick, tap the link below
+            </p>
+            
             <a 
               href="/data/St-James-Veterans-Brick-List.xlsx" 
               download="St-James-Veterans-Brick-List.xlsx"
-              className="flex items-center gap-3 bg-gray-800 hover:bg-gray-700 px-10 py-5 rounded-2xl text-lg font-medium transition-all border border-gray-600 hover:border-gray-500"
+              className="flex items-center gap-3 bg-[#263b6c] hover:bg-[#1e2f4d] text-white px-10 py-5 rounded-2xl text-lg font-medium transition-all border border-gray-300"
             >
               📥 Download Complete Brick List (XLSX)
             </a>
