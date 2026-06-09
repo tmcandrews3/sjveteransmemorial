@@ -114,29 +114,30 @@ return (
           </p>
         </div>
 
-        {/* Search Box */}
+        {/* Search Box - Better Mobile Fit */}
         <div 
           className="bg-white rounded-3xl p-4 md:p-6 shadow-xl border-4 border-[#263b6c] cursor-pointer mb-8"
           onClick={clearSelection}
         >
           <div className="flex items-center bg-gray-100 rounded-2xl px-4 py-4 md:px-6 md:py-5 border border-gray-300">
             <Search className="w-6 h-6 text-gray-500 mr-4 flex-shrink-0" />
+            
             <input
               type="text"
               placeholder="Search by name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="flex-1 bg-transparent outline-none text-lg md:text-xl placeholder:text-[#c0972a] text-[#263b6c]"
+              className="flex-1 bg-transparent outline-none text-lg md:text-xl placeholder:text-[#c0972a] text-[#263b6c] min-w-0"
               onClick={(e) => e.stopPropagation()}
             />
             
             {searchTerm && (
               <button 
                 onClick={(e) => { e.stopPropagation(); clearSelection(); }} 
-                className="ml-3 flex items-center gap-2 bg-[#e04a38] hover:bg-red-700 text-white px-5 py-3 rounded-xl text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0"
+                className="ml-2 flex items-center gap-1.5 bg-[#e04a38] hover:bg-red-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium transition-colors flex-shrink-0"
               >
                 <X size={18} />
-                CLEAR
+                <span className="hidden sm:inline">CLEAR</span>
               </button>
             )}
           </div>
