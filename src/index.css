@@ -2,14 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: "Myriad Pro Regular", "MyriadPro Bold", Arial, Helvetica, sans-serif;
+/* Myriad Pro Regular */
+@font-face {
+  font-family: "Myriad Pro";
+  src: url("/fonts/MyriadPro-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-h1, h2, h3, .font-bold {
-  font-family: "Myriad Pro Bold", Arial Black, Arial, sans-serif;
+/* Myriad Pro Bold */
+@font-face {
+  font-family: "Myriad Pro";
+  src: url("/fonts/MyriadPro-Bold.woff2") format("woff2");
   font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
-h1, h2, h3 {
-  letter-spacing: -0.02em;
+
+body {
+  font-family: "Myriad Pro", Calibri, Arial, Helvetica, sans-serif;
+  color: #263b6c;
+}
+
+h1, h2, h3, .font-bold, .text-5xl, .text-6xl {
+  font-family: "Myriad Pro", Calibri, Arial Black, Arial, sans-serif;
+  font-weight: 700;
 }

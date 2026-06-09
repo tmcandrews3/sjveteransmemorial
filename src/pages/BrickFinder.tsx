@@ -63,11 +63,11 @@ return (
             />
           </a>
           
-          <div className="text-center flex-1 px-4 hidden sm:block">
-            <div className="text-[#e04a38] text-xl md:text-3xl font-regular tracking-tight">
+          <div className="text-center">
+            <div className="text-[#e04a38] text-xl md:text-3xl font-bold tracking-widest">
               Richard H. Stewart, Jr. Post 543
             </div>
-            <div className="text-[#e04a38] text-sm md:text-lg">
+            <div className="text-[#e04a38] text-sm md:text-lg font-bold tracking-widest mt-1">
               St. James, NC 28461
             </div>
           </div>
