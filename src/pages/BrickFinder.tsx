@@ -146,7 +146,7 @@ return (
         {selectedBrick && (
           <div className="text-center mb-8">
             <p className="text-[#263b6c] text-base md:text-lg font-medium">
-              Hit CLEAR to start a new search
+              Hit CLEAR (X) to start a new search
             </p>
           </div>
         )}
