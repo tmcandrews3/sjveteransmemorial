@@ -32,24 +32,50 @@ export default function Admin() {
     downloads: 47,
   });
 
+  // Visitor Trend
   const visitorTrendData = {
     labels: ['May 30', 'May 31', 'Jun 1', 'Jun 2', 'Jun 3', 'Jun 4', 'Jun 5'],
-    datasets: [{ label: 'Daily Visitors', data: [42, 31, 67, 45, 89, 124, 156], borderColor: '#22c55e', backgroundColor: 'rgba(34, 197, 94, 0.15)', tension: 0.4 }]
+    datasets: [{
+      label: 'Daily Visitors',
+      data: [42, 31, 67, 45, 89, 124, 156],
+      borderColor: '#22c55e',
+      backgroundColor: 'rgba(34, 197, 94, 0.15)',
+      tension: 0.4,
+      borderWidth: 3,
+    }]
   };
 
+  // Browser Breakdown
   const browserData = {
     labels: ['Chrome', 'Safari', 'Edge', 'Firefox', 'Other'],
-    datasets: [{ data: [58, 22, 11, 6, 3], backgroundColor: ['#3b82f6', '#eab308', '#ef4444', '#8b5cf6', '#6b7280'] }]
+    datasets: [{
+      data: [58, 22, 11, 6, 3],
+      backgroundColor: ['#3b82f6', '#eab308', '#ef4444', '#8b5cf6', '#6b7280'],
+    }]
   };
 
+  // Top 10 Bricks
   const topBricksData = {
-    labels: ['PAUL LOWE FOSTER', 'THOMAS H GALLIGAN JR', 'RON & LILA ANDERSON', 'TO ALL WHO SERVED', 'ASHLEIGH K DONOVAN', 'MARY JO SCHNEPF', 'JERRY & MISSY DONOVAN', 'CAPE FEAR BLUE STAR'],
-    datasets: [{ label: 'Searches', data: [52, 41, 35, 29, 26, 22, 19, 17], backgroundColor: '#3b82f6' }]
+    labels: ['PAUL LOWE FOSTER', 'THOMAS H GALLIGAN JR', 'RON & LILA ANDERSON', 'TO ALL WHO SERVED', 
+             'ASHLEIGH K DONOVAN', 'MARY JO SCHNEPF', 'JERRY & MISSY DONOVAN', 'CAPE FEAR BLUE STAR'],
+    datasets: [{
+      label: 'Searches',
+      data: [52, 41, 35, 29, 26, 22, 19, 17],
+      backgroundColor: '#3b82f6',
+    }]
   };
 
+// Downloads Trend
   const downloadsTrendData = {
     labels: ['May 30', 'May 31', 'Jun 1', 'Jun 2', 'Jun 3', 'Jun 4', 'Jun 5'],
-    datasets: [{ label: 'Downloads', data: [3, 5, 8, 12, 7, 15, 22], borderColor: '#a855f7', backgroundColor: 'rgba(168, 85, 247, 0.15)', tension: 0.4 }]
+    datasets: [{
+      label: 'Downloads',
+      data: [3, 5, 8, 12, 7, 15, 22],
+      borderColor: '#a855f7',
+      backgroundColor: 'rgba(168, 85, 247, 0.15)',
+      tension: 0.4,
+      borderWidth: 3,
+    }]
   };
 
   const loadStats = async () => {
@@ -114,7 +140,6 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-[#0a1625] text-white p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="flex justify-between items-center mb-10">
           <div className="flex items-center gap-4">
             <Award className="w-12 h-12 text-red-500" />
@@ -202,26 +227,6 @@ export default function Admin() {
           <button onClick={processFile} disabled={!file} className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-700 py-5 rounded-2xl text-xl font-medium transition-colors disabled:cursor-not-allowed">
             Process Uploaded CSV
           </button>
-        </div>
-
-        {/* Changelog */}
-        <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700 mt-12">
-          <h3 className="text-xl font-semibold mb-6 flex items-center gap-3">
-            📜 Recent Updates
-          </h3>
-          <div className="space-y-6 text-sm">
-            <div>
-              <div className="font-medium text-green-400">June 9, 2026</div>
-              <ul className="list-disc list-inside text-gray-300 mt-2 space-y-1">
-                <li>Full Post 543 / American Legion branding & mobile optimization</li>
-                <li>White background with dark blue text</li>
-                <li>Improved search box and autocomplete</li>
-                <li>Simplified Share feature (Copy + Email)</li>
-                <li>Added Recent Updates changelog</li>
-              </ul>
-            </div>
-          </div>
-          <p className="text-xs text-gray-500 mt-8">Last updated: {new Date().toLocaleDateString()}</p>
         </div>
       </div>
     </div>
