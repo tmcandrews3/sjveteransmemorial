@@ -52,10 +52,10 @@ export default function BrickFinder() {
 
 return (
     <div className="min-h-screen bg-white text-[#263b6c]">
-      {/* Mobile-Optimized Header */}
+      {/* Responsive Header */}
       <div className="bg-white border-b-4 border-[#e04a38]">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-          <a href="https://ncpost543.org" target="_blank" rel="noopener noreferrer">
+        <div className="max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
+          <a href="https://ncpost543.org" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
             <img 
               src="/images/american-legion-logo.png" 
               alt="American Legion" 
@@ -63,7 +63,7 @@ return (
             />
           </a>
           
-          <div className="text-center flex-1 px-4">
+          <div className="text-center flex-1 px-4 hidden sm:block">
             <div className="text-[#e04a38] text-xl md:text-3xl font-regular tracking-tight">
               Richard H. Stewart, Jr. Post 543
             </div>
@@ -72,9 +72,16 @@ return (
             </div>
           </div>
 
+          {/* Mobile Version */}
+          <div className="text-center flex-1 px-4 sm:hidden">
+            <div className="text-[#e04a38] text-lg font-bold tracking-tight">
+              Post 543
+            </div>
+          </div>
+
           <a 
             href="https://ncpost543.org" 
-            className="bg-[#e04a38] hover:bg-red-700 text-white px-6 py-2.5 rounded-xl font-medium text-sm md:text-base transition-colors"
+            className="bg-[#e04a38] hover:bg-red-700 text-white px-5 md:px-8 py-2.5 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap"
           >
             Home
           </a>
