@@ -52,31 +52,29 @@ export default function BrickFinder() {
 
 return (
     <div className="min-h-screen bg-white text-[#263b6c]">
-      {/* Updated Header */}
+      {/* Mobile-Optimized Header */}
       <div className="bg-white border-b-4 border-[#e04a38]">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <a href="https://ncpost543.org" target="_blank" rel="noopener noreferrer">
-              <img 
-                src="/images/american-legion-logo.png" 
-                alt="American Legion Post 543" 
-                className="h-20 md:h-24 hover:opacity-90 transition-opacity"
-              />
-            </a>
-            
-            <div className="text-center">
-              <div className="text-[#e04a38] text-[26px] md:text-[32px] font-regular tracking-[-0.02em] leading-tight">
-                Richard H. Stewart, Jr. Post 543
-              </div>
-              <div className="text-[#e04a38] text-lg md:text-xl font-medium tracking-tight">
-                St. James, NC 28461
-              </div>
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+          <a href="https://ncpost543.org" target="_blank" rel="noopener noreferrer">
+            <img 
+              src="/images/american-legion-logo.png" 
+              alt="American Legion" 
+              className="h-14 md:h-20"
+            />
+          </a>
+          
+          <div className="text-center flex-1 px-4">
+            <div className="text-[#e04a38] text-xl md:text-3xl font-regular tracking-tight">
+              Richard H. Stewart, Jr. Post 543
+            </div>
+            <div className="text-[#e04a38] text-sm md:text-lg">
+              St. James, NC 28461
             </div>
           </div>
 
           <a 
             href="https://ncpost543.org" 
-            className="bg-[#e04a38] hover:bg-red-700 text-white px-8 py-3 rounded-xl font-medium transition-colors"
+            className="bg-[#e04a38] hover:bg-red-700 text-white px-6 py-2.5 rounded-xl font-medium text-sm md:text-base transition-colors"
           >
             Home
           </a>
@@ -143,18 +141,18 @@ return (
         )}
 
         {suggestions.length > 0 && (
-          <div className="absolute mt-3 w-full bg-gray-900 rounded-2xl border border-gray-700 shadow-2xl max-h-[420px] overflow-auto z-50">
+          <div className="absolute mt-3 w-full bg-[#263b6c] rounded-2xl border border-gray-700 shadow-2xl max-h-[420px] overflow-auto z-50 text-white">
             {suggestions.map(brick => (
               <div 
                 key={brick.designator} 
                 onClick={() => handleSelect(brick)}
-                className="px-6 py-5 hover:bg-gray-800 cursor-pointer border-b border-gray-800 last:border-none flex justify-between items-center"
+                className="px-6 py-5 hover:bg-[#1e2f4d] cursor-pointer border-b border-gray-700 last:border-none flex justify-between items-center text-base md:text-lg"
               >
                 <div>
-                  <div className="font-medium">{brick.lines[0]}</div>
-                  <div className="text-sm text-gray-400">{brick.lines[1] || ''}</div>
+                  <div className="font-medium text-white">{brick.lines[0]}</div>
+                  <div className="text-sm text-gray-300">{brick.lines[1] || ''}</div>
                 </div>
-                <div className="text-xs text-gray-500 font-mono">{brick.designator}</div>
+                <div className="text-xs text-gray-400 font-mono">{brick.designator}</div>
               </div>
             ))}
           </div>
