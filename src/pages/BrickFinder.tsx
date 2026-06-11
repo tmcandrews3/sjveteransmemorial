@@ -115,56 +115,59 @@ return (
           </p>
         </div>
 
-        {/* Search Box - Better Mobile Fit */}
+        {/* Search Box */}
         <div 
           className="bg-white rounded-3xl p-4 md:p-6 shadow-xl border-4 border-[#263b6c] cursor-pointer mb-8"
           onClick={clearSelection}
         >
           <div className="flex items-center bg-gray-100 rounded-2xl px-4 py-4 md:px-6 md:py-5 border border-gray-300">
             <Search className="w-6 h-6 text-gray-500 mr-4 flex-shrink-0" />
-            
             <input
               type="text"
               placeholder="Search by name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="flex-1 bg-transparent outline-none text-lg md:text-xl placeholder:text-[#c0972a] text-[#263b6c] min-w-0"
+              className="flex-1 bg-transparent outline-none text-lg md:text-xl placeholder:text-[#c0972a] text-[#263b6c]"
               onClick={(e) => e.stopPropagation()}
             />
             
             {searchTerm && (
               <button 
                 onClick={(e) => { e.stopPropagation(); clearSelection(); }} 
-                className="ml-2 flex items-center gap-1.5 bg-[#e04a38] hover:bg-red-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium transition-colors flex-shrink-0"
+                className="ml-3 flex items-center gap-1.5 bg-[#e04a38] hover:bg-red-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium transition-colors flex-shrink-0"
               >
                 <X size={18} />
-                <span className="hidden sm:inline">CLEAR</span>
+                CLEAR
               </button>
             )}
           </div>
         </div>
 
-        {selectedBrick && (
-          <div className="text-center mb-8">
-            <p className="text-[#263b6c] text-base md:text-lg font-medium">
-              Hit CLEAR (X) to start a new search
-            </p>
-          </div>
-        )}
-
+        {/* Suggestions Dropdown */}
         {suggestions.length > 0 && (
-          <div className="absolute mt-3 w-full bg-[#263b6c] rounded-2xl border border-gray-700 shadow-2xl max-h-[420px] overflow-auto z-50 text-white">
+          <div className="absolute mt-3 w-full max-w-[620px] bg-[#263b6c] rounded-2xl border border-gray-700 shadow-2xl max-h-[420px] overflow-auto z-50 text-white">
             {suggestions.map(brick => (
               <div 
                 key={brick.designator} 
                 onClick={() => handleSelect(brick)}
-                className="px-6 py-5 hover:bg-[#1e2f4d] cursor-pointer border-b border-gray-700 last:border-none flex justify-between items-center text-base md:text-lg"
+                className="px-6 py-5 hover:bg-[#1e2f4d] cursor-pointer border-b border-gray-700 last:border-none"
               >
-                <div>
-                  <div className="font-medium text-white">{brick.lines[0]}</div>
-                  <div className="text-sm text-gray-300">{brick.lines[1] || ''}</div>
+                <div className="space-y-1">
+                  {/* Line 1 */}
+                  {brick.lines[0] && (
+                    <div className="font-medium text-white">{brick.lines[0]}</div>
+                  )}
+                  
+                  {/* Sponsor (if exists) */}
+                  {brick.sponsor && (
+                    <div className="text-sm text-[#a5b4fc]">Sponsor: {brick.sponsor}</div>
+                  )}
+                  
+                  {/* Additional lines */}
+                  {brick.lines.slice(1, 4).map((line, idx) => (
+                    line && <div key={idx} className="text-sm text-gray-300">{line}</div>
+                  ))}
                 </div>
-                <div className="text-xs text-gray-400 font-mono">{brick.designator}</div>
               </div>
             ))}
           </div>
