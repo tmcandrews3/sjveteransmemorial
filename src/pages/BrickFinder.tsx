@@ -47,10 +47,10 @@ export default function BrickFinder() {
     setShowShare(false);
   };
 
-  const currentSide = sideView || 'Right';
-  const visibleBricks = bricks.filter(b => b.side === currentSide);
+  const isSelectedBrick = (designator: string) => selectedBrick?.designator === designator;
+  const visibleBricks = bricks.filter(b => b.side === sideView);
 
-  return (
+return (
     <div className="min-h-screen bg-white text-[#263b6c]">
       {/* Responsive Header */}
       <div className="bg-white border-b-4 border-[#e04a38]">
@@ -115,66 +115,63 @@ export default function BrickFinder() {
           </p>
         </div>
 
-        {/* Search Box */}
+        {/* Search Box - Better Mobile Fit */}
         <div 
           className="bg-white rounded-3xl p-4 md:p-6 shadow-xl border-4 border-[#263b6c] cursor-pointer mb-8"
           onClick={clearSelection}
         >
           <div className="flex items-center bg-gray-100 rounded-2xl px-4 py-4 md:px-6 md:py-5 border border-gray-300">
             <Search className="w-6 h-6 text-gray-500 mr-4 flex-shrink-0" />
+            
             <input
               type="text"
               placeholder="Search by name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="flex-1 bg-transparent outline-none text-lg md:text-xl placeholder:text-[#c0972a] text-[#263b6c]"
+              className="flex-1 bg-transparent outline-none text-lg md:text-xl placeholder:text-[#c0972a] text-[#263b6c] min-w-0"
               onClick={(e) => e.stopPropagation()}
             />
             
             {searchTerm && (
               <button 
                 onClick={(e) => { e.stopPropagation(); clearSelection(); }} 
-                className="ml-3 flex items-center gap-1.5 bg-[#e04a38] hover:bg-red-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium transition-colors flex-shrink-0"
+                className="ml-2 flex items-center gap-1.5 bg-[#e04a38] hover:bg-red-700 text-white px-4 py-2.5 rounded-xl text-sm font-medium transition-colors flex-shrink-0"
               >
                 <X size={18} />
-                CLEAR
+                <span className="hidden sm:inline">CLEAR</span>
               </button>
             )}
           </div>
         </div>
 
-        {/* Suggestions Dropdown */}
+        {selectedBrick && (
+          <div className="text-center mb-8">
+            <p className="text-[#263b6c] text-base md:text-lg font-medium">
+              Hit CLEAR (X) to start a new search
+            </p>
+          </div>
+        )}
+
         {suggestions.length > 0 && (
-          <div className="absolute mt-3 w-full max-w-[620px] bg-[#263b6c] rounded-2xl border border-gray-700 shadow-2xl max-h-[420px] overflow-auto z-50 text-white">
+          <div className="absolute mt-3 w-full bg-[#263b6c] rounded-2xl border border-gray-700 shadow-2xl max-h-[420px] overflow-auto z-50 text-white">
             {suggestions.map(brick => (
               <div 
                 key={brick.designator} 
                 onClick={() => handleSelect(brick)}
-                className="px-6 py-5 hover:bg-[#1e2f4d] cursor-pointer border-b border-gray-700 last:border-none"
+                className="px-6 py-5 hover:bg-[#1e2f4d] cursor-pointer border-b border-gray-700 last:border-none flex justify-between items-center text-base md:text-lg"
               >
-                <div className="space-y-1">
-                  {/* Line 1 */}
-                  {brick.lines[0] && (
-                    <div className="font-medium text-white">{brick.lines[0]}</div>
-                  )}
-                  
-                  {/* Sponsor (if exists) */}
-                  {brick.sponsor && (
-                    <div className="text-sm text-[#a5b4fc]">Sponsor: {brick.sponsor}</div>
-                  )}
-                  
-                  {/* Additional lines */}
-                  {brick.lines.slice(1, 4).map((line, idx) => (
-                    line && <div key={idx} className="text-sm text-gray-300">{line}</div>
-                  ))}
+                <div>
+                  <div className="font-medium text-white">{brick.lines[0]}</div>
+                  <div className="text-sm text-gray-300">{brick.lines[1] || ''}</div>
                 </div>
+                <div className="text-xs text-gray-400 font-mono">{brick.designator}</div>
               </div>
             ))}
           </div>
         )}
       </div>
 
-{selectedBrick && (
+      {selectedBrick && (
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
           {/* Brick Visual */}
           <div className="flex justify-center mb-10">
@@ -252,12 +249,11 @@ export default function BrickFinder() {
             </div>
           </div>
 
-{/* Reliable Grid */}
+          {/* Brick Path Grid */}
           <div className="bg-gray-950 border-2 border-gray-700 rounded-3xl p-6 md:p-8 overflow-auto max-h-[620px]">
             <div className="space-y-8 md:space-y-10">
               {Array.from({ length: 9 }).map((_, secIdx) => {
                 const sectionNum = secIdx + 1;
-                const sidePrefix = currentSide === 'Right' ? 'S1' : 'S2';
                 return (
                   <div key={sectionNum}>
                     <div className="text-center mb-6">
@@ -275,22 +271,22 @@ export default function BrickFinder() {
 
                             {Array.from({ length: fullBricks }).map((_, colIdx) => {
                               const colNum = colIdx + 1;
-                              const expectedDesignator = `${sidePrefix}R${sectionNum}B${colNum}`;
-                              const brick = visibleBricks.find(b => b.designator === expectedDesignator);
+                              const brick = visibleBricks.find(b => 
+                                b.section === sectionNum && b.sectRow === rowNum && b.designator.endsWith(`B${colNum}`)
+                              );
 
-                              const isSelected = selectedBrick?.designator === expectedDesignator;
-
-                              const brickColor = isSelected 
-                                ? 'bg-[#ffe887] text-black border-2 border-yellow-400 scale-110 shadow-2xl ring-2 ring-yellow-300' 
-                                : (brick?.purchased === true) 
-                                  ? 'bg-[#f05f33] text-white border-gray-600' 
-                                  : 'bg-[#3cb371] text-white border-gray-600 opacity-75';
+                              const isSelected = brick && isSelectedBrick(brick.designator);
 
                               return (
                                 <div
                                   key={colIdx}
-                                  className={`w-16 h-9 md:w-20 md:h-11 flex items-center justify-center text-[9px] md:text-[10px] font-mono border transition-all hover:scale-105 ${brickColor}`}
-                                  title={brick ? brick.designator : 'Available'}
+                                  className={`w-16 h-9 md:w-20 md:h-11 flex items-center justify-center text-[9px] md:text-[10px] font-mono border transition-all hover:scale-105
+                                    ${isSelected 
+                                      ? 'bg-[#ffe887] text-black border-2 border-yellow-400 scale-110 shadow-2xl ring-2 ring-yellow-300' 
+                                      : brick?.purchased 
+                                        ? 'bg-[#f05f33] text-white border-gray-600' 
+                                        : 'bg-[#3cb371] text-white border-gray-600 opacity-75'}`}
+                                  title={brick ? brick.lines[0] : 'Available'}
                                 >
                                   {brick ? colNum : ''}
                                 </div>
@@ -308,6 +304,7 @@ export default function BrickFinder() {
               })}
             </div>
           </div>
+
           {/* Download Instructions + Button */}
           <div className="flex flex-col items-center mt-12 space-y-4">
             <p className="text-[#263b6c] text-center text-base md:text-lg font-medium max-w-md">
