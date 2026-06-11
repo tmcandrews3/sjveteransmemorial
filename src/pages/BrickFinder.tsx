@@ -152,19 +152,31 @@ return (
           </div>
         )}
 
+        {/* Suggestions Dropdown - Improved Visibility */}
         {suggestions.length > 0 && (
-          <div className="absolute mt-3 w-full bg-[#263b6c] rounded-2xl border border-gray-700 shadow-2xl max-h-[420px] overflow-auto z-50 text-white">
+          <div className="absolute mt-3 w-full max-w-[620px] bg-[#263b6c] rounded-2xl border border-[#e04a38] shadow-2xl max-h-[420px] overflow-auto z-50 text-white">
             {suggestions.map(brick => (
               <div 
                 key={brick.designator} 
                 onClick={() => handleSelect(brick)}
-                className="px-6 py-5 hover:bg-[#1e2f4d] cursor-pointer border-b border-gray-700 last:border-none flex justify-between items-center text-base md:text-lg"
+                className="px-6 py-5 hover:bg-[#1e2f4d] cursor-pointer border-b border-[#e04a38]/30 last:border-none"
               >
-                <div>
-                  <div className="font-medium text-white">{brick.lines[0]}</div>
-                  <div className="text-sm text-gray-300">{brick.lines[1] || ''}</div>
+                <div className="space-y-1.5">
+                  {/* Line 1 - Prominent */}
+                  {brick.lines[0] && (
+                    <div className="font-semibold text-white text-lg leading-tight">{brick.lines[0]}</div>
+                  )}
+                  
+                  {/* Sponsor */}
+                  {brick.sponsor && (
+                    <div className="text-sm text-[#a5b4fc]">Sponsor: {brick.sponsor}</div>
+                  )}
+                  
+                  {/* Lines 2-4 */}
+                  {brick.lines.slice(1, 4).map((line, idx) => (
+                    line && <div key={idx} className="text-sm text-gray-200 leading-tight">{line}</div>
+                  ))}
                 </div>
-                <div className="text-xs text-gray-400 font-mono">{brick.designator}</div>
               </div>
             ))}
           </div>
