@@ -24,7 +24,12 @@ export default function BrickFinder() {
       .then(res => res.json())
       .then(data => setBricks(data));
   }, []);
+  useEffect(() => {
+    if (bricks.length > 0) {
+      console.log("Data fully loaded -", bricks.length, "bricks");
+    }
 
+  }, [bricks]);
   const suggestions = useMemo(() => {
     if (searchTerm.length < 2 || selectedBrick) return [];
     return bricks
@@ -38,7 +43,7 @@ export default function BrickFinder() {
   const handleSelect = (brick: Brick) => {
     setSelectedBrick(brick);
     setSearchTerm(brick.lines[0] || '');
-    setSideView(brick.side as 'Left' | 'Right');
+    setSideView(brick.side as 'Left' | 'Right');  
   };
 
   const clearSelection = () => {
@@ -47,9 +52,14 @@ export default function BrickFinder() {
     setShowShare(false);
   };
 
-  const isSelectedBrick = (designator: string) => selectedBrick?.designator === designator;
-  const visibleBricks = bricks.filter(b => b.side === sideView);
+const isSelectedBrick = (designator: string) => selectedBrick?.designator === designator;
 
+  const currentSide = sideView || 'Right';
+  const visibleBricks = bricks.filter(b => b.side === (sideView || 'Right'));
+
+  console.log(`Visible ${currentSide} bricks:`, visibleBricks.length);
+  console.log("Sample purchased flags:", visibleBricks.slice(0, 5).map(b => ({ designator: b.designator, purchased: b.purchased })));
+  
 return (
     <div className="min-h-screen bg-white text-[#263b6c]">
       {/* Responsive Header */}
@@ -252,61 +262,64 @@ return (
             </div>
           </div>
 
-          {/* Brick Path Grid */}
-          <div className="bg-gray-950 border-2 border-gray-700 rounded-3xl p-6 md:p-8 overflow-auto max-h-[620px]">
-            <div className="space-y-8 md:space-y-10">
-              {Array.from({ length: 9 }).map((_, secIdx) => {
-                const sectionNum = secIdx + 1;
-                return (
-                  <div key={sectionNum}>
-                    <div className="text-center mb-6">
-                      <div className="inline-block bg-red-900/50 text-red-400 px-8 py-2 rounded-full text-sm tracking-widest">SECTION {sectionNum}</div>
+          {/* Reliable Grid - Based on Working Debug */}
+          {visibleBricks.length > 0 && (
+            <div className="bg-gray-950 border-2 border-gray-700 rounded-3xl p-6 md:p-8 overflow-auto max-h-[620px]">
+              <div className="space-y-8 md:space-y-10">
+                {Array.from({ length: 9 }).map((_, secIdx) => {
+                  const sectionNum = secIdx + 1;
+                  return (
+                    <div key={sectionNum}>
+                      <div className="text-center mb-6">
+                        <div className="inline-block bg-red-900/50 text-red-400 px-8 py-2 rounded-full text-sm tracking-widest">SECTION {sectionNum}</div>
+                      </div>
+                      <div className="space-y-4">
+                        {Array.from({ length: 12 }).map((_, rowIdx) => {
+                          const rowNum = rowIdx + 1;
+                          const isEvenRow = rowNum % 2 === 0;
+                          const fullBricks = isEvenRow ? 5 : 6;
+
+                          return (
+                            <div key={rowNum} className="flex justify-center items-center gap-1">
+                              {isEvenRow && <div className="w-9 h-9 md:w-11 md:h-11 bg-gray-500 border border-gray-600 rounded-l opacity-50"></div>}
+
+                              {Array.from({ length: fullBricks }).map((_, colIdx) => {
+                                const colNum = colIdx + 1;
+                                const brick = visibleBricks.find(b => 
+                                  b.section === sectionNum && b.sectRow === rowNum
+                                );
+
+                                const isSelected = brick && isSelectedBrick(brick?.designator || '');
+
+                                const brickColor = isSelected 
+                                  ? 'bg-[#ffe887] text-black border-2 border-yellow-400 scale-110 shadow-2xl ring-2 ring-yellow-300' 
+                                  : (brick?.purchased === true) 
+                                    ? 'bg-[#f05f33] text-white border-gray-600' 
+                                    : 'bg-[#3cb371] text-white border-gray-600 opacity-75';
+
+                                return (
+                                  <div
+                                    key={colIdx}
+                                    className={`w-16 h-9 md:w-20 md:h-11 flex items-center justify-center text-[9px] md:text-[10px] font-mono border transition-all hover:scale-105 ${brickColor}`}
+                                    title={brick ? brick.lines[0] : 'Available'}
+                                  >
+                                    {brick ? colNum : ''}
+                                  </div>
+                                );
+                              })}
+
+                              {isEvenRow && <div className="w-9 h-9 md:w-11 md:h-11 bg-gray-500 border border-gray-600 rounded-r opacity-50"></div>}
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <div className="h-6 md:h-8 bg-gray-700 my-6 md:my-8 rounded"></div>
                     </div>
-                    <div className="space-y-4">
-                      {Array.from({ length: 12 }).map((_, rowIdx) => {
-                        const rowNum = rowIdx + 1;
-                        const isEvenRow = rowNum % 2 === 0;
-                        const fullBricks = isEvenRow ? 5 : 6;
-
-                        return (
-                          <div key={rowNum} className="flex justify-center items-center gap-1">
-                            {isEvenRow && <div className="w-9 h-9 md:w-11 md:h-11 bg-gray-500 border border-gray-600 rounded-l opacity-50"></div>}
-
-                            {Array.from({ length: fullBricks }).map((_, colIdx) => {
-                              const colNum = colIdx + 1;
-                              const brick = visibleBricks.find(b => 
-                                b.section === sectionNum && b.sectRow === rowNum && b.designator.endsWith(`B${colNum}`)
-                              );
-
-                              const isSelected = brick && isSelectedBrick(brick.designator);
-
-                              return (
-                                <div
-                                  key={colIdx}
-                                  className={`w-16 h-9 md:w-20 md:h-11 flex items-center justify-center text-[9px] md:text-[10px] font-mono border transition-all hover:scale-105
-                                    ${isSelected 
-                                      ? 'bg-[#ffe887] text-black border-2 border-yellow-400 scale-110 shadow-2xl ring-2 ring-yellow-300' 
-                                      : brick?.purchased 
-                                        ? 'bg-[#f05f33] text-white border-gray-600' 
-                                        : 'bg-[#3cb371] text-white border-gray-600 opacity-75'}`}
-                                  title={brick ? brick.lines[0] : 'Available'}
-                                >
-                                  {brick ? colNum : ''}
-                                </div>
-                              );
-                            })}
-
-                            {isEvenRow && <div className="w-9 h-9 md:w-11 md:h-11 bg-gray-500 border border-gray-600 rounded-r opacity-50"></div>}
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div className="h-6 md:h-8 bg-gray-700 my-6 md:my-8 rounded"></div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Download Instructions + Button */}
           <div className="flex flex-col items-center mt-12 space-y-4">
