@@ -5,7 +5,22 @@ export default function TestOrder() {
     line1: '', line2: '', line3: '', line4: '',
     customerName: '', phone: '', address: '', city: '', state: '', zip: '', email: '',
   });
-
+const sendToLob = async (orderData: any) => {
+  try {
+    const res = await fetch('/api/send-lob-letter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderData),
+    });
+    const result = await res.json();
+    console.log('Lob result:', result);
+    alert(result.success ? 'Test letter sent to Lob!' : 'Lob error – check console');
+    return result;
+  } catch (err) {
+    console.error(err);
+    alert('Failed to call Lob');
+  }
+};
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -70,7 +85,27 @@ export default function TestOrder() {
               <input name="zip" placeholder="Zip (optional)" onChange={handleChange} className="w-full p-4 border rounded-xl" />
             </div>
           </div>
-
+<button
+  type="button"
+  onClick={() =>
+    sendToLob({
+      name: 'Robert J. Thompson',
+      phone: '(410) 555-0198',
+      email: 'rthompson@email.com',
+      address: '1234 Veterans Way, St. James, MD 21781',
+      lines: [
+        'IN HONOR OF',
+        'SGT. WILLIAM T. HARRISON',
+        'U.S. ARMY, 1943–1945',
+        'THANK YOU FOR YOUR SERVICE',
+      ],
+      confirmation: 'TEST-001',
+    })
+  }
+  className="mt-4 bg-blue-600 text-white px-6 py-3 rounded-lg"
+>
+  Send Test Letter to Lob
+</button>
           <button 
             type="submit"
             className="w-full bg-[#e04a38] hover:bg-red-700 text-white font-medium py-5 rounded-2xl text-xl transition-all"
