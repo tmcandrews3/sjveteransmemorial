@@ -48,7 +48,31 @@ const sendToLob = async (orderData: any) => {
           <h2 className="text-3xl font-bold text-red-600 mt-2">BUY A BRICK PROGRAM</h2>
           <p className="text-red-600 font-medium mt-4">TEST MODE</p>
         </div>
+      {/* Example Bricks */}
+<div className="max-w-3xl mx-auto mb-10 text-center">
+  <p className="text-[#263b6c] font-semibold mb-4">Example Bricks</p>
+  <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+    {/* Example 1 */}
+    <div className="bg-[#f05f33] text-black rounded-lg p-6 w-full max-w-xs shadow-lg">
+      <div className="font-bold text-lg leading-tight">
+        SGT. JAMES R. THOMPSON<br />
+        U.S. ARMY<br />
+        1967–1969<br />
+        VIETNAM VETERAN
+      </div>
+    </div>
 
+    {/* Example 2 */}
+    <div className="bg-[#f05f33] text-black rounded-lg p-6 w-full max-w-xs shadow-lg">
+      <div className="font-bold text-lg leading-tight">
+        IN HONOR OF<br />
+        CPL. LINDA M. JOHNSON<br />
+        US ARMY NURSE CORPS<br />
+        THANK YOU FOR YOUR SERVICE
+      </div>
+    </div>
+  </div>
+</div>
         <div className="bg-white rounded-3xl shadow-xl p-8 mb-8 text-sm leading-relaxed text-gray-700">
           You may purchase as many personalized bricks as you wish at $100.00 per brick. 
           It could take several months before your brick is installed into the memorial.
@@ -85,26 +109,7 @@ const sendToLob = async (orderData: any) => {
               <input name="zip" placeholder="Zip (optional)" onChange={handleChange} className="w-full p-4 border rounded-xl" />
             </div>
           </div>
-<button
-  type="button"
-  onClick={() =>
-    sendToLob({
-      name: 'Robert J. Thompson',
-      phone: '(410) 555-0198',
-      email: 'rthompson@email.com',
-      address: '1234 Veterans Way, St. James, MD 21781',
-      lines: [
-        'IN HONOR OF',
-        'SGT. WILLIAM T. HARRISON',
-        'U.S. ARMY, 1943–1945',
-        'THANK YOU FOR YOUR SERVICE',
-      ],
-      confirmation: 'TEST-001',
-    })
-  }
-  className="mt-4 bg-blue-600 text-white px-6 py-3 rounded-lg"
->
-  Send Test Letter to Lob
+
 </button>
           <button 
             type="submit"
