@@ -10,29 +10,49 @@ export default async function handler(req, res) {
 
   const order = req.body;
 
-  // Simple HTML version of the locked-in form for testing
-  const html = `
-    <html>
-      <body style="font-family: Arial, sans-serif; padding: 40px;">
-        <h1 style="color: #c43834;">ST. JAMES VETERANS MEMORIAL - BRICK ORDER</h1>
-        <p><strong>Confirmation:</strong> ${order.confirmation || 'TEST-001'}</p>
-        <h2>Sponsor Information</h2>
-        <p>Name: ${order.name}</p>
-        <p>Phone: ${order.phone}</p>
-        <p>Email: ${order.email}</p>
-        <p>Address: ${order.address || 'N/A'}</p>
-        <h2>Brick Inscription</h2>
-        <p>This is how the brick should appear:</p>
-        <div style="border: 2px solid #000; padding: 20px; margin: 20px 0;">
-          ${order.lines?.join('<br>') || 'Sample line 1<br>Sample line 2'}
-        </div>
-        <p><strong>Payment Status:</strong> PAID VIA GIVEBUTTER</p>
-        <p><em>The sponsor has received email confirmation</em></p>
-        <hr>
-        <p>American Legion Post 543</p>
-      </body>
-    </html>
-  `;
+  // Simple HTML version of the locked-in form for testing-cleaner version
+const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; padding: 40px; color: #111; line-height: 1.4; }
+    h1 { color: #c43834; font-size: 22px; margin-bottom: 4px; }
+    .section-title { color: #c43834; font-size: 16px; margin: 24px 0 8px 0; border-bottom: 1px solid #c43834; padding-bottom: 4px; }
+    .info-row { margin: 4px 0; }
+    .label { font-weight: bold; display: inline-block; width: 90px; }
+    .inscription-box { border: 2px solid #333; padding: 24px; margin: 16px 0; text-align: center; font-size: 16px; line-height: 1.6; }
+    .note { background: #f5f5f5; padding: 10px 16px; margin: 16px 0; font-style: italic; }
+    .footer { margin-top: 32px; text-align: center; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h1>ST. JAMES VETERANS MEMORIAL - BRICK ORDER</h1>
+  <p><strong>Confirmation Number:</strong> ${order.confirmation || 'TEST-001'}</p>
+
+  <div class="section-title">SPONSOR INFORMATION</div>
+  <div class="info-row"><span class="label">Name:</span> ${order.name || ''}</div>
+  <div class="info-row"><span class="label">Phone:</span> ${order.phone || ''}</div>
+  <div class="info-row"><span class="label">Email:</span> ${order.email || ''}</div>
+  <div class="info-row"><span class="label">Address:</span> ${order.address || 'N/A'}</div>
+
+  <div class="section-title">BRICK INSCRIPTION</div>
+  <p>This is how the brick should appear:</p>
+  <div class="inscription-box">
+    ${(order.lines || []).map(line => line).join('<br>')}
+  </div>
+
+  <div class="section-title">PAYMENT STATUS</div>
+  <p><strong>☑ PAID VIA GIVEBUTTER</strong></p>
+  <div class="note">Note: The sponsor has received email confirmation</div>
+
+  <div class="footer">
+    American Legion Post 543
+  </div>
+</body>
+</html>
+`;
 
   try {
     const response = await fetch('https://api.lob.com/v1/letters', {
