@@ -5,7 +5,7 @@ export default function TestOrder() {
     line1: '', line2: '', line3: '', line4: '',
     customerName: '', phone: '', address: '', city: '', state: '', zip: '', email: '',
   });
-const sendToLob = async (orderData: any) => {
+const sendToLob = async (orderData: Record<string, string>) => {
   try {
     const res = await fetch('/api/send-lob-letter', {
       method: 'POST',
@@ -19,6 +19,7 @@ const sendToLob = async (orderData: any) => {
   } catch (err) {
     console.error(err);
     alert('Failed to call Lob');
+    return { success: false, error: err };
   }
 };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -37,7 +38,7 @@ const sendToLob = async (orderData: any) => {
       return;
     }
     console.log('Order Submitted:', formData);
-    alert('✅ Test order received!');
+    await sendToLob(formData);
   };
 
   return (
@@ -110,7 +111,6 @@ const sendToLob = async (orderData: any) => {
             </div>
           </div>
 
-</button>
           <button 
             type="submit"
             className="w-full bg-[#e04a38] hover:bg-red-700 text-white font-medium py-5 rounded-2xl text-xl transition-all"
