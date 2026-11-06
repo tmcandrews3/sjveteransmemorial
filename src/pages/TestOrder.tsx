@@ -14,11 +14,9 @@ const sendToLob = async (orderData: Record<string, string>) => {
     });
     const result = await res.json();
     console.log('Lob result:', result);
-    alert(result.success ? 'Test letter sent to Lob!' : 'Lob error – check console');
     return result;
   } catch (err) {
-    console.error(err);
-    alert('Failed to call Lob');
+    console.error('Lob error:', err);
     return { success: false, error: err };
   }
 };
@@ -38,9 +36,19 @@ const sendToLob = async (orderData: Record<string, string>) => {
       return;
     }
     console.log('Order Submitted:', formData);
-    await sendToLob(formData);
-  };
+const orderData = {
+  name: formData.customerName || '',
+  phone: formData.phone || '',
+  email: formData.email || '',
+  address: formData.address || '',
+  lines: [formData.line1, formData.line2, formData.line3, formData.line4]
+    .filter(Boolean)
+    .join('|'),
+  confirmation: 'SJVM-' + Date.now().toString().slice(-8),
+};
 
+await sendToLob(orderData);
+  };
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-2xl mx-auto px-6">
