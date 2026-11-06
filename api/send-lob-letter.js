@@ -10,7 +10,11 @@ export default async function handler(req, res) {
 
   const order = req.body;
 
-  // Simple HTML version of the locked-in form for testing-cleaner version
+ // Handle lines whether they arrive as an array or a joined string
+const lines = Array.isArray(order.lines)
+  ? order.lines
+  : (order.lines || '').split('|').filter(Boolean);
+
 const html = `
 <!DOCTYPE html>
 <html>
@@ -40,7 +44,7 @@ const html = `
   <div class="section-title">BRICK INSCRIPTION</div>
   <p>This is how the brick should appear:</p>
   <div class="inscription-box">
-    ${(order.lines || []).map(line => line).join('<br>')}
+    ${lines.map(line => line).join('<br>')}
   </div>
 
   <div class="section-title">PAYMENT STATUS</div>
