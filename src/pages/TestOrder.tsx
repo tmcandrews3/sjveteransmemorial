@@ -85,9 +85,13 @@ await sendToLob(orderData);
       </button>
       <button 
   type="button"
-  onClick={() => {
-    window.location.href = 'https://live.givebutter.com/c/memorial-brick-sales-vdqe3n';
-  }}
+ onClick={() => {
+  const params = new URLSearchParams({
+    name: formData.customerName || '',
+    email: formData.email || '',
+  });
+  window.location.href = `https://live.givebutter.com/c/memorial-brick-sales-vdqe3n?${params.toString()}`;
+}}
   className="flex-1 bg-[#e04a38] hover:bg-red-700 text-white py-3 rounded-xl font-medium"
 >
   Continue to Payment
