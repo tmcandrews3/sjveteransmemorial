@@ -48,6 +48,11 @@ const orderData = {
 };
 
 await sendToLob(orderData);
+await fetch('/api/send-sponsor-email', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(orderData),
+});
   };
  return (
   <div className="min-h-screen bg-gray-50 py-12">
