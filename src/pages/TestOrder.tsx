@@ -20,9 +20,9 @@ const sendToLob = async (orderData: Record<string, string>) => {
     return { success: false, error: err };
   }
 };
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setFormData({ ...formData, [e.target.name]: e.target.value });
+};
 
   const isValid = () => {
     return (formData.line1 || formData.line2 || formData.line3 || formData.line4) &&
@@ -54,18 +54,48 @@ await sendToLob(orderData);
   <div className="min-h-screen bg-gray-50 py-12">
     <div className="max-w-2xl mx-auto px-6">
       {showPreview ? (
-        <div className="text-center py-12">
-          <h2 className="text-2xl font-bold text-[#263b6c]">Preview Your Brick</h2>
-          <p className="mt-4 text-gray-600">Preview content will go here.</p>
-          <button 
-            type="button"
-            onClick={() => setShowPreview(false)}
-            className="mt-6 text-blue-600 underline"
-          >
-            ← Back to edit
-          </button>
-        </div>
-      ) : (
+  <div className="max-w-md mx-auto">
+    <h2 className="text-2xl font-bold text-[#263b6c] text-center mb-6">Preview Your Brick</h2>
+    
+    {/* Brick Preview */}
+    <div className="bg-[#f05f33] text-black rounded-lg p-6 shadow-lg text-center mb-8">
+      <div className="font-bold text-lg leading-tight">
+        {formData.line1 && <>{formData.line1.toUpperCase()}<br /></>}
+        {formData.line2 && <>{formData.line2.toUpperCase()}<br /></>}
+        {formData.line3 && <>{formData.line3.toUpperCase()}<br /></>}
+        {formData.line4 && formData.line4.toUpperCase()}
+      </div>
+    </div>
+
+    {/* Sponsor Info */}
+    <div className="bg-white rounded-xl p-6 shadow text-sm text-gray-700 mb-6">
+      <p><strong>Sponsor:</strong> {formData.customerName}</p>
+      <p><strong>Phone:</strong> {formData.phone}</p>
+      <p><strong>Email:</strong> {formData.email}</p>
+      {formData.address && <p><strong>Address:</strong> {formData.address}, {formData.city} {formData.state} {formData.zip}</p>}
+    </div>
+
+    <div className="flex gap-4">
+      <button 
+        type="button"
+        onClick={() => setShowPreview(false)}
+        className="flex-1 py-3 text-blue-600 underline"
+      >
+        ← Back to edit
+      </button>
+      <button 
+        type="button"
+        onClick={() => {
+          // Later: trigger GiveButter / Lob / email here
+          alert('Proceed to payment (coming next)');
+        }}
+        className="flex-1 bg-[#e04a38] hover:bg-red-700 text-white py-3 rounded-xl font-medium"
+      >
+        Continue to Payment
+      </button>
+    </div>
+  </div>
+) : (
         <>
           <div className="text-center mb-10">
             <h1 className="text-4xl font-bold text-[#263b6c]">St. James Veterans Memorial</h1>
@@ -110,18 +140,39 @@ await sendToLob(orderData);
           <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-xl p-8 space-y-8">
             <div>
               <h3 className="text-xl font-semibold mb-4">Brick Engraving (at least one line required)</h3>
-              <input name="line1" placeholder="Line 1" onChange={handleChange} className="w-full p-4 border rounded-xl" />
-              <input name="line2" placeholder="Line 2" onChange={handleChange} className="w-full p-4 border rounded-xl mt-3" />
-              <input name="line3" placeholder="Line 3" onChange={handleChange} className="w-full p-4 border rounded-xl mt-3" />
-              <input name="line4" placeholder="Line 4" onChange={handleChange} className="w-full p-4 border rounded-xl mt-3" />
+              <input name="line1"   placeholder="Line 1"   value={formData.line1 || ''}   onChange={handleChange}   className="w-full p-4 border rounded-xl" 
+/>            <input name="line2"   placeholder="Line 2"   value={formData.line2 || ''}   onChange={handleChange}   className="w-full p-4 border rounded-xl mt-3" />
+              <input name="line3"   placeholder="Line 3"   value={formData.line3 || ''}   onChange={handleChange}   className="w-full p-4 border rounded-xl mt-3" />
+              <input name="line4"   placeholder="Line 4"   value={formData.line4 || ''}   onChange={handleChange}   className="w-full p-4 border rounded-xl mt-3" />
             </div>
 
             <div>
               <h3 className="text-xl font-semibold mb-4">Your Information (required)</h3>
-              <input name="customerName" placeholder="Full Name" required onChange={handleChange} className="w-full p-4 border rounded-xl" />
-              <input name="phone" placeholder="Phone" required onChange={handleChange} className="w-full p-4 border rounded-xl mt-3" />
-              <input name="email" type="email" placeholder="Email" required onChange={handleChange} className="w-full p-4 border rounded-xl mt-3" />
-              
+              <input
+                name="customerName"
+                placeholder="Full Name"
+                value={formData.customerName || ''}
+                onChange={handleChange}
+                className="w-full p-4 border rounded-xl"
+              />
+              <input
+                name="phone"
+                placeholder="Phone"
+                value={formData.phone || ''}
+                required
+                onChange={handleChange}
+                className="w-full p-4 border rounded-xl mt-3"
+              />
+              <input
+                name="email"
+                type="email"
+                placeholder="Email"
+                value={formData.email || ''}
+                required
+                onChange={handleChange}
+                className="w-full p-4 border rounded-xl mt-3"
+              />
+
               <div className="mt-6 text-sm text-gray-500">
                 Mailing address is optional but helpful
               </div>
