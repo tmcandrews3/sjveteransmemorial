@@ -5,21 +5,8 @@ export default function TestOrder() {
     line1: '', line2: '', line3: '', line4: '',
     customerName: '', phone: '', address: '', city: '', state: '', zip: '', email: '',
   });
-const sendToLob = async (orderData: Record<string, string>) => {
-  try {
-    const res = await fetch('/api/send-lob-letter', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(orderData),
-    });
-    const result = await res.json();
-    console.log('Lob result:', result);
-    return result;
-  } catch (err) {
-    console.error('Lob error:', err);
-    return { success: false, error: err };
-  }
-};
+
+const [showPreview, setShowPreview] = useState(false);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -29,31 +16,15 @@ const sendToLob = async (orderData: Record<string, string>) => {
            formData.customerName && formData.phone && formData.email;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!isValid()) {
-      alert("Please fill at least one engraving line, name, phone, and email.");
-      return;
-    }
-    console.log('Order Submitted:', formData);
-const orderData = {
-  name: formData.customerName || '',
-  phone: formData.phone || '',
-  email: formData.email || '',
-  address: formData.address || '',
-  lines: [formData.line1, formData.line2, formData.line3, formData.line4]
-    .filter(Boolean)
-    .join('|'),
-  confirmation: 'SJVM-' + Date.now().toString().slice(-8),
-};
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-await sendToLob(orderData);
-await fetch('/api/send-sponsor-email', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(orderData),
-});
-  };
+  // Your existing validation here
+  // If validation fails, show errors and return
+
+  // For now, just move to preview (or set a state)
+  setShowPreview(true);  // we'll add this next
+};
  return (
   <div className="min-h-screen bg-gray-50 py-12">
     <div className="max-w-2xl mx-auto px-6">
@@ -137,6 +108,18 @@ await fetch('/api/send-sponsor-email', {
             Submit Order (Test Mode)
           </button>
         </form>
+        {showPreview && (
+  <div className="text-center py-12">
+    <h2 className="text-2xl font-bold text-[#263b6c]">Preview Your Brick</h2>
+    <p className="mt-4">This is where the preview will go.</p>
+    <button 
+      onClick={() => setShowPreview(false)}
+      className="mt-6 text-blue-600 underline"
+    >
+      ← Back to edit
+    </button>
+  </div>
+        )}
       </div>
     </div>
   );
