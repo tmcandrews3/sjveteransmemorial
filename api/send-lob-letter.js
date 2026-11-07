@@ -22,7 +22,9 @@ const html = `
   <meta charset="UTF-8">
   <style>
     body { font-family: Arial, Helvetica, sans-serif; padding: 40px; color: #111; line-height: 1.4; }
-    h1 { color: #c43834; font-size: 22px; margin-bottom: 4px; }
+    .header { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
+    .header img { height: 90px; }
+    h1 { color: #c43834; font-size: 22px; margin: 0; }
     .section-title { color: #c43834; font-size: 16px; margin: 24px 0 8px 0; border-bottom: 1px solid #c43834; padding-bottom: 4px; }
     .info-row { margin: 4px 0; }
     .label { font-weight: bold; display: inline-block; width: 90px; }
@@ -32,7 +34,10 @@ const html = `
   </style>
 </head>
 <body>
-  <h1>ST. JAMES VETERANS MEMORIAL - BRICK ORDER</h1>
+  <div class="header">
+    <img src="https://sjveteransmemorial.org/images/american-legion-emblem.png" alt="American Legion">
+    <h1>ST. JAMES VETERANS MEMORIAL - BRICK ORDER</h1>
+  </div>
   <p><strong>Confirmation Number:</strong> ${order.confirmation || 'TEST-001'}</p>
 
   <div class="section-title">SPONSOR INFORMATION</div>

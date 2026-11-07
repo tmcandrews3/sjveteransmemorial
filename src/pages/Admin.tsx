@@ -44,7 +44,7 @@ export default function Admin() {
 
   const topBricksData = {
     labels: ['PAUL LOWE FOSTER', 'THOMAS H GALLIGAN JR', 'RON & LILA ANDERSON', 'TO ALL WHO SERVED', 'ASHLEIGH K DONOVAN', 'MARY JO SCHNEPF', 'JERRY & MISSY DONOVAN', 'CAPE FEAR BLUE STAR'],
-    datasets: [{ label: 'Searches', data: [52, 41, 35, 29, 26, 22, 19, 17], backgroundColor: '#3b82f6' }]
+    datasets: [{ label: 'Searches', data: [52, 41, 35, 29, 26, 22, 19, 17], backgroundColor: '#d45a13' }]
   };
 
   const downloadsTrendData = {

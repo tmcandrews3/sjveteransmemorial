@@ -49,14 +49,20 @@ const orderData = {
 
 await sendToLob(orderData);
   };
-  return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-2xl mx-auto px-6">
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold text-[#263b6c]">St. James Veterans Memorial</h1>
-          <h2 className="text-3xl font-bold text-red-600 mt-2">BUY A BRICK PROGRAM</h2>
-          <p className="text-red-600 font-medium mt-4">TEST MODE</p>
-        </div>
+ return (
+  <div className="min-h-screen bg-gray-50 py-12">
+    <div className="max-w-2xl mx-auto px-6">
+      <div className="text-center mb-10">
+        {/* Add this logo */}
+        <img 
+          src="/images/american-legion-primary.png" 
+          alt="American Legion" 
+          className="h-16 md:h-20 mx-auto mb-6"
+        />
+        <h1 className="text-4xl font-bold text-[#263b6c]">St. James Veterans Memorial</h1>
+        <h2 className="text-3xl font-bold text-red-600 mt-2">BUY A BRICK PROGRAM</h2>
+        <p className="text-red-600 font-medium mt-4">TEST MODE</p>
+      </div>
       {/* Example Bricks */}
 <div className="max-w-3xl mx-auto mb-10 text-center">
   <p className="text-[#263b6c] font-semibold mb-4">Example Bricks</p>
