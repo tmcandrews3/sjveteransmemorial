@@ -84,15 +84,14 @@ await sendToLob(orderData);
         ← Back to edit
       </button>
       <button 
-        type="button"
-        onClick={() => {
-          // Later: trigger GiveButter / Lob / email here
-          alert('Proceed to payment (coming next)');
-        }}
-        className="flex-1 bg-[#e04a38] hover:bg-red-700 text-white py-3 rounded-xl font-medium"
-      >
-        Continue to Payment
-      </button>
+  type="button"
+  onClick={() => {
+    window.location.href = 'https://live.givebutter.com/c/memorial-brick-sales-vdqe3n';
+  }}
+  className="flex-1 bg-[#e04a38] hover:bg-red-700 text-white py-3 rounded-xl font-medium"
+>
+  Continue to Payment
+</button>
     </div>
   </div>
 ) : (
