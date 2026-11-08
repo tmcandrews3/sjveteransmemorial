@@ -55,7 +55,7 @@ await sendToLob(orderData);
     <div className="max-w-2xl mx-auto px-6">
       {showPreview ? (
   <div className="max-w-md mx-auto">
-    <h2 className="text-2xl font-bold text-[#263b6c] text-center mb-6">Preview Your Brick</h2>
+    <h2 className="text-2xl font-bold text-[#263b6c] text-center mb-6">Preview of Your Brick</h2>
     
     {/* Brick Preview */}
     <div className="bg-[#f05f33] text-black rounded-lg p-6 shadow-lg text-center mb-8">
@@ -89,8 +89,9 @@ await sendToLob(orderData);
   const params = new URLSearchParams({
     name: formData.customerName || '',
     email: formData.email || '',
+    amount: '100',
   });
-  window.location.href = `https://live.givebutter.com/c/memorial-brick-sales-vdqe3n?${params.toString()}`;
+  window.location.href = `https://live.givebutter.com/c/memorial-brick-sales-vdqe3n/support?${params.toString()}`;
 }}
   className="flex-1 bg-[#e04a38] hover:bg-red-700 text-white py-3 rounded-xl font-medium"
 >
