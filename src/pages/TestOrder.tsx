@@ -78,7 +78,37 @@ export default function TestOrder() {
     setShowPreview(true);
     await sendToLob(orderData);
   };
-
+if (isSuccess) {
+  return (
+    <div className="max-w-2xl mx-auto text-center py-12 px-6">
+      <div className="bg-green-50 border border-green-200 rounded-2xl p-8 mb-8">
+        <h2 className="text-2xl font-bold text-green-800 mb-3">
+          Your order was successful!
+        </h2>
+        <p className="text-green-700 text-lg">
+          You should receive a copy of your invoice shortly.
+        </p>
+      </div>
+      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <button
+          onClick={() => {
+            window.history.replaceState({}, '', '/test-order');
+            window.location.reload();
+          }}
+          className="bg-[#e04a38] hover:bg-red-700 text-white px-8 py-4 rounded-xl text-lg font-medium"
+        >
+          Order Another Brick
+        </button>
+        <button
+          onClick={() => { window.location.href = '/'; }}
+          className="bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-xl text-lg font-medium"
+        >
+          Done
+        </button>
+      </div>
+    </div>
+  );
+}
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-2xl mx-auto px-6">
