@@ -1,5 +1,9 @@
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
+// inside the component
+const [searchParams] = useSearchParams();
+const isSuccess = searchParams.get('success') === '1';
 export default function TestOrder() {
   const [formData, setFormData] = useState({
     line1: '', line2: '', line3: '', line4: '',
@@ -140,7 +144,41 @@ await sendToLob(orderData);
             <br /><br />
             QUESTIONS? Contact Tom Picinich at 201-218-8753 or tapicinich@ATMC.NET
           </div>
+{isSuccess ? (
+  <div className="max-w-2xl mx-auto text-center py-12 px-6">
+    <div className="bg-green-50 border border-green-200 rounded-2xl p-8 mb-8">
+      <h2 className="text-2xl font-bold text-green-800 mb-3">
+        Your order was successful!
+      </h2>
+      <p className="text-green-700 text-lg">
+        You should receive a copy of your invoice shortly.
+      </p>
+    </div>
 
+    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+      <button
+        onClick={() => {
+          // Clear the success param and keep their info pre-filled
+          // (you'll wire the pre-fill logic next)
+          window.history.replaceState({}, '', '/test-order');
+          // optional: reset only the brick-specific fields, keep name/phone/email
+        }}
+        className="bg-[#e04a38] hover:bg-red-700 text-white px-8 py-4 rounded-xl text-lg font-medium"
+      >
+        Order Another Brick
+      </button>
+
+      <button
+        onClick={() => {
+          window.location.href = '/'; // or whatever the landing page will be
+        }}
+        className="bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-xl text-lg font-medium"
+      >
+        Done
+      </button>
+    </div>
+  </div>
+) : (
           <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-xl p-8 space-y-8">
             <div>
               <h3 className="text-xl font-semibold mb-4">Brick Engraving (at least one line required)</h3>
@@ -195,6 +233,7 @@ await sendToLob(orderData);
               Submit Order (Test Mode)
             </button>
           </form>
+          )}
         </>
       )}
     </div>
