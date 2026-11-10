@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
-const isSuccess = true; // temporary — forces the success view
+
 export default function TestOrder() {
   const [searchParams] = useSearchParams();
   const isSuccess = searchParams.get('success') === '1';
