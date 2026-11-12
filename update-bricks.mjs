@@ -3,11 +3,9 @@ import fs from 'fs';
 const csvFile = 'Memorial-Brick-Customer-List.csv';
 const outputFile = 'public/data/bricks.json';
 
-console.log('Reading CSV file...');
-
 const data = fs.readFileSync(csvFile, 'utf-8');
-const lines = data.trim().split('\n');
-const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+const lines = data.trim().split(/\r?\n/);
+const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, '').replace(/^\uFEFF/, ''));
 
 const bricks = [];
 
@@ -22,38 +20,38 @@ for (let i = 1; i < lines.length; i++) {
   });
 
   const designator = row.DESIGNATOR || '';
-  if (!designator || designator.length < 5) continue;
-
-  if (!row['LINE 1'] || row['LINE 1'] === '0' || row['LINE 1'].length < 2) continue;
+  if (!designator || designator.length < 4) continue;
 
   const side = designator.startsWith('S1') ? 'Right' : 'Left';
 
-  const brickLines = [
-    row['LINE 1'],
-    row.LINE2,
-    row.LINE3,
-    row.LINE4
-  ].filter(l => l && l !== '0' && l.length > 0);
+  const rawLines = [
+    row.LINE1 || '',
+    row.LINE2 || '',
+    row.LINE3 || '',
+    row.LINE4 || ''
+  ];
 
-  if (brickLines.length === 0) continue;
+  const brickLines = rawLines.filter(l => l && l !== '0' && l.length > 0);
+  const isPurchased = brickLines.length > 0;
 
   bricks.push({
     id: designator,
     lines: brickLines,
     sponsor: (row.SPONSOR && row.SPONSOR !== '0') ? row.SPONSOR : '',
-    designator: designator,
-    side: side,
+    designator,
+    side,
     section: parseInt(row.SECT) || 1,
     sectRow: parseInt(row['SECT ROW']) || 1,
-    physicalRow: parseInt(row['ACT ROW']) || 1,
-    purchased: true
+    purchased: isPurchased,
+    searchText: isPurchased
+      ? [...brickLines, row.SPONSOR || '', designator].filter(Boolean).join(' ')
+      : designator
   });
 }
 
 bricks.sort((a, b) => a.designator.localeCompare(b.designator));
 
 fs.writeFileSync(outputFile, JSON.stringify(bricks, null, 2));
-
-console.log(`✅ Success! Created ${bricks.length} clean bricks.`);
-console.log(`First: ${bricks[0]?.designator}`);
-console.log(`Last: ${bricks[bricks.length-1]?.designator}`);
+console.log(`✅ Created ${bricks.length} bricks → ${outputFile}`);
+console.log(`Purchased: ${bricks.filter(b => b.purchased).length}`);
+console.log(`Available: ${bricks.filter(b => !b.purchased).length}`);

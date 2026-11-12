@@ -75,7 +75,34 @@ export default async function handler(req, res) {
         html,
       }),
     });
+// Notification email to Tom & George
+const notifyHtml = `
+  <h2>New Brick Order Received</h2>
+  <p><strong>Payment to GiveButter successful.</strong><br>
+  <strong>Letter in the mail to Tom Picinich.</strong></p>
+  <hr>
+  <p><strong>Sponsor:</strong> ${order.name || ''}<br>
+  <strong>Phone:</strong> ${order.phone || ''}<br>
+  <strong>Email:</strong> ${order.email || ''}<br>
+  <strong>Address:</strong> ${order.address || 'N/A'}</p>
+  <p><strong>Brick Inscription:</strong><br>
+  ${lines.map(line => line).join('<br>')}</p>
+  <p><strong>Confirmation:</strong> ${order.confirmation || ''}</p>
+`;
 
+await fetch('https://api.resend.com/emails', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${RESEND_API_KEY}`,
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    from: 'onboarding@resend.dev',
+    to: ['tmcandrews3@gmail.com', 'gforce2730@gmail.com'],
+    subject: `New Brick Order – ${order.name || 'Unknown'}`,
+    html: notifyHtml,
+  }),
+});
     const data = await response.json();
     return res.status(200).json({ success: true, data });
   } catch (err) {
