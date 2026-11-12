@@ -81,14 +81,14 @@ export default function TestOrder() {
 if (isSuccess) {
   return (
     <div className="max-w-2xl mx-auto text-center py-12 px-6">
-      <div className="bg-green-50 border border-green-200 rounded-2xl p-8 mb-8">
-        <h2 className="text-2xl font-bold text-green-800 mb-3">
-          Your order was successful!
-        </h2>
-        <p className="text-green-700 text-lg">
-          You should receive a copy of your invoice shortly.
-        </p>
-      </div>
+      <div className="bg-[#f8f9fa] border border-[#263b6c] rounded-2xl p-8 mb-8">
+       <h2 className="text-2xl font-bold text-[#263b6c] mb-3">
+    Your order was successful!
+      </h2>
+  <p className="text-[#263b6c] text-lg">
+    You should receive a copy of your invoice shortly.
+    </p>
+    </div>
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <button
           onClick={() => {
