@@ -1,9 +1,14 @@
 import { useState, type ChangeEvent, useEffect, type FormEvent } from 'react';
-import { useSearchParams } from 'react-router-dom';
 
 export default function TestOrder() {
-  const [searchParams] = useSearchParams();
-  const isSuccess = searchParams.get('success') === '1';
+  const [isSuccess, setIsSuccess] = useState(false);
+
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('success') === '1') {
+    setIsSuccess(true);
+  }
+}, []);
 
   const [formData, setFormData] = useState({
     line1: '',
@@ -19,22 +24,30 @@ export default function TestOrder() {
     email: '',
   });
 
-  // 1. Save the form every time it changes
-  useEffect(() => {
-    sessionStorage.setItem('brickOrderForm', JSON.stringify(formData));
-  }, [formData]);
+// 1. Save the form every time it changes
+useEffect(() => {
+  sessionStorage.setItem('brickOrderForm', JSON.stringify(formData));
+}, [formData]);
 
-  // 2. Restore the form when the page loads
-  useEffect(() => {
-    const saved = sessionStorage.getItem('brickOrderForm');
-    if (saved) {
-      try {
-        setFormData(JSON.parse(saved));
-      } catch (e) {
-        console.error('Could not restore form', e);
-      }
+// 2. Restore the form when the page loads
+useEffect(() => {
+  const saved = sessionStorage.getItem('brickOrderForm');
+  if (saved) {
+    try {
+      setFormData(JSON.parse(saved));
+    } catch (e) {
+      console.error('Could not restore form', e);
     }
-  }, []);
+  }
+}, []);
+
+// 3. Clear saved form after successful order
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('success') === '1') {
+    sessionStorage.removeItem('brickOrderForm');
+  }
+}, []);
 
   const [showPreview, setShowPreview] = useState(false);
 
@@ -98,7 +111,6 @@ export default function TestOrder() {
 if (isSuccess) {
   return (
     <div className="max-w-2xl mx-auto text-center py-12 px-6">
-      {/* Logo */}
       <div className="mb-8">
         <img
           src="/images/american-legion-primary.png"
@@ -119,15 +131,24 @@ if (isSuccess) {
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <button
           onClick={() => {
-            window.history.replaceState({}, '', '/test-order');
-            window.location.reload();
+            setFormData(prev => ({
+              ...prev,
+              line1: '',
+              line2: '',
+              line3: '',
+              line4: '',
+            }));
+            setIsSuccess(false);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           className="bg-[#e04a38] hover:bg-red-700 text-white px-8 py-4 rounded-xl text-lg font-medium"
         >
           Order Another Brick
         </button>
+
         <button
           onClick={() => {
+            sessionStorage.removeItem('brickOrderForm');
             window.location.href = '/';
           }}
           className="bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-xl text-lg font-medium"
