@@ -81,14 +81,24 @@ export default function TestOrder() {
 if (isSuccess) {
   return (
     <div className="max-w-2xl mx-auto text-center py-12 px-6">
+      {/* Logo */}
+      <div className="mb-8">
+        <img 
+          src="/images/american-legion-primary.png" 
+          alt="American Legion" 
+          className="h-16 md:h-20 mx-auto"
+        />
+      </div>
+
       <div className="bg-[#f8f9fa] border border-[#263b6c] rounded-2xl p-8 mb-8">
-       <h2 className="text-2xl font-bold text-[#263b6c] mb-3">
-    Your order was successful!
-      </h2>
-  <p className="text-[#263b6c] text-lg">
-    You should receive a copy of your invoice shortly.
-    </p>
-    </div>
+        <h2 className="text-2xl font-bold text-[#263b6c] mb-3">
+          Your order was successful!
+        </h2>
+        <p className="text-[#263b6c] text-lg">
+          You should receive a copy of your invoice shortly.
+        </p>
+      </div>
+
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <button
           onClick={() => {
@@ -202,7 +212,22 @@ if (isSuccess) {
                   <input name="zip" placeholder="Zip (optional)" onChange={handleChange} className="w-full p-4 border rounded-xl" />
                 </div>
               </div>
-
+<footer className="bg-white border-t border-gray-200 py-12 text-center text-[#263b6c]">
+  <div className="max-w-7xl mx-auto px-6">
+    <div>Veterans Memorial • Richard H. Stewart, Jr. Post 543 • St. James, NC 28461</div>
+    <div className="mt-3">
+      For questions or to report issues, please visit our{" "}
+      <a 
+        href="https://ncpost543.org/contact-2/" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="text-[#e04a38] hover:underline"
+      >
+        Contact Page
+      </a>
+    </div>
+  </div>
+</footer>
               <button
                 type="submit"
                 className="w-full bg-[#e04a38] hover:bg-red-700 text-white font-medium py-5 rounded-2xl text-xl transition-all"
