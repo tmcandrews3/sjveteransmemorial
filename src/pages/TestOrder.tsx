@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type FormEvent } from 'react';
+import { useState, type ChangeEvent, useEffect, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 export default function TestOrder() {
@@ -18,6 +18,23 @@ export default function TestOrder() {
     zip: '',
     email: '',
   });
+
+  // 1. Save the form every time it changes
+  useEffect(() => {
+    sessionStorage.setItem('brickOrderForm', JSON.stringify(formData));
+  }, [formData]);
+
+  // 2. Restore the form when the page loads
+  useEffect(() => {
+    const saved = sessionStorage.getItem('brickOrderForm');
+    if (saved) {
+      try {
+        setFormData(JSON.parse(saved));
+      } catch (e) {
+        console.error('Could not restore form', e);
+      }
+    }
+  }, []);
 
   const [showPreview, setShowPreview] = useState(false);
 
