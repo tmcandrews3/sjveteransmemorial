@@ -83,9 +83,9 @@ if (isSuccess) {
     <div className="max-w-2xl mx-auto text-center py-12 px-6">
       {/* Logo */}
       <div className="mb-8">
-        <img 
-          src="/images/american-legion-primary.png" 
-          alt="American Legion" 
+        <img
+          src="/images/american-legion-primary.png"
+          alt="American Legion"
           className="h-16 md:h-20 mx-auto"
         />
       </div>
@@ -110,7 +110,9 @@ if (isSuccess) {
           Order Another Brick
         </button>
         <button
-          onClick={() => { window.location.href = '/'; }}
+          onClick={() => {
+            window.location.href = '/';
+          }}
           className="bg-gray-700 hover:bg-gray-600 text-white px-8 py-4 rounded-xl text-lg font-medium"
         >
           Done
@@ -119,7 +121,18 @@ if (isSuccess) {
     </div>
   );
 }
-  return (
+
+return (
+  <div className="min-h-screen bg-white text-[#263b6c]">
+    {/* Logo */}
+    <div className="text-center pt-8 pb-4">
+      <img
+        src="/images/american-legion-primary.png"
+        alt="American Legion"
+        className="h-16 md:h-20 mx-auto"
+      />
+    </div>
+
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-2xl mx-auto px-6">
         {showPreview ? (
@@ -212,22 +225,7 @@ if (isSuccess) {
                   <input name="zip" placeholder="Zip (optional)" onChange={handleChange} className="w-full p-4 border rounded-xl" />
                 </div>
               </div>
-<footer className="bg-white border-t border-gray-200 py-12 text-center text-[#263b6c]">
-  <div className="max-w-7xl mx-auto px-6">
-    <div>Veterans Memorial • Richard H. Stewart, Jr. Post 543 • St. James, NC 28461</div>
-    <div className="mt-3">
-      For questions or to report issues, please visit our{" "}
-      <a 
-        href="https://ncpost543.org/contact-2/" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="text-[#e04a38] hover:underline"
-      >
-        Contact Page
-      </a>
-    </div>
-  </div>
-</footer>
+
               <button
                 type="submit"
                 className="w-full bg-[#e04a38] hover:bg-red-700 text-white font-medium py-5 rounded-2xl text-xl transition-all"
@@ -235,9 +233,27 @@ if (isSuccess) {
                 Submit Order (Test Mode)
               </button>
             </form>
+
+            <footer className="bg-white border-t border-gray-200 py-12 text-center text-[#263b6c]">
+              <div className="max-w-7xl mx-auto px-6">
+                <div>Veterans Memorial • Richard H. Stewart, Jr. Post 543 • St. James, NC 28461</div>
+                <div className="mt-3">
+                  For questions or to report issues, please visit our{' '}
+                  <a
+                    href="https://ncpost543.org/contact-2/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#e04a38] hover:underline"
+                  >
+                    Contact Page
+                  </a>
+                </div>
+              </div>
+            </footer>
           </>
         )}
       </div>
     </div>
-  );
+  </div>
+);
 }
