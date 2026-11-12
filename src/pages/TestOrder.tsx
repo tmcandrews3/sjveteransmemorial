@@ -222,24 +222,92 @@ return (
             <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-xl p-8 space-y-8">
               <div>
                 <h3 className="text-xl font-semibold mb-4">Brick Engraving (at least one line required)</h3>
-                <input name="line1" placeholder="Line 1" onChange={handleChange} className="w-full p-4 border rounded-xl" />
-                <input name="line2" placeholder="Line 2" onChange={handleChange} className="w-full p-4 border rounded-xl mt-3" />
-                <input name="line3" placeholder="Line 3" onChange={handleChange} className="w-full p-4 border rounded-xl mt-3" />
-                <input name="line4" placeholder="Line 4" onChange={handleChange} className="w-full p-4 border rounded-xl mt-3" />
+<input 
+  name="line1" 
+  placeholder="Line 1" 
+  value={formData.line1} 
+  onChange={handleChange} 
+  className="w-full p-4 border rounded-xl" 
+/>
+<input 
+  name="line2" 
+  placeholder="Line 2" 
+  value={formData.line2} 
+  onChange={handleChange} 
+  className="w-full p-4 border rounded-xl mt-3" 
+/>
+<input 
+  name="line3" 
+  placeholder="Line 3" 
+  value={formData.line3} 
+  onChange={handleChange} 
+  className="w-full p-4 border rounded-xl mt-3" 
+/>
+<input 
+  name="line4" 
+  placeholder="Line 4" 
+  value={formData.line4} 
+  onChange={handleChange} 
+  className="w-full p-4 border rounded-xl mt-3" 
+/>
               </div>
 
               <div>
                 <h3 className="text-xl font-semibold mb-4">Your Information (required)</h3>
-                <input name="customerName" placeholder="Full Name" required onChange={handleChange} className="w-full p-4 border rounded-xl" />
-                <input name="phone" placeholder="Phone" required onChange={handleChange} className="w-full p-4 border rounded-xl mt-3" />
-                <input name="email" type="email" placeholder="Email" required onChange={handleChange} className="w-full p-4 border rounded-xl mt-3" />
+                <input
+                  name="customerName"
+                  placeholder="Full Name"
+                  value={formData.customerName}
+                  onChange={handleChange}
+                  className="w-full p-4 border rounded-xl"
+                />
+                <input
+                  name="phone"
+                  placeholder="Phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full p-4 border rounded-xl mt-3"
+                />
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full p-4 border rounded-xl mt-3"
+                />
 
                 <div className="mt-6 text-sm text-gray-500">Mailing address is optional but helpful</div>
-                <input name="address" placeholder="Address (optional)" onChange={handleChange} className="w-full p-4 border rounded-xl mt-3" />
+                <input
+                  name="address"
+                  type="text"
+                  placeholder="Address (optional)"
+                  value={formData.address}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl mt-3"
+                />
                 <div className="grid grid-cols-3 gap-4 mt-3">
-                  <input name="city" placeholder="City (optional)" onChange={handleChange} className="w-full p-4 border rounded-xl" />
-                  <input name="state" placeholder="State (optional)" onChange={handleChange} className="w-full p-4 border rounded-xl" />
-                  <input name="zip" placeholder="Zip (optional)" onChange={handleChange} className="w-full p-4 border rounded-xl" />
+                  <input
+                    name="city"
+                    placeholder="City"
+                    value={formData.city}
+                    onChange={handleChange}
+                    className="w-full p-4 border rounded-xl"
+                  />
+                  <input
+                    name="state"
+                    placeholder="State"
+                    value={formData.state}
+                    onChange={handleChange}
+                    className="w-full p-4 border rounded-xl"
+                  />
+                  <input
+                    name="zip"
+                    placeholder="Zip"
+                    value={formData.zip}
+                    onChange={handleChange}
+                    className="w-full p-4 border rounded-xl"
+                  />
                 </div>
               </div>
 
