@@ -79,41 +79,57 @@ setTimeout(() => {
   };
 
   if (isSuccess) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center p-6">
-        <div className="max-w-lg text-center">
-          <h1 className="text-3xl font-bold text-[#c43834] mb-4">Order Successful!</h1>
-          <p className="text-lg text-[#263b6c] mb-6">
-            Your order was successful! You should receive a copy of your invoice shortly.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-  onClick={() => {
-    setIsSuccess(false);
-    setShowPreview(false);
-    setFormData({
-      customerName: '',
-      phone: '',
-      email: '',
-      address: '',
-      city: '',
-      state: '',
-      zip: '',
-      line1: '',
-      line2: '',
-      line3: '',
-      line4: '',
-    });
-  }}
-  className="border border-gray-300 px-8 py-3 rounded-xl font-medium"
->
-  Done
-</button>
-          </div>
+  return (
+    <div className="min-h-screen bg-white flex items-center justify-center p-6">
+      <div className="max-w-lg text-center">
+        <h1 className="text-3xl font-bold text-[#c43834] mb-4">Order Successful!</h1>
+        <p className="text-lg text-[#263b6c] mb-6">
+          Your order was successful! You should receive a copy of your invoice shortly.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            onClick={() => {
+              setIsSuccess(false);
+              setShowPreview(false);
+              setFormData(prev => ({
+                ...prev,
+                line1: '',
+                line2: '',
+                line3: '',
+                line4: '',
+              }));
+            }}
+            className="bg-[#c43834] text-white px-8 py-3 rounded-xl font-medium"
+          >
+            Order Another Brick
+          </button>
+          <button
+            onClick={() => {
+              setIsSuccess(false);
+              setShowPreview(false);
+              setFormData({
+                customerName: '',
+                phone: '',
+                email: '',
+                address: '',
+                city: '',
+                state: '',
+                zip: '',
+                line1: '',
+                line2: '',
+                line3: '',
+                line4: '',
+              });
+            }}
+            className="border border-gray-300 px-8 py-3 rounded-xl font-medium"
+          >
+            Done
+          </button>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   return (
     <div className="min-h-screen bg-gray-50 text-[#263b6c]">
