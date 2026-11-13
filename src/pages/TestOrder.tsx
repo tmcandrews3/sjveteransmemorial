@@ -110,71 +110,68 @@ export default function TestOrder() {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-white text-[#263b6c]">
-      <div className="max-w-2xl mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold text-center text-[#c43834] mb-8">
-          Brick Order Form
-        </h1>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Brick Lines */}
-          <div>
-            <label className="block font-semibold mb-1">Line 1</label>
-            <input name="line1" value={formData.line1} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
+return (
+  <div className="min-h-screen bg-white text-[#263b6c]">
+    {/* Header */}
+    <div className="bg-white border-b-4 border-[#e04a38]">
+      <div className="max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
+        <a href="https://ncpost543.org" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
+          <img
+            src="/images/american-legion-emblem.png"
+            alt="American Legion"
+            className="h-14 md:h-20"
+          />
+        </a>
+        <div className="text-center flex-1 px-4">
+          <div className="text-[#e04a38] text-xl md:text-3xl font-bold tracking-widest">
+            Richard H. Stewart, Jr. Post 543
           </div>
-          <div>
-            <label className="block font-semibold mb-1">Line 2</label>
-            <input name="line2" value={formData.line2} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
+          <div className="text-[#e04a38] text-sm md:text-lg font-bold tracking-widest">
+            St. James, NC 28461
           </div>
-          <div>
-            <label className="block font-semibold mb-1">Line 3</label>
-            <input name="line3" value={formData.line3} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
-          </div>
-          <div>
-            <label className="block font-semibold mb-1">Line 4</label>
-            <input name="line4" value={formData.line4} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
-          </div>
-
-          {/* Sponsor Info */}
-          <div className="pt-4 border-t">
-            <h2 className="text-xl font-semibold text-[#c43834] mb-4">Your Information</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block font-semibold mb-1">Name *</label>
-                <input name="customerName" value={formData.customerName} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" required />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Phone *</label>
-                <input name="phone" value={formData.phone} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" required />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Email *</label>
-                <input name="email" type="email" value={formData.email} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" required />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Address</label>
-                <input name="address" value={formData.address} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
-              </div>
-              <div className="grid grid-cols-3 gap-3">
-                <input name="city" placeholder="City" value={formData.city} onChange={handleChange} className="border rounded-lg px-4 py-2" />
-                <input name="state" placeholder="State" value={formData.state} onChange={handleChange} className="border rounded-lg px-4 py-2" />
-                <input name="zip" placeholder="Zip" value={formData.zip} onChange={handleChange} className="border rounded-lg px-4 py-2" />
-              </div>
-            </div>
-          </div>
-
-          <button type="submit" className="w-full bg-[#c43834] text-white py-4 rounded-xl text-lg font-semibold mt-6">
-            Submit Order
-          </button>
-        </form>
-
-        {showPreview && (
-          <div className="mt-8 p-4 bg-gray-50 rounded-lg text-sm">
-            Preview sent to Lob (check dashboard).
-          </div>
-        )}
+        </div>
+        <a
+          href="https://ncpost543.org"
+          className="bg-[#e04a38] hover:bg-red-700 text-white px-5 md:px-8 py-2.5 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap"
+        >
+          Home
+        </a>
       </div>
     </div>
-  );
-}
+
+    {/* Main Form */}
+    <div className="max-w-2xl mx-auto px-4 py-10">
+      <h1 className="text-3xl font-bold text-center text-[#c43834] mb-8">
+        Brick Order Form
+      </h1>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* ... keep all your existing form fields exactly as they are ... */}
+      </form>
+
+      {showPreview && (
+        <div className="mt-8 p-4 bg-gray-50 rounded-lg text-sm">
+          Preview sent to Lob (check dashboard).
+        </div>
+      )}
+    </div>
+
+    {/* Footer */}
+    <footer className="bg-white border-t border-gray-200 py-12 text-center text-[#263b6c] mt-12">
+      <div className="max-w-7xl mx-auto px-6">
+        <div>Veterans Memorial • Richard H. Stewart, Jr. Post 543 • St. James, NC 28461</div>
+        <div className="mt-3">
+          For questions or to report issues, please visit our{" "}
+          <a
+            href="https://ncpost543.org/contact-2/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#e04a38] hover:underline"
+          >
+            Contact Page
+          </a>
+        </div>
+      </div>
+    </footer>
+  </div>
+);
