@@ -236,39 +236,42 @@ setTimeout(() => {
         </form>
 
         {showPreview && !isSuccess && (
-          <div id="preview-section" className="mt-8 bg-white rounded-3xl shadow-xl p-8 border-2 border-[#c43834]">
-            <h3 className="text-2xl font-bold text-[#263b6c] mb-4">Order Preview</h3>
-            <div className="bg-gray-50 p-6 rounded-xl mb-6 text-sm">
-              <p className="font-semibold">Brick Inscription:</p>
-              <p>{formData.line1 || '—'}</p>
-              <p>{formData.line2 || '—'}</p>
-              <p>{formData.line3 || '—'}</p>
-              <p>{formData.line4 || '—'}</p>
-              <p className="mt-4 font-semibold">Sponsor:</p>
-              <p>{formData.customerName}</p>
-              <p>{formData.phone}</p>
-              <p>{formData.email}</p>
-              {formData.address && <p>{formData.address}, {formData.city} {formData.state} {formData.zip}</p>}
-            </div>
-            <div className="flex gap-4">
-              <button
-                type="button"
-                onClick={confirmAndSend}
-                className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-semibold"
-              >
-                Submit
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowPreview(false)}
-                className="flex-1 border border-gray-300 py-3 rounded-xl"
-              >
-                Edit
-              </button>
-            </div>
-          </div>
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+    <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-lg w-full max-h-[90vh] overflow-auto">
+      <h3 className="text-2xl font-bold text-[#263b6c] mb-4">Order Preview</h3>
+      
+      <div className="bg-gray-50 p-6 rounded-xl mb-6 text-sm">
+        <p className="font-semibold">Brick Inscription:</p>
+        <p>{formData.line1 || '—'}</p>
+        <p>{formData.line2 || '—'}</p>
+        <p>{formData.line3 || '—'}</p>
+        <p>{formData.line4 || '—'}</p>
+        <p className="mt-4 font-semibold">Sponsor:</p>
+        <p>{formData.customerName}</p>
+        <p>{formData.phone}</p>
+        <p>{formData.email}</p>
+        {formData.address && (
+          <p>{formData.address}, {formData.city} {formData.state} {formData.zip}</p>
         )}
       </div>
+
+      <div className="flex gap-4">
+        <button
+          onClick={confirmAndSend}
+          className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-semibold"
+        >
+          Submit
+        </button>
+        <button
+          onClick={() => setShowPreview(false)}
+          className="flex-1 border border-gray-300 py-3 rounded-xl"
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
       <footer className="bg-white border-t border-gray-200 py-12 text-center text-[#263b6c] mt-12">
         <div className="max-w-7xl mx-auto px-6">
@@ -281,6 +284,7 @@ setTimeout(() => {
           </div>
         </div>
       </footer>
+    </div>
     </div>
   );
 }
