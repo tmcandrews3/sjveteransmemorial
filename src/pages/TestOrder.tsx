@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, useEffect, type FormEvent } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
 
 export default function TestOrder() {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -10,51 +10,53 @@ useEffect(() => {
   }
 }, []);
 
-  const [formData, setFormData] = useState({
-    line1: '',
-    line2: '',
-    line3: '',
-    line4: '',
-    customerName: '',
-    phone: '',
-    address: '',
-    city: '',
-    state: '',
-    zip: '',
-    email: '',
-  });
+const [formData, setFormData] = useState({
+  customerName: '',
+  phone: '',
+  email: '',
+  address: '',
+  city: '',
+  state: '',
+  zip: '',
+  line1: '',
+  line2: '',
+  line3: '',
+  line4: '',
+});
 
-// 1. Save the form every time it changes
-useEffect(() => {
-  sessionStorage.setItem('brickOrderForm', JSON.stringify(formData));
-}, [formData]);
-
-// 2. Restore the form when the page loads
+// Restore once on load (run first)
 useEffect(() => {
   const saved = sessionStorage.getItem('brickOrderForm');
   if (saved) {
     try {
-      setFormData(JSON.parse(saved));
+      const parsed = JSON.parse(saved);
+      console.log('Restored formData:', parsed);
+      setFormData(parsed);
     } catch (e) {
-      console.error('Could not restore form', e);
+      console.error('Restore failed', e);
     }
   }
 }, []);
 
-// 3. Clear saved form after successful order
+// Save every change (skip the initial empty state)
 useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('success') === '1') {
-    sessionStorage.removeItem('brickOrderForm');
-  }
-}, []);
+  // Don't save if everything is still empty
+  if (!formData.customerName && !formData.phone && !formData.email) return;
+
+  sessionStorage.setItem('brickOrderForm', JSON.stringify(formData));
+  console.log('Saved to storage:', formData);
+}, [formData]);
 
   const [showPreview, setShowPreview] = useState(false);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const { name, value } = e.target;
+  console.log('Saving:', name, value);
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+};
 
   const isValid = () => {
     return (
@@ -129,23 +131,34 @@ if (isSuccess) {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        {/* Order Another Brick */}
         <button
-          onClick={() => {
-            setFormData(prev => ({
-              ...prev,
-              line1: '',
-              line2: '',
-              line3: '',
-              line4: '',
-            }));
-            setIsSuccess(false);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-          className="bg-[#e04a38] hover:bg-red-700 text-white px-8 py-4 rounded-xl text-lg font-medium"
-        >
-          Order Another Brick
-        </button>
-
+  onClick={() => {
+    const raw = sessionStorage.getItem('brickOrderForm');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      setFormData({
+        customerName: parsed.customerName || '',
+        phone: parsed.phone || '',
+        email: parsed.email || '',
+        address: parsed.address || '',
+        city: parsed.city || '',
+        state: parsed.state || '',
+        zip: parsed.zip || '',
+        line1: '',
+        line2: '',
+        line3: '',
+        line4: '',
+      });
+    }
+    setIsSuccess(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }}
+  className="bg-[#e04a38] hover:bg-red-700 text-white px-8 py-4 rounded-xl text-lg font-medium"
+>
+  Order Another Brick
+</button>
+        {/* Done */}
         <button
           onClick={() => {
             sessionStorage.removeItem('brickOrderForm');
