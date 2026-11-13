@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import BrickFinder from './pages/BrickFinder';
 import Admin from './pages/Admin';
-import TestOrder from './pages/TestOrder';   // ← Add this line
+import TestOrder from './pages/TestOrder';
 
 function App() {
   return (
