@@ -38,42 +38,42 @@ export default function TestOrder() {
     }
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const isValid =
-    formData.customerName &&
-    formData.phone &&
-    formData.email &&
-    (formData.line1 || formData.line2 || formData.line3 || formData.line4);
+    const isValid =
+      formData.customerName &&
+      formData.phone &&
+      formData.email &&
+      (formData.line1 || formData.line2 || formData.line3 || formData.line4);
 
-  if (!isValid) {
-    alert('Please fill in your name, phone, email, and at least one brick line.');
-    return;
-  }
+    if (!isValid) {
+      alert('Please fill in your name, phone, email, and at least one brick line.');
+      return;
+    }
 
-  console.log('Order Submitted:', formData);
-  setShowPreview(true);   // Show preview first
-};
+    console.log('Order Submitted:', formData);
+    setShowPreview(true);
+  };
 
-const confirmAndSend = async () => {
-  await sendToLob({
-    customerName: formData.customerName,
-    phone: formData.phone,
-    email: formData.email,
-    address: formData.address,
-    city: formData.city,
-    state: formData.state,
-    zip: formData.zip,
-    line1: formData.line1,
-    line2: formData.line2,
-    line3: formData.line3,
-    line4: formData.line4,
-    confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
-  });
+  const confirmAndSend = async () => {
+    await sendToLob({
+      customerName: formData.customerName,
+      phone: formData.phone,
+      email: formData.email,
+      address: formData.address,
+      city: formData.city,
+      state: formData.state,
+      zip: formData.zip,
+      line1: formData.line1,
+      line2: formData.line2,
+      line3: formData.line3,
+      line4: formData.line4,
+      confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
+    });
 
-  setIsSuccess(true);
-};
+    setIsSuccess(true);
+  };
 
   if (isSuccess) {
     return (
@@ -145,14 +145,12 @@ const confirmAndSend = async () => {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-10">
-        {/* Titles */}
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold text-[#263b6c]">St. James Veterans Memorial</h1>
           <h2 className="text-3xl font-bold text-red-600 mt-2">BUY A BRICK PROGRAM</h2>
           <p className="text-red-600 font-medium mt-4">TEST MODE</p>
         </div>
 
-        {/* Example Bricks */}
         <div className="mb-10 text-center">
           <p className="text-[#263b6c] font-semibold mb-4">Example Bricks</p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
@@ -175,7 +173,6 @@ const confirmAndSend = async () => {
           </div>
         </div>
 
-        {/* Notes */}
         <div className="bg-white rounded-3xl shadow-xl p-8 mb-8 text-sm leading-relaxed text-gray-700">
           You may purchase as many personalized bricks as you wish at $100.00 per brick.
           It could take several months before your brick is installed into the memorial.
@@ -187,7 +184,6 @@ const confirmAndSend = async () => {
           QUESTIONS? Contact Tom Picinich at 201-218-8753 or tapicinich@ATMC.NET
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-xl p-8 space-y-8">
           <div>
             <h3 className="text-xl font-semibold mb-4">Brick Engraving (at least one line required)</h3>
@@ -220,38 +216,38 @@ const confirmAndSend = async () => {
           </button>
         </form>
 
-{showPreview && !isSuccess && (
-  <div className="mt-8 bg-white rounded-3xl shadow-xl p-8">
-    <h3 className="text-2xl font-bold text-[#263b6c] mb-4">Order Preview</h3>
-    <div className="bg-gray-50 p-6 rounded-xl mb-6 text-sm">
-      <p className="font-semibold">Brick Inscription:</p>
-      <p>{formData.line1}</p>
-      <p>{formData.line2}</p>
-      <p>{formData.line3}</p>
-      <p>{formData.line4}</p>
-      <p className="mt-4 font-semibold">Sponsor:</p>
-      <p>{formData.customerName}</p>
-      <p>{formData.phone}</p>
-      <p>{formData.email}</p>
-    </div>
-    <div className="flex gap-4">
-      <button
-        onClick={confirmAndSend}
-        className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-semibold"
-      >
-        Confirm & Send to Lob
-      </button>
-      <button
-        onClick={() => setShowPreview(false)}
-        className="flex-1 border border-gray-300 py-3 rounded-xl"
-      >
-        Edit Order
-      </button>
-    </div>
-  </div>
-)}
+        {showPreview && !isSuccess && (
+          <div className="mt-8 bg-white rounded-3xl shadow-xl p-8">
+            <h3 className="text-2xl font-bold text-[#263b6c] mb-4">Order Preview</h3>
+            <div className="bg-gray-50 p-6 rounded-xl mb-6 text-sm">
+              <p className="font-semibold">Brick Inscription:</p>
+              <p>{formData.line1}</p>
+              <p>{formData.line2}</p>
+              <p>{formData.line3}</p>
+              <p>{formData.line4}</p>
+              <p className="mt-4 font-semibold">Sponsor:</p>
+              <p>{formData.customerName}</p>
+              <p>{formData.phone}</p>
+              <p>{formData.email}</p>
+            </div>
+            <div className="flex gap-4">
+              <button
+                onClick={confirmAndSend}
+                className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-semibold"
+              >
+                Confirm & Send to Lob
+              </button>
+              <button
+                onClick={() => setShowPreview(false)}
+                className="flex-1 border border-gray-300 py-3 rounded-xl"
+              >
+                Edit Order
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
 
-      {/* Footer */}
       <footer className="bg-white border-t border-gray-200 py-12 text-center text-[#263b6c] mt-12">
         <div className="max-w-7xl mx-auto px-6">
           <div>Veterans Memorial • Richard H. Stewart, Jr. Post 543 • St. James, NC 28461</div>
