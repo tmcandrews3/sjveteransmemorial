@@ -54,6 +54,9 @@ export default function TestOrder() {
 
     console.log('Order Submitted:', formData);
     setShowPreview(true);
+setTimeout(() => {
+  document.getElementById('preview-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}, 100);
   };
 
   const confirmAndSend = async () => {
@@ -85,27 +88,27 @@ export default function TestOrder() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              onClick={() => {
-                setIsSuccess(false);
-                setShowPreview(false);
-                setFormData(prev => ({
-                  ...prev,
-                  line1: '',
-                  line2: '',
-                  line3: '',
-                  line4: '',
-                }));
-              }}
-              className="bg-[#c43834] text-white px-8 py-3 rounded-xl font-medium"
-            >
-              Order Another Brick
-            </button>
-            <button
-              onClick={() => window.close()}
-              className="border border-gray-300 px-8 py-3 rounded-xl font-medium"
-            >
-              Done
-            </button>
+  onClick={() => {
+    setIsSuccess(false);
+    setShowPreview(false);
+    setFormData({
+      customerName: '',
+      phone: '',
+      email: '',
+      address: '',
+      city: '',
+      state: '',
+      zip: '',
+      line1: '',
+      line2: '',
+      line3: '',
+      line4: '',
+    });
+  }}
+  className="border border-gray-300 px-8 py-3 rounded-xl font-medium"
+>
+  Done
+</button>
           </div>
         </div>
       </div>
@@ -212,36 +215,39 @@ export default function TestOrder() {
           </div>
 
           <button type="submit" className="w-full bg-[#c43834] hover:bg-red-700 text-white py-4 rounded-xl text-lg font-semibold transition-colors">
-            Submit Order (Test Mode)
+            Preview Order
           </button>
         </form>
 
         {showPreview && !isSuccess && (
-          <div className="mt-8 bg-white rounded-3xl shadow-xl p-8">
+          <div id="preview-section" className="mt-8 bg-white rounded-3xl shadow-xl p-8 border-2 border-[#c43834]">
             <h3 className="text-2xl font-bold text-[#263b6c] mb-4">Order Preview</h3>
             <div className="bg-gray-50 p-6 rounded-xl mb-6 text-sm">
               <p className="font-semibold">Brick Inscription:</p>
-              <p>{formData.line1}</p>
-              <p>{formData.line2}</p>
-              <p>{formData.line3}</p>
-              <p>{formData.line4}</p>
+              <p>{formData.line1 || '—'}</p>
+              <p>{formData.line2 || '—'}</p>
+              <p>{formData.line3 || '—'}</p>
+              <p>{formData.line4 || '—'}</p>
               <p className="mt-4 font-semibold">Sponsor:</p>
               <p>{formData.customerName}</p>
               <p>{formData.phone}</p>
               <p>{formData.email}</p>
+              {formData.address && <p>{formData.address}, {formData.city} {formData.state} {formData.zip}</p>}
             </div>
             <div className="flex gap-4">
               <button
+                type="button"
                 onClick={confirmAndSend}
                 className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-semibold"
               >
-                Confirm & Send to Lob
+                Submit
               </button>
               <button
+                type="button"
                 onClick={() => setShowPreview(false)}
                 className="flex-1 border border-gray-300 py-3 rounded-xl"
               >
-                Edit Order
+                Edit
               </button>
             </div>
           </div>
