@@ -38,40 +38,42 @@ export default function TestOrder() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    const isValid =
-      formData.customerName &&
-      formData.phone &&
-      formData.email &&
-      (formData.line1 || formData.line2 || formData.line3 || formData.line4);
+  const isValid =
+    formData.customerName &&
+    formData.phone &&
+    formData.email &&
+    (formData.line1 || formData.line2 || formData.line3 || formData.line4);
 
-    if (!isValid) {
-      alert('Please fill in your name, phone, email, and at least one brick line.');
-      return;
-    }
+  if (!isValid) {
+    alert('Please fill in your name, phone, email, and at least one brick line.');
+    return;
+  }
 
-    console.log('Order Submitted:', formData);
-    setShowPreview(true);
+  console.log('Order Submitted:', formData);
+  setShowPreview(true);   // Show preview first
+};
 
-    await sendToLob({
-      customerName: formData.customerName,
-      phone: formData.phone,
-      email: formData.email,
-      address: formData.address,
-      city: formData.city,
-      state: formData.state,
-      zip: formData.zip,
-      line1: formData.line1,
-      line2: formData.line2,
-      line3: formData.line3,
-      line4: formData.line4,
-      confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
-    });
+const confirmAndSend = async () => {
+  await sendToLob({
+    customerName: formData.customerName,
+    phone: formData.phone,
+    email: formData.email,
+    address: formData.address,
+    city: formData.city,
+    state: formData.state,
+    zip: formData.zip,
+    line1: formData.line1,
+    line2: formData.line2,
+    line3: formData.line3,
+    line4: formData.line4,
+    confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
+  });
 
-    setIsSuccess(true);
-  };
+  setIsSuccess(true);
+};
 
   if (isSuccess) {
     return (
@@ -218,12 +220,36 @@ export default function TestOrder() {
           </button>
         </form>
 
-        {showPreview && (
-          <div className="mt-8 p-4 bg-green-50 border border-green-200 rounded-lg text-sm text-green-800">
-            Order sent to Lob. Check your Lob dashboard for the letter.
-          </div>
-        )}
-      </div>
+{showPreview && !isSuccess && (
+  <div className="mt-8 bg-white rounded-3xl shadow-xl p-8">
+    <h3 className="text-2xl font-bold text-[#263b6c] mb-4">Order Preview</h3>
+    <div className="bg-gray-50 p-6 rounded-xl mb-6 text-sm">
+      <p className="font-semibold">Brick Inscription:</p>
+      <p>{formData.line1}</p>
+      <p>{formData.line2}</p>
+      <p>{formData.line3}</p>
+      <p>{formData.line4}</p>
+      <p className="mt-4 font-semibold">Sponsor:</p>
+      <p>{formData.customerName}</p>
+      <p>{formData.phone}</p>
+      <p>{formData.email}</p>
+    </div>
+    <div className="flex gap-4">
+      <button
+        onClick={confirmAndSend}
+        className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-semibold"
+      >
+        Confirm & Send to Lob
+      </button>
+      <button
+        onClick={() => setShowPreview(false)}
+        className="flex-1 border border-gray-300 py-3 rounded-xl"
+      >
+        Edit Order
+      </button>
+    </div>
+  </div>
+)}
 
       {/* Footer */}
       <footer className="bg-white border-t border-gray-200 py-12 text-center text-[#263b6c] mt-12">
