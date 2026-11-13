@@ -111,7 +111,7 @@ export default function TestOrder() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-[#263b6c]">
+    <div className="min-h-screen bg-gray-50 text-[#263b6c]">
       {/* Header */}
       <div className="bg-white border-b-4 border-[#e04a38]">
         <div className="max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
@@ -122,13 +122,16 @@ export default function TestOrder() {
               className="h-14 md:h-20"
             />
           </a>
-          <div className="text-center flex-1 px-4">
+          <div className="text-center flex-1 px-4 hidden sm:block">
             <div className="text-[#e04a38] text-xl md:text-3xl font-bold tracking-widest">
               Richard H. Stewart, Jr. Post 543
             </div>
             <div className="text-[#e04a38] text-sm md:text-lg font-bold tracking-widest">
               St. James, NC 28461
             </div>
+          </div>
+          <div className="text-center flex-1 px-4 sm:hidden">
+            <div className="text-[#e04a38] text-lg font-bold tracking-widest">Post 543</div>
           </div>
           <a
             href="https://ncpost543.org"
@@ -139,65 +142,85 @@ export default function TestOrder() {
         </div>
       </div>
 
-      {/* Form */}
-      <div className="max-w-2xl mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold text-center text-[#c43834] mb-8">
-          Brick Order Form
-        </h1>
+      <div className="max-w-3xl mx-auto px-4 py-10">
+        {/* Titles */}
+        <div className="text-center mb-10">
+          <h1 className="text-4xl font-bold text-[#263b6c]">St. James Veterans Memorial</h1>
+          <h2 className="text-3xl font-bold text-red-600 mt-2">BUY A BRICK PROGRAM</h2>
+          <p className="text-red-600 font-medium mt-4">TEST MODE</p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block font-semibold mb-1">Line 1</label>
-            <input name="line1" value={formData.line1} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
+        {/* Example Bricks */}
+        <div className="mb-10 text-center">
+          <p className="text-[#263b6c] font-semibold mb-4">Example Bricks</p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <div className="bg-[#f05f33] text-black rounded-lg p-6 w-full max-w-xs shadow-lg">
+              <div className="font-bold text-lg leading-tight">
+                SGT. JAMES R. THOMPSON<br />
+                U.S. ARMY<br />
+                1967–1969<br />
+                VIETNAM VETERAN
+              </div>
+            </div>
+            <div className="bg-[#f05f33] text-black rounded-lg p-6 w-full max-w-xs shadow-lg">
+              <div className="font-bold text-lg leading-tight">
+                IN HONOR OF<br />
+                CPL. LINDA M. JOHNSON<br />
+                US ARMY NURSE CORPS<br />
+                THANK YOU FOR YOUR SERVICE
+              </div>
+            </div>
           </div>
-          <div>
-            <label className="block font-semibold mb-1">Line 2</label>
-            <input name="line2" value={formData.line2} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
-          </div>
-          <div>
-            <label className="block font-semibold mb-1">Line 3</label>
-            <input name="line3" value={formData.line3} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
-          </div>
-          <div>
-            <label className="block font-semibold mb-1">Line 4</label>
-            <input name="line4" value={formData.line4} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
-          </div>
+        </div>
 
-          <div className="pt-4 border-t">
-            <h2 className="text-xl font-semibold text-[#c43834] mb-4">Your Information</h2>
+        {/* Notes */}
+        <div className="bg-white rounded-3xl shadow-xl p-8 mb-8 text-sm leading-relaxed text-gray-700">
+          You may purchase as many personalized bricks as you wish at $100.00 per brick.
+          It could take several months before your brick is installed into the memorial.
+          <br /><br />
+          You may use up to 21 characters per line up to 4 lines.
+          Any symbol, period, comma, dash, and blank spaces are considered one space.
+          All engraving will be in capital letters and centered.
+          <br /><br />
+          QUESTIONS? Contact Tom Picinich at 201-218-8753 or tapicinich@ATMC.NET
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="bg-white rounded-3xl shadow-xl p-8 space-y-8">
+          <div>
+            <h3 className="text-xl font-semibold mb-4">Brick Engraving (at least one line required)</h3>
             <div className="space-y-4">
-              <div>
-                <label className="block font-semibold mb-1">Name *</label>
-                <input name="customerName" value={formData.customerName} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" required />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Phone *</label>
-                <input name="phone" value={formData.phone} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" required />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Email *</label>
-                <input name="email" type="email" value={formData.email} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" required />
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Address</label>
-                <input name="address" value={formData.address} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
-              </div>
-              <div className="grid grid-cols-3 gap-3">
-                <input name="city" placeholder="City" value={formData.city} onChange={handleChange} className="border rounded-lg px-4 py-2" />
-                <input name="state" placeholder="State" value={formData.state} onChange={handleChange} className="border rounded-lg px-4 py-2" />
-                <input name="zip" placeholder="Zip" value={formData.zip} onChange={handleChange} className="border rounded-lg px-4 py-2" />
+              <input name="line1" placeholder="Line 1" value={formData.line1} onChange={handleChange} className="w-full p-4 border rounded-xl" />
+              <input name="line2" placeholder="Line 2" value={formData.line2} onChange={handleChange} className="w-full p-4 border rounded-xl" />
+              <input name="line3" placeholder="Line 3" value={formData.line3} onChange={handleChange} className="w-full p-4 border rounded-xl" />
+              <input name="line4" placeholder="Line 4" value={formData.line4} onChange={handleChange} className="w-full p-4 border rounded-xl" />
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-semibold mb-4">Your Information (required)</h3>
+            <div className="space-y-4">
+              <input name="customerName" placeholder="Full Name" value={formData.customerName} onChange={handleChange} className="w-full p-4 border rounded-xl" required />
+              <input name="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} className="w-full p-4 border rounded-xl" required />
+              <input name="email" type="email" placeholder="Email" value={formData.email} onChange={handleChange} className="w-full p-4 border rounded-xl" required />
+              <p className="text-sm text-gray-500">Mailing address is optional but helpful</p>
+              <input name="address" placeholder="Address (optional)" value={formData.address} onChange={handleChange} className="w-full p-4 border rounded-xl" />
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <input name="city" placeholder="City (optional)" value={formData.city} onChange={handleChange} className="w-full p-4 border rounded-xl" />
+                <input name="state" placeholder="State (optional)" value={formData.state} onChange={handleChange} className="w-full p-4 border rounded-xl" />
+                <input name="zip" placeholder="Zip (optional)" value={formData.zip} onChange={handleChange} className="w-full p-4 border rounded-xl" />
               </div>
             </div>
           </div>
 
-          <button type="submit" className="w-full bg-[#c43834] text-white py-4 rounded-xl text-lg font-semibold mt-6">
-            Submit Order
+          <button type="submit" className="w-full bg-[#c43834] hover:bg-red-700 text-white py-4 rounded-xl text-lg font-semibold transition-colors">
+            Submit Order (Test Mode)
           </button>
         </form>
 
         {showPreview && (
-          <div className="mt-8 p-4 bg-gray-50 rounded-lg text-sm">
-            Preview sent to Lob (check dashboard).
+          <div className="mt-8 p-4 bg-green-50 border border-green-200 rounded-lg text-sm text-green-800">
+            Order sent to Lob. Check your Lob dashboard for the letter.
           </div>
         )}
       </div>
@@ -208,12 +231,7 @@ export default function TestOrder() {
           <div>Veterans Memorial • Richard H. Stewart, Jr. Post 543 • St. James, NC 28461</div>
           <div className="mt-3">
             For questions or to report issues, please visit our{" "}
-            <a
-              href="https://ncpost543.org/contact-2/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#e04a38] hover:underline"
-            >
+            <a href="https://ncpost543.org/contact-2/" target="_blank" rel="noopener noreferrer" className="text-[#e04a38] hover:underline">
               Contact Page
             </a>
           </div>
