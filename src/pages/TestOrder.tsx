@@ -67,25 +67,31 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     );
   };
 
-  const sendToLob = async (orderData: Record<string, string>) => {
-    try {
-      const res = await fetch('/api/send-lob-letter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderData),
-      });
-
-      const result = await res.json();
-      console.log('Lob result:', result);
-      return result;
-    } catch (err) {
-      console.error('Lob error:', err);
-      return {
-        success: false,
-        error: err instanceof Error ? err.message : 'Unknown error',
-      };
-    }
+const sendToLob = async () => {
+  const payload = {
+    customerName: formData.customerName,
+    phone: formData.phone,
+    email: formData.email,
+    address: formData.address,
+    city: formData.city,
+    state: formData.state,
+    zip: formData.zip,
+    line1: formData.line1,
+    line2: formData.line2,
+    line3: formData.line3,
+    line4: formData.line4,
+    confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
   };
+
+  const res = await fetch('/api/send-lob-letter', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  const result = await res.json();
+  console.log('Lob result:', result);
+};
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
