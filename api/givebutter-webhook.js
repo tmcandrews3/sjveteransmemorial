@@ -78,12 +78,12 @@ export default async function handler(req, res) {
   };
 
   try {
-    // Call your existing Lob function
-    await fetch(`${process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http://localhost:3000'}/api/send-lob-letter`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(order),
-    });
+    // Send confirmation email
+await fetch(`${process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http://localhost:3000'}/api/send-confirmation-email`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(order),
+});
 
     // TODO: Add confirmation email call here once we have it
     // await fetch(.../api/send-confirmation-email, ...)
