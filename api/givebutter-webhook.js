@@ -78,19 +78,24 @@ export default async function handler(req, res) {
   };
 
   try {
-    // Send confirmation email
-await fetch(`${process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http://localhost:3000'}/api/send-confirmation-email`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(order),
-});
+    const baseUrl = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : 'http://localhost:3000';
 
-    // TODO: Add confirmation email call here once we have it
-    // await fetch(.../api/send-confirmation-email, ...)
+    const emailResponse = await fetch(`${baseUrl}/api/send-confirmation-email`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(order),
+    });
 
-    return res.status(200).json({ success: true, processed: true });
+    if (!emailResponse.ok) {
+      console.error('Failed to send confirmation email:', await emailResponse.text());
+      return res.status(502).json({ error: 'Failed to send confirmation email' });
+    }
+
+    return res.status(200).json({ received: true });
   } catch (err) {
-    console.error('Webhook processing error:', err);
-    return res.status(500).json({ error: 'Processing failed' });
+    console.error('Confirmation email error:', err);
+    return res.status(500).json({ error: 'Failed to process webhook' });
   }
 }
