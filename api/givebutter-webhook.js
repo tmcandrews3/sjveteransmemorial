@@ -89,7 +89,8 @@ console.log('Webhook hit', req.headers);
     const baseUrl = 'https://sjveteransmemorial.org';
 
     console.log('Calling confirmation email at:', `${baseUrl}/api/send-confirmation-email`);
-
+    console.log('Order being sent to email:', JSON.stringify(order, null, 2));
+    
     const emailResponse = await fetch(`${baseUrl}/api/send-confirmation-email`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
