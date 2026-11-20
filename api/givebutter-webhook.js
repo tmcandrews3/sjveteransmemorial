@@ -84,7 +84,8 @@ console.log('Webhook hit', req.headers);
     ],
     // Add any other fields you need
   };
-
+    console.log('Full event.data:', JSON.stringify(event.data, null, 2));
+    
       try {
     const baseUrl = 'https://sjveteransmemorial.org';
 
