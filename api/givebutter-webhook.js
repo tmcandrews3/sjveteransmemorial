@@ -42,7 +42,10 @@ console.log('Webhook hit', req.headers);
   } catch (err) {
     return res.status(400).json({ error: 'Invalid JSON' });
   }
-
+  console.log('Full event keys:', Object.keys(event));
+  console.log('event.type:', event.type);
+  console.log('event.event:', event.event);
+  console.log('event.name:', event.name);
   console.log('Event type:', event.type);
   console.log('Campaign ID:', event.data?.campaign_id);
   console.log('Campaign code:', event.data?.campaign_code);
