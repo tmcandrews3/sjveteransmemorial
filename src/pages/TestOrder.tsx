@@ -18,7 +18,8 @@ export default function TestOrder() {
 
   const [showPreview, setShowPreview] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-
+  const [showGiveButterPrep, setShowGiveButterPrep] = useState(false);
+  
   useEffect(() => {
   const params = new URLSearchParams(window.location.search);
   if (params.get('success') === '1') {
@@ -81,7 +82,7 @@ setTimeout(() => {
 const STORAGE_KEY = 'pendingBrickOrder';
 
 const confirmAndSend = () => {
-  // Save the full order (for email + Lob after payment)
+  // Save data first (same as before)
   const orderToSave = {
     ...formData,
     confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
@@ -89,7 +90,6 @@ const confirmAndSend = () => {
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(orderToSave));
 
-  // Save sponsor info separately so “Order Another” can pre-fill
   const sponsorInfo = {
     customerName: formData.customerName,
     phone: formData.phone,
@@ -101,7 +101,13 @@ const confirmAndSend = () => {
   };
   localStorage.setItem(SPONSOR_KEY, JSON.stringify(sponsorInfo));
 
-  // Redirect to GiveButter
+  // Show prep modal instead of redirecting immediately
+  setShowGiveButterPrep(true);
+  setShowPreview(false);
+};
+
+const proceedToGiveButter = () => {
+  setShowGiveButterPrep(false);
   window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
 };
 
@@ -155,7 +161,42 @@ useEffect(() => {
   const confirmationNumber = saved
     ? JSON.parse(saved).confirmationNumber
     : 'N/A';
+{showGiveButterPrep && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+    <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-lg w-full">
+      <h3 className="text-2xl font-bold text-[#263b6c] mb-4 text-center">
+        Almost Done — One Quick Step
+      </h3>
+      
+      <p className="text-[#263b6c] mb-6 text-center">
+        You’ll now be taken to GiveButter to complete your $100 payment. 
+        Please follow these steps:
+      </p>
 
+      <ol className="space-y-3 text-[#263b6c] mb-8 list-decimal list-inside">
+        <li>Click <strong>“Donate”</strong></li>
+        <li>Select <strong>$100</strong> and complete your information</li>
+        <li>You can unselect any optional fees or extra donations</li>
+        <li>Click <strong>“Continue”</strong> and finish payment</li>
+      </ol>
+
+      <div className="flex flex-col sm:flex-row gap-4">
+        <button
+          onClick={proceedToGiveButter}
+          className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-medium"
+        >
+          Continue to GiveButter
+        </button>
+        <button
+          onClick={() => setShowGiveButterPrep(false)}
+          className="flex-1 border border-gray-300 py-3 rounded-xl font-medium"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-6">
       <div className="max-w-lg text-center">
