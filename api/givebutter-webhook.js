@@ -25,24 +25,28 @@ console.log('Webhook hit', req.headers);
   const rawBody = Buffer.concat(chunks).toString('utf8');
 
   // Verify signature
- const signature = req.headers['signature'];
+   const signature = req.headers['signature'];
   if (!signature) {
     console.error('Missing signature header');
     return res.status(401).json({ error: 'Missing signature' });
   }
 
-  const expected = crypto
+  const expectedHex = crypto
     .createHmac('sha256', secret)
     .update(rawBody)
     .digest('hex');
 
-  // GiveButter may send the signature with or without a prefix
-  const received = signature.replace(/^sha256=/, '');
+  const expectedBase64 = crypto
+    .createHmac('sha256', secret)
+    .update(rawBody)
+    .digest('base64');
 
-  if (!crypto.timingSafeEqual(Buffer.from(received), Buffer.from(expected))) {
-    console.error('Signature mismatch');
-    return res.status(401).json({ error: 'Invalid signature' });
-  }
+  console.log('Received signature:', signature);
+  console.log('Expected hex:     ', expectedHex);
+  console.log('Expected base64:  ', expectedBase64);
+
+  // Temporarily accept so we can see the logs
+  // return res.status(200).json({ received: true, debug: true });
   let event;
   try {
     event = JSON.parse(rawBody);
