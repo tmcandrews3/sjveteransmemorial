@@ -150,13 +150,30 @@ useEffect(() => {
 }, [isSuccess]);
 
   if (isSuccess) {
+  // Pull the confirmation number from the saved order
+  const saved = localStorage.getItem(STORAGE_KEY);
+  const confirmationNumber = saved
+    ? JSON.parse(saved).confirmationNumber
+    : 'N/A';
+
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-6">
       <div className="max-w-lg text-center">
         <h1 className="text-3xl font-bold text-[#c43834] mb-4">Order Successful!</h1>
-        <p className="text-lg text-[#263b6c] mb-6">
-          Your order was successful! You should receive a copy of your invoice shortly.
+        
+        <p className="text-lg text-[#263b6c] mb-2">
+          Your order was successful!
         </p>
+        
+        <p className="text-xl font-semibold text-[#263b6c] mb-6">
+          Confirmation #: <span className="text-[#c43834]">{confirmationNumber}</span>
+        </p>
+        
+        <p className="text-[#263b6c] mb-8">
+          You should receive a copy of your invoice from GiveButter shortly, 
+          and a confirmation email from us with your brick details.
+        </p>
+
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             onClick={() => {
@@ -176,16 +193,23 @@ useEffect(() => {
           </button>
           <button
             onClick={() => {
-  setIsSuccess(false);
-  setShowPreview(false);
-  setFormData(prev => ({
-    ...prev,
-    line1: '',
-    line2: '',
-    line3: '',
-    line4: '',
-  }));
-}}
+              setIsSuccess(false);
+              setShowPreview(false);
+              setFormData({
+                customerName: '',
+                phone: '',
+                email: '',
+                address: '',
+                city: '',
+                state: '',
+                zip: '',
+                line1: '',
+                line2: '',
+                line3: '',
+                line4: '',
+              });
+              localStorage.removeItem(SPONSOR_KEY); // clear sponsor info on Done
+            }}
             className="border border-gray-300 px-8 py-3 rounded-xl font-medium"
           >
             Done
