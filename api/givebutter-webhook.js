@@ -51,7 +51,7 @@ console.log('Webhook hit', req.headers);
   console.log('Campaign code:', event.data?.campaign_code);
 
   // Only process successful transactions for our campaign
-  if (event.type !== 'transaction.succeeded') {
+    if (event.event !== 'transaction.succeeded') {
     console.log('Ignoring – wrong event type');
     return res.status(200).json({ received: true, ignored: 'wrong event type' });
   }
