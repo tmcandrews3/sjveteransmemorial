@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react'
+
 
 export default function TestOrder() {
   const [formData, setFormData] = useState({
@@ -17,6 +18,15 @@ export default function TestOrder() {
 
   const [showPreview, setShowPreview] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('success') === '1') {
+    setIsSuccess(true);
+    // Clean the URL
+    window.history.replaceState({}, '', '/test-order');
+  }
+}, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -59,24 +69,59 @@ setTimeout(() => {
 }, 100);
   };
 
-  const confirmAndSend = async () => {
-    await sendToLob({
-      customerName: formData.customerName,
-      phone: formData.phone,
-      email: formData.email,
-      address: formData.address,
-      city: formData.city,
-      state: formData.state,
-      zip: formData.zip,
-      line1: formData.line1,
-      line2: formData.line2,
-      line3: formData.line3,
-      line4: formData.line4,
-      confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
-    });
+const STORAGE_KEY = 'pendingBrickOrder';
 
-    setIsSuccess(true);
+const confirmAndSend = () => {
+  // Save the full order before leaving for GiveButter
+  const orderToSave = {
+    ...formData,
+    confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
+    amount: '100',
   };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(orderToSave));
+
+  // Redirect to GiveButter
+  window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
+};
+
+// On the success page, send email + Lob using the saved data
+useEffect(() => {
+  if (isSuccess) {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const order = JSON.parse(saved);
+
+      // Send confirmation email
+      fetch('/api/send-confirmation-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...order,
+          lines: [order.line1, order.line2, order.line3, order.line4].filter(Boolean),
+        }),
+      }).catch(err => console.error('Email error:', err));
+
+      // Send Lob letter
+      sendToLob({
+        customerName: order.customerName,
+        phone: order.phone,
+        email: order.email,
+        address: order.address,
+        city: order.city,
+        state: order.state,
+        zip: order.zip,
+        line1: order.line1,
+        line2: order.line2,
+        line3: order.line3,
+        line4: order.line4,
+        confirmationNumber: order.confirmationNumber,
+      });
+
+      // Clear after sending
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  }
+}, [isSuccess]);
 
   if (isSuccess) {
   return (
