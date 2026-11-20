@@ -85,12 +85,10 @@ console.log('Webhook hit', req.headers);
     // Add any other fields you need
   };
 
-    try {
-    const baseUrl = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : 'https://sjveteransmemorial.org';
+      try {
+    const baseUrl = 'https://sjveteransmemorial.org';
 
-        console.log('Calling confirmation email at:', `${baseUrl}/api/send-confirmation-email`);
+    console.log('Calling confirmation email at:', `${baseUrl}/api/send-confirmation-email`);
 
     const emailResponse = await fetch(`${baseUrl}/api/send-confirmation-email`, {
       method: 'POST',
@@ -106,15 +104,19 @@ console.log('Webhook hit', req.headers);
       console.error('Failed to send confirmation email');
     }
 
-    // Send Lob letter
+    // Lob call
     const lobResponse = await fetch(`${baseUrl}/api/send-lob-letter`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(order),
     });
 
+    const lobText = await lobResponse.text();
+    console.log('Lob response status:', lobResponse.status);
+    console.log('Lob response body:', lobText);
+
     if (!lobResponse.ok) {
-      console.error('Failed to send Lob letter:', await lobResponse.text());
+      console.error('Failed to send Lob letter');
     }
 
     return res.status(200).json({ received: true });
