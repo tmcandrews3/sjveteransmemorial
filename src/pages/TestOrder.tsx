@@ -22,12 +22,16 @@ export default function TestOrder() {
   
   useEffect(() => {
   const params = new URLSearchParams(window.location.search);
-  if (params.get('success') === '1') {
-    setIsSuccess(true);
-    // Clean the URL
-    window.history.replaceState({}, '', '/test-order');
+  // Only restore sponsor info if we came from Order Another (or no success param)
+  if (!params.get('success')) {
+    const saved = localStorage.getItem(SPONSOR_KEY);
+    if (saved) {
+      const sponsor = JSON.parse(saved);
+      setFormData(prev => ({ ...prev, ...sponsor }));
+    }
   }
 }, []);
+
 const SPONSOR_KEY = 'brickSponsorInfo';
 
 // Restore sponsor info on load
@@ -59,21 +63,22 @@ useEffect(() => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const isValid =
-      formData.customerName &&
-      formData.phone &&
-      formData.email &&
-      (formData.line1 || formData.line2 || formData.line3 || formData.line4);
+  const isValid =
+    formData.customerName &&
+    formData.phone &&
+    formData.email &&
+    (formData.line1 || formData.line2 || formData.line3 || formData.line4);
 
-    if (!isValid) {
-      alert('Please fill in your name, phone, email, and at least one brick line.');
-      return;
-    }
+  if (!isValid) {
+    alert('Please fill in your name, phone, email, and at least one brick line.');
+    return;
+  }
 
     console.log('Order Submitted:', formData);
     setShowPreview(true);
+    
 setTimeout(() => {
   document.getElementById('preview-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }, 100);
@@ -83,7 +88,7 @@ const STORAGE_KEY = 'pendingBrickOrder';
 
 const confirmAndSend = () => {
   // Save data first (same as before)
-  const orderToSave = {
+ const orderToSave = {
     ...formData,
     confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
     amount: '100',
@@ -101,7 +106,7 @@ const confirmAndSend = () => {
   };
   localStorage.setItem(SPONSOR_KEY, JSON.stringify(sponsorInfo));
 
-  // Show prep modal instead of redirecting immediately
+  // Show prep modal directly
   setShowGiveButterPrep(true);
   setShowPreview(false);
 };
