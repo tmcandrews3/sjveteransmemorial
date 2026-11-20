@@ -74,24 +74,36 @@ console.log('Webhook hit', req.headers);
     // Add any other fields you need
   };
 
-  try {
+    try {
     const baseUrl = process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
-      : 'http://localhost:3000';
+      : 'https://sjveteransmemorial.org';
 
-    const emailResponse = await fetch(`${process.env.VERCEL_URL ? 'https://' + process.env.VERCEL_URL : 'http://localhost:3000'}/api/send-confirmation-email`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(order),
-});
+    // Send confirmation email
+    const emailResponse = await fetch(`${baseUrl}/api/send-confirmation-email`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(order),
+    });
+
     if (!emailResponse.ok) {
       console.error('Failed to send confirmation email:', await emailResponse.text());
-      return res.status(502).json({ error: 'Failed to send confirmation email' });
+    }
+
+    // Send Lob letter
+    const lobResponse = await fetch(`${baseUrl}/api/send-lob-letter`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(order),
+    });
+
+    if (!lobResponse.ok) {
+      console.error('Failed to send Lob letter:', await lobResponse.text());
     }
 
     return res.status(200).json({ received: true });
   } catch (err) {
-    console.error('Confirmation email error:', err);
+    console.error('Webhook processing error:', err);
     return res.status(500).json({ error: 'Failed to process webhook' });
   }
 }
