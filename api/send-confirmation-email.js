@@ -39,7 +39,7 @@ export default async function handler(req, res) {
 
   try {
     const { data, error } = await resend.emails.send({
-      from: 'St. James Veterans Memorial <noreply@sjveteransmemorial.org>', // or use Resend’s test domain for now
+      from: 'St. James Veterans Memorial <onboarding@resend.dev>',
       to: order.sponsor.email,
       subject: 'Your Memorial Brick Order Confirmation',
       html,
