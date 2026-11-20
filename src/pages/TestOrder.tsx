@@ -162,17 +162,32 @@ useEffect(() => {
 {showPreview && (
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
     <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-auto">
-      {/* ... your existing preview content (brick lines, sponsor info, etc.) ... */}
+      <h3 className="text-2xl font-bold text-[#263b6c] mb-4">Order Preview</h3>
+      
+      <div className="bg-gray-50 p-6 rounded-xl mb-6 text-sm">
+        <p className="font-semibold">Brick Inscription:</p>
+        <p>{formData.line1 || '—'}</p>
+        <p>{formData.line2 || '—'}</p>
+        <p>{formData.line3 || '—'}</p>
+        <p>{formData.line4 || '—'}</p>
+        <p className="mt-4 font-semibold">Sponsor:</p>
+        <p>{formData.customerName}</p>
+        <p>{formData.phone}</p>
+        <p>{formData.email}</p>
+        {formData.address && (
+          <p>{formData.address}, {formData.city} {formData.state} {formData.zip}</p>
+        )}
+      </div>
 
-      {/* GiveButter instructions at the bottom of the preview */}
-      <div className="mt-8 p-6 bg-gray-50 rounded-2xl border border-gray-200">
+      {/* GiveButter instructions */}
+      <div className="mt-6 p-6 bg-gray-50 rounded-2xl border border-gray-200">
         <h3 className="text-xl font-bold text-[#263b6c] mb-3 text-center">
           Before You Continue to Payment
         </h3>
         <p className="text-[#263b6c] mb-4 text-center text-sm">
           You’ll be taken to GiveButter to complete your $100 payment. Please follow these steps:
         </p>
-        <ol className="space-y-2 text-[#263b6c] text-sm list-decimal list-inside mb-6">
+        <ol className="space-y-2 text-[#263b6c] text-sm list-decimal list-inside mb-2">
           <li>Click <strong>“Donate”</strong></li>
           <li>Select <strong>$100</strong> and complete your information</li>
           <li>You can unselect any optional fees or extra donations</li>
@@ -183,7 +198,6 @@ useEffect(() => {
       <div className="flex flex-col sm:flex-row gap-4 mt-6">
         <button
           onClick={() => {
-            // Save data
             const orderToSave = {
               ...formData,
               confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
@@ -202,7 +216,6 @@ useEffect(() => {
             };
             localStorage.setItem(SPONSOR_KEY, JSON.stringify(sponsorInfo));
 
-            // Go to GiveButter
             window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
           }}
           className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-medium"
