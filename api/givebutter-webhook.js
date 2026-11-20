@@ -36,15 +36,20 @@ console.log('Webhook hit', req.headers);
     console.error('Signature mismatch');
     return res.status(401).json({ error: 'Invalid signature' });
   }
-  let event;
+    let event;
   try {
     event = JSON.parse(rawBody);
   } catch (err) {
     return res.status(400).json({ error: 'Invalid JSON' });
   }
 
+  console.log('Event type:', event.type);
+  console.log('Campaign ID:', event.data?.campaign_id);
+  console.log('Campaign code:', event.data?.campaign_code);
+
   // Only process successful transactions for our campaign
   if (event.type !== 'transaction.succeeded') {
+    console.log('Ignoring – wrong event type');
     return res.status(200).json({ received: true, ignored: 'wrong event type' });
   }
 
@@ -52,8 +57,11 @@ console.log('Webhook hit', req.headers);
   const campaignCode = event.data?.campaign_code;
 
   if (campaignId !== '784496' && campaignCode !== 'VDQE3N') {
+    console.log('Ignoring – wrong campaign');
     return res.status(200).json({ received: true, ignored: 'wrong campaign' });
   }
+
+  console.log('Campaign matched – proceeding to email');
 
   // Extract order details (adjust field names based on actual GiveButter payload)
   const order = {
