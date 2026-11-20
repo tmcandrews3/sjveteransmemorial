@@ -18,8 +18,7 @@ export default function TestOrder() {
 
   const [showPreview, setShowPreview] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [showGiveButterPrep, setShowGiveButterPrep] = useState(false);
-  
+    
   useEffect(() => {
   const params = new URLSearchParams(window.location.search);
   // Only restore sponsor info if we came from Order Another (or no success param)
@@ -106,15 +105,8 @@ const confirmAndSend = () => {
   };
   localStorage.setItem(SPONSOR_KEY, JSON.stringify(sponsorInfo));
 
-  // Show prep modal directly
-  setShowGiveButterPrep(true);
-  setShowPreview(false);
 };
 
-const proceedToGiveButter = () => {
-  setShowGiveButterPrep(false);
-  window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
-};
 
 // On the success page, send email + Lob using the saved data
 useEffect(() => {
@@ -166,34 +158,59 @@ useEffect(() => {
   const confirmationNumber = saved
     ? JSON.parse(saved).confirmationNumber
     : 'N/A';
-{showGiveButterPrep && (
+
+{showPreview && (
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-    <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-lg w-full">
-      <h3 className="text-2xl font-bold text-[#263b6c] mb-4 text-center">
-        Almost Done — One Quick Step
-      </h3>
-      
-      <p className="text-[#263b6c] mb-6 text-center">
-        You’ll now be taken to GiveButter to complete your $100 payment. 
-        Please follow these steps:
-      </p>
+    <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-auto">
+      {/* ... your existing preview content (brick lines, sponsor info, etc.) ... */}
 
-      <ol className="space-y-3 text-[#263b6c] mb-8 list-decimal list-inside">
-        <li>Click <strong>“Donate”</strong></li>
-        <li>Select <strong>$100</strong> and complete your information</li>
-        <li>You can unselect any optional fees or extra donations</li>
-        <li>Click <strong>“Continue”</strong> and finish payment</li>
-      </ol>
+      {/* GiveButter instructions at the bottom of the preview */}
+      <div className="mt-8 p-6 bg-gray-50 rounded-2xl border border-gray-200">
+        <h3 className="text-xl font-bold text-[#263b6c] mb-3 text-center">
+          Before You Continue to Payment
+        </h3>
+        <p className="text-[#263b6c] mb-4 text-center text-sm">
+          You’ll be taken to GiveButter to complete your $100 payment. Please follow these steps:
+        </p>
+        <ol className="space-y-2 text-[#263b6c] text-sm list-decimal list-inside mb-6">
+          <li>Click <strong>“Donate”</strong></li>
+          <li>Select <strong>$100</strong> and complete your information</li>
+          <li>You can unselect any optional fees or extra donations</li>
+          <li>Click <strong>“Continue”</strong> and finish payment</li>
+        </ol>
+      </div>
 
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col sm:flex-row gap-4 mt-6">
         <button
-          onClick={proceedToGiveButter}
+          onClick={() => {
+            // Save data
+            const orderToSave = {
+              ...formData,
+              confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
+              amount: '100',
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(orderToSave));
+
+            const sponsorInfo = {
+              customerName: formData.customerName,
+              phone: formData.phone,
+              email: formData.email,
+              address: formData.address,
+              city: formData.city,
+              state: formData.state,
+              zip: formData.zip,
+            };
+            localStorage.setItem(SPONSOR_KEY, JSON.stringify(sponsorInfo));
+
+            // Go to GiveButter
+            window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
+          }}
           className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-medium"
         >
           Continue to GiveButter
         </button>
         <button
-          onClick={() => setShowGiveButterPrep(false)}
+          onClick={() => setShowPreview(false)}
           className="flex-1 border border-gray-300 py-3 rounded-xl font-medium"
         >
           Cancel
