@@ -27,7 +27,16 @@ export default function TestOrder() {
     window.history.replaceState({}, '', '/test-order');
   }
 }, []);
+const SPONSOR_KEY = 'brickSponsorInfo';
 
+// Restore sponsor info on load
+useEffect(() => {
+  const saved = localStorage.getItem(SPONSOR_KEY);
+  if (saved) {
+    const sponsor = JSON.parse(saved);
+    setFormData(prev => ({ ...prev, ...sponsor }));
+  }
+}, []);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -72,13 +81,25 @@ setTimeout(() => {
 const STORAGE_KEY = 'pendingBrickOrder';
 
 const confirmAndSend = () => {
-  // Save the full order before leaving for GiveButter
+  // Save the full order (for email + Lob after payment)
   const orderToSave = {
     ...formData,
     confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
     amount: '100',
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(orderToSave));
+
+  // Save sponsor info separately so “Order Another” can pre-fill
+  const sponsorInfo = {
+    customerName: formData.customerName,
+    phone: formData.phone,
+    email: formData.email,
+    address: formData.address,
+    city: formData.city,
+    state: formData.state,
+    zip: formData.zip,
+  };
+  localStorage.setItem(SPONSOR_KEY, JSON.stringify(sponsorInfo));
 
   // Redirect to GiveButter
   window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
@@ -91,17 +112,23 @@ useEffect(() => {
     if (saved) {
       const order = JSON.parse(saved);
 
-      // Send confirmation email
+      // Email — match the shape the API expects
       fetch('/api/send-confirmation-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...order,
+          sponsor: {
+            email: order.email,
+            name: order.customerName,
+            phone: order.phone,
+          },
           lines: [order.line1, order.line2, order.line3, order.line4].filter(Boolean),
+          confirmationNumber: order.confirmationNumber,
+          amount: order.amount || '100',
         }),
       }).catch(err => console.error('Email error:', err));
 
-      // Send Lob letter
+      // Lob (unchanged)
       sendToLob({
         customerName: order.customerName,
         phone: order.phone,
@@ -117,7 +144,6 @@ useEffect(() => {
         confirmationNumber: order.confirmationNumber,
       });
 
-      // Clear after sending
       localStorage.removeItem(STORAGE_KEY);
     }
   }
@@ -150,22 +176,16 @@ useEffect(() => {
           </button>
           <button
             onClick={() => {
-              setIsSuccess(false);
-              setShowPreview(false);
-              setFormData({
-                customerName: '',
-                phone: '',
-                email: '',
-                address: '',
-                city: '',
-                state: '',
-                zip: '',
-                line1: '',
-                line2: '',
-                line3: '',
-                line4: '',
-              });
-            }}
+  setIsSuccess(false);
+  setShowPreview(false);
+  setFormData(prev => ({
+    ...prev,
+    line1: '',
+    line2: '',
+    line3: '',
+    line4: '',
+  }));
+}}
             className="border border-gray-300 px-8 py-3 rounded-xl font-medium"
           >
             Done
