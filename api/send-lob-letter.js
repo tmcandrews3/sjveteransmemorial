@@ -6,13 +6,13 @@ export default async function handler(req, res) {
 
   const order = req.body || {};
 
-  const inscriptionLines = [order.line1, order.line2, order.line3, order.line4]
-    .filter(line => line && String(line).trim())
-    .map(line => String(line).toUpperCase());
+  const lines = [order.line1, order.line2, order.line3, order.line4]
+    .filter(l => l && String(l).trim())
+    .map(l => String(l).toUpperCase());
 
-  const inscriptionHtml = inscriptionLines.length > 0
-    ? inscriptionLines.join('<br>')
-    : 'NO INSCRIPTION PROVIDED';
+  const inscriptionHtml = lines.length > 0
+    ? lines.map(l => `<div style="margin: 4px 0;">${l}</div>`).join('')
+    : '<div>NO INSCRIPTION</div>';
 
   const html = `
     <!DOCTYPE html>
@@ -20,34 +20,55 @@ export default async function handler(req, res) {
       <head>
         <meta charset="utf-8">
       </head>
-      <body style="font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; font-size: 13px; color: #000;">
-        <!-- Extra top space so Lob's address window doesn't cover content -->
-        <div style="height: 2.4in;"></div>
+      <body style="font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; color: #000; font-size: 13px;">
+        <!-- Top spacer for Lob address window -->
+        <div style="height: 1.85in;"></div>
 
-        <div style="padding: 0 0.65in;">
-          <h1 style="color: #c43834; margin: 0 0 6px 0; font-size: 22px;">St. James Veterans Memorial</h1>
-          <div style="font-size: 16px; margin-bottom: 20px;">Brick Order</div>
+        <div style="padding: 0 0.6in;">
+          <!-- Header with logo placeholder -->
+          <div style="text-align: center; margin-bottom: 18px;">
+            <div style="font-size: 11px; letter-spacing: 1px; margin-bottom: 6px;">ST. JAMES VETERANS MEMORIAL</div>
+            <div style="width: 70px; height: 70px; margin: 0 auto; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #666;">
+              LOGO
+            </div>
+          </div>
 
-          <p style="margin: 0 0 14px 0;">
-            <strong>Confirmation:</strong> ${order.confirmationNumber || 'N/A'}
-          </p>
+          <div style="text-align: center; font-weight: bold; font-size: 15px; margin-bottom: 20px; color: #c43834;">
+            CONFIRMATION NUMBER: ${order.confirmationNumber || 'N/A'}
+          </div>
 
-          <p style="margin: 0 0 14px 0;">
-            <strong>Inscription:</strong><br>
-            <span style="display: inline-block; margin-top: 6px; line-height: 1.7;">${inscriptionHtml}</span>
-          </p>
+          <div style="font-weight: bold; color: #c43834; border-bottom: 1px solid #c43834; padding-bottom: 4px; margin-bottom: 10px;">
+            SPONSOR INFORMATION
+          </div>
+          <div style="margin-bottom: 18px; line-height: 1.5;">
+            <strong>NAME:</strong> ${order.customerName || ''}<br>
+            <strong>PHONE:</strong> ${order.phone || ''}<br>
+            <strong>EMAIL:</strong> ${order.email || ''}<br>
+            <strong>ADDRESS:</strong> ${[order.address, order.city, order.state, order.zip].filter(Boolean).join(', ')}
+          </div>
 
-          <p style="margin: 0 0 14px 0;">
-            <strong>Sponsor:</strong><br>
-            ${order.customerName || ''}<br>
-            ${order.phone || ''}<br>
-            ${order.email || ''}<br>
-            ${[order.address, order.city, order.state, order.zip].filter(Boolean).join(', ')}
-          </p>
+          <div style="font-weight: bold; color: #c43834; border-bottom: 1px solid #c43834; padding-bottom: 4px; margin-bottom: 10px;">
+            BRICK INSCRIPTION
+          </div>
+          <div style="text-align: center; margin-bottom: 6px; font-size: 12px;">This is how the brick should appear:</div>
+          <div style="border: 2px solid #000; padding: 16px 12px; text-align: center; min-height: 90px; margin-bottom: 22px; line-height: 1.6;">
+            ${inscriptionHtml}
+          </div>
 
-          <p style="margin-top: 28px; font-size: 11px; color: #555;">
-            This order has been mailed to Tom Picinich.
-          </p>
+          <div style="font-weight: bold; color: #c43834; border-bottom: 1px solid #c43834; padding-bottom: 4px; margin-bottom: 10px;">
+            PAYMENT STATUS
+          </div>
+          <div style="margin-bottom: 18px;">
+            ☑ PAID VIA GIVEBUTTER
+          </div>
+
+          <div style="background: #f3f3f3; padding: 8px 12px; font-size: 11px; font-style: italic; margin-bottom: 20px;">
+            Note: The sponsor has received email confirmation
+          </div>
+
+          <div style="border-top: 3px solid #c43834; border-bottom: 1px solid #c43834; text-align: center; padding: 8px 0; font-size: 11px; margin-top: 10px;">
+            American Legion Post 543
+          </div>
         </div>
       </body>
     </html>
