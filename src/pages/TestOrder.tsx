@@ -25,7 +25,7 @@ export default function TestOrder() {
   useEffect(() => {
   const params = new URLSearchParams(window.location.search);
 
-  if (params.get('success') === 'true') {
+  if (params.get('success') === 'true' || params.get('success') === '1') {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const order = JSON.parse(saved);          // ← order is declared here
@@ -203,7 +203,7 @@ export default function TestOrder() {
           </div>
 
           <button type="submit" className="w-full bg-[#c43834] text-white py-4 rounded-xl text-lg font-medium">
-            Submit Order
+            Preview Order
           </button>
         </form>
 
