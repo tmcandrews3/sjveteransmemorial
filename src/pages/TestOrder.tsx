@@ -22,19 +22,7 @@ export default function TestOrder() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [confirmationNumber, setConfirmationNumber] = useState('');
 
-  useEffect(() => {
-  if (sessionStorage.getItem('orderAnother') === 'true') {
-    const saved = sessionStorage.getItem('savedSponsor');
-    if (saved) {
-      const sponsor = JSON.parse(saved);
-      setFormData(prev => ({
-        ...prev,
-        ...sponsor,
-      }));
-    }
-    sessionStorage.removeItem('orderAnother');
-  }
-}, []);
+  useEffect
 
   useEffect(() => {
   const params = new URLSearchParams(window.location.search);
@@ -53,6 +41,7 @@ export default function TestOrder() {
       state: formData.state,
       zip: formData.zip,
 }));
+console.log('Saved sponsor:', sessionStorage.getItem('savedSponsor'));
 setShowSuccess(true);
 
       // Send emails
