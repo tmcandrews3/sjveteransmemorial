@@ -24,23 +24,25 @@ export default function TestOrder() {
 
   // Restore sponsor info only when not returning from success
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('success') === 'true') {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const order = JSON.parse(saved);
-        setConfirmationNumber(order.confirmationNumber || 'AC-543-XXXXXX');
-        setShowSuccess(true);
-      }
-    } else {
-      const savedSponsor = localStorage.getItem(SPONSOR_KEY);
-      if (savedSponsor) {
-        const sponsor = JSON.parse(savedSponsor);
-        setFormData(prev => ({ ...prev, ...sponsor }));
-      }
-    }
-  }, []);
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('success') === 'true') {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const order = JSON.parse(saved);
+      setConfirmationNumber(order.confirmationNumber || 'AC-543-XXXXXX');
+      setShowSuccess(true);
 
+      // Send the emails
+      fetch('/api/send-order-emails', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(order),
+      }).catch(console.error);
+    }
+  } else {
+    // ... existing sponsor restore code
+  }
+}, []);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -220,7 +222,7 @@ export default function TestOrder() {
                 onClick={() => setShowPreview(false)}
                 className="flex-1 border border-gray-300 py-3 rounded-xl font-medium"
               >
-                Cancel
+                Edit Order
               </button>
             </div>
           </div>
