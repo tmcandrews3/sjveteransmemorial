@@ -278,23 +278,25 @@ setShowSuccess(true);
             <div className="flex flex-col sm:flex-row gap-4 mt-6">
               <button
                 onClick={() => {
-                  const orderToSave = {
-                    ...formData,
-                    confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
-                    amount: '100',
-                  };
-                  sessionStorage.setItem('savedSponsor', JSON.stringify({
-                  customerName: formData.customerName,
-                  phone: formData.phone,
-                  email: formData.email,
-                  address: formData.address,
-                  city: formData.city,
-                  state: formData.state,
-                  zip: formData.zip,
-                  }));
-                  localStorage.setItem(SPONSOR_KEY, JSON.stringify(sponsorInfo));
-                  window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
-                }}
+  const orderToSave = {
+    ...formData,
+    confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
+    amount: '100',
+  };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(orderToSave));
+
+  sessionStorage.setItem('savedSponsor', JSON.stringify({
+    customerName: formData.customerName,
+    phone: formData.phone,
+    email: formData.email,
+    address: formData.address,
+    city: formData.city,
+    state: formData.state,
+    zip: formData.zip,
+  }));
+
+  window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
+}}
                 className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-medium"
               >
                 Continue to GiveButter
