@@ -108,7 +108,6 @@ setShowSuccess(true);
 
   setShowSuccess(false);
   setShowPreview(false);
-  setOrderComplete(false);
 
   setFormData(prev => ({
     ...prev,
