@@ -20,30 +20,35 @@ export default async function handler(req, res) {
       <head>
         <meta charset="utf-8">
       </head>
-      <body style="font-family: Arial, Helvetica, sans-serif; margin: 0.7in; font-size: 13px; color: #000; line-height: 1.4;">
-        <h1 style="color: #c43834; margin: 0 0 6px 0; font-size: 24px;">St. James Veterans Memorial</h1>
-        <div style="font-size: 17px; margin-bottom: 24px;">Brick Order</div>
+      <body style="font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; font-size: 13px; color: #000;">
+        <!-- Extra top space so Lob's address window doesn't cover content -->
+        <div style="height: 2.1in;"></div>
 
-        <p style="margin: 0 0 16px 0;">
-          <strong>Confirmation:</strong> ${order.confirmationNumber || 'N/A'}
-        </p>
+        <div style="padding: 0 0.65in;">
+          <h1 style="color: #c43834; margin: 0 0 6px 0; font-size: 22px;">St. James Veterans Memorial</h1>
+          <div style="font-size: 16px; margin-bottom: 20px;">Brick Order</div>
 
-        <p style="margin: 0 0 16px 0;">
-          <strong>Inscription:</strong><br>
-          <span style="display: inline-block; margin-top: 6px; line-height: 1.6;">${inscriptionHtml}</span>
-        </p>
+          <p style="margin: 0 0 14px 0;">
+            <strong>Confirmation:</strong> ${order.confirmationNumber || 'N/A'}
+          </p>
 
-        <p style="margin: 0 0 16px 0;">
-          <strong>Sponsor:</strong><br>
-          ${order.customerName || ''}<br>
-          ${order.phone || ''}<br>
-          ${order.email || ''}<br>
-          ${[order.address, order.city, order.state, order.zip].filter(Boolean).join(', ')}
-        </p>
+          <p style="margin: 0 0 14px 0;">
+            <strong>Inscription:</strong><br>
+            <span style="display: inline-block; margin-top: 6px; line-height: 1.7;">${inscriptionHtml}</span>
+          </p>
 
-        <p style="margin-top: 32px; font-size: 11px; color: #555;">
-          This order has been mailed to Tom Picinich.
-        </p>
+          <p style="margin: 0 0 14px 0;">
+            <strong>Sponsor:</strong><br>
+            ${order.customerName || ''}<br>
+            ${order.phone || ''}<br>
+            ${order.email || ''}<br>
+            ${[order.address, order.city, order.state, order.zip].filter(Boolean).join(', ')}
+          </p>
+
+          <p style="margin-top: 28px; font-size: 11px; color: #555;">
+            This order has been mailed to Tom Picinich.
+          </p>
+        </div>
       </body>
     </html>
   `;
