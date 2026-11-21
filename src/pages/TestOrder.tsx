@@ -44,16 +44,16 @@ export default function TestOrder() {
     if (saved) {
       const order = JSON.parse(saved);          // ← order is declared here
       setConfirmationNumber(order.confirmationNumber || 'AC-543-XXXXXX');
-      localStorage.setItem(SPONSOR_KEY, JSON.stringify({
-        customerName: formData.customerName,
-        phone: formData.phone,
-        email: formData.email,
-        address: formData.address,
-        city: formData.city,
-        state: formData.state,
-        zip: formData.zip,
+      sessionStorage.setItem('savedSponsor', JSON.stringify({
+      customerName: formData.customerName,
+      phone: formData.phone,
+      email: formData.email,
+      address: formData.address,
+      city: formData.city,
+      state: formData.state,
+      zip: formData.zip,
 }));
-      setShowSuccess(true);
+setShowSuccess(true);
 
       // Send emails
       fetch('/api/send-order-emails', {
@@ -108,6 +108,7 @@ export default function TestOrder() {
 
   setShowSuccess(false);
   setShowPreview(false);
+  setOrderComplete(false);
 
   setFormData(prev => ({
     ...prev,
@@ -116,6 +117,8 @@ export default function TestOrder() {
     line3: '',
     line4: '',
   }));
+
+  window.scrollTo(0, 0);
 };
   const done = () => {
     localStorage.removeItem(STORAGE_KEY);
