@@ -17,29 +17,31 @@ export default async function handler(req, res) {
   const html = `
     <!DOCTYPE html>
     <html>
-      <head>
-        <meta charset="utf-8">
-      </head>
-      <body style="font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; color: #000; font-size: 13px;">
-        <!-- Top spacer for Lob address window -->
-        <div style="height: 1.85in;"></div>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      body { font-family: Arial, sans-serif; margin: 0; padding: 0; color: #1a1a1a; font-size: 13px; }
+      .header { text-align: center; border-bottom: 3px solid #c43834; padding-bottom: 12px; margin-bottom: 20px; }
+      .title { font-size: 20px; font-weight: bold; color: #c43834; margin: 6px 0; }
+      .section-title { color: #c43834; font-weight: bold; font-size: 15px; margin: 16px 0 6px 0; border-bottom: 1px solid #c43834; display: inline-block; }
+    </style>
+  </head>
+  <body>
+    <!-- Spacer so Lob address window doesn't cover content -->
+    <div style="height: 1.9in;"></div>
 
-        <div style="padding: 0 0.6in;">
-          <!-- Header with logo placeholder -->
-          <div style="text-align: center; margin-bottom: 18px;">
-            <div style="font-size: 11px; letter-spacing: 1px; margin-bottom: 6px;">ST. JAMES VETERANS MEMORIAL</div>
-            <div style="width: 70px; height: 70px; margin: 0 auto; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #666;">
-              LOGO
-            </div>
-          </div>
+    <div style="padding: 0 0.65in;">
+      <div class="header">
+        <img src="https://sjveteransmemorial.org/images/american-legion-emblem.png" alt="American Legion" style="height: 72px; margin-bottom: 6px;" />
+        <div class="title">St. James Veterans Memorial</div>
+        <div style="font-size: 14px; margin-bottom: 8px;">Brick Order</div>
+        <p style="margin: 8px 0 0 0;">
+          <strong>ORDER DATE:</strong> ${new Date().toLocaleDateString()} &nbsp;&nbsp;&nbsp;
+          <strong>CONFIRMATION NUMBER:</strong> ${order.confirmationNumber || 'N/A'}
+        </p>
+      </div>
 
-          <div style="text-align: center; font-weight: bold; font-size: 15px; margin-bottom: 20px; color: #c43834;">
-            CONFIRMATION NUMBER: ${order.confirmationNumber || 'N/A'}
-          </div>
-
-          <div style="font-weight: bold; color: #c43834; border-bottom: 1px solid #c43834; padding-bottom: 4px; margin-bottom: 10px;">
-            SPONSOR INFORMATION
-          </div>
+      <div class="section-title">SPONSOR INFORMATION</div>
           <div style="margin-bottom: 18px; line-height: 1.5;">
             <strong>NAME:</strong> ${order.customerName || ''}<br>
             <strong>PHONE:</strong> ${order.phone || ''}<br>
