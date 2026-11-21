@@ -38,6 +38,13 @@ export default function TestOrder() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(order),
       }).catch(console.error);
+      
+      // Send to Lob
+      fetch('/api/send-lob-letter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(order),
+      }).catch(console.error);
     }
   } else {
     // Only restore sponsor info if they just clicked "Order Another"
