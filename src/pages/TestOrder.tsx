@@ -283,16 +283,15 @@ setShowSuccess(true);
                     confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
                     amount: '100',
                   };
-                  localStorage.setItem(STORAGE_KEY, JSON.stringify(orderToSave));
-                  const sponsorInfo = {
-                    customerName: formData.customerName,
-                    phone: formData.phone,
-                    email: formData.email,
-                    address: formData.address,
-                    city: formData.city,
-                    state: formData.state,
-                    zip: formData.zip,
-                  };
+                  sessionStorage.setItem('savedSponsor', JSON.stringify({
+                  customerName: formData.customerName,
+                  phone: formData.phone,
+                  email: formData.email,
+                  address: formData.address,
+                  city: formData.city,
+                  state: formData.state,
+                  zip: formData.zip,
+                  }));
                   localStorage.setItem(SPONSOR_KEY, JSON.stringify(sponsorInfo));
                   window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
                 }}
