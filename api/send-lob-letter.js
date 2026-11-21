@@ -5,26 +5,50 @@ export default async function handler(req, res) {
   if (!LOB_TEST_KEY) return res.status(500).json({ error: 'Lob key missing' });
 
   const order = req.body || {};
+
   const lines = [order.line1, order.line2, order.line3, order.line4]
-    .filter(Boolean)
-    .join('<br>') || 'No inscription';
+    .filter(line => line && line.trim())
+    .map(line => line.toUpperCase())
+    .join('<br>') || 'No inscription provided';
 
   const html = `
+    <!DOCTYPE html>
     <html>
-      <body style="font-family: Arial, sans-serif; margin: 0.75in; font-size: 14px;">
-        <h2 style="color: #c43834;">St. James Veterans Memorial – Brick Order</h2>
-        <p><strong>Confirmation:</strong> ${order.confirmationNumber || 'N/A'}</p>
-        <hr>
-        <p><strong>Inscription:</strong><br>${lines}</p>
-        <p><strong>Sponsor:</strong><br>
-          ${order.customerName || ''}<br>
-          ${order.phone || ''}<br>
-          ${order.email || ''}<br>
-          ${[order.address, order.city, order.state, order.zip].filter(Boolean).join(', ')}
-        </p>
-        <p style="margin-top: 2em; font-size: 12px; color: #666;">
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body { font-family: Arial, Helvetica, sans-serif; margin: 0.6in; font-size: 13px; color: #000; }
+          h1 { color: #c43834; font-size: 22px; margin-bottom: 4px; }
+          .label { font-weight: bold; }
+          .section { margin: 16px 0; }
+        </style>
+      </head>
+      <body>
+        <h1>St. James Veterans Memorial</h1>
+        <div style="font-size: 16px; margin-bottom: 20px;">Brick Order</div>
+
+        <div class="section">
+          <span class="label">Confirmation:</span> ${order.confirmationNumber || 'N/A'}
+        </div>
+
+        <div class="section">
+          <div class="label">Inscription:</div>
+          <div style="margin-top: 6px; line-height: 1.5;">${lines}</div>
+        </div>
+
+        <div class="section">
+          <div class="label">Sponsor:</div>
+          <div style="margin-top: 6px;">
+            ${order.customerName || ''}<br>
+            ${order.phone || ''}<br>
+            ${order.email || ''}<br>
+            ${[order.address, order.city, order.state, order.zip].filter(Boolean).join(', ')}
+          </div>
+        </div>
+
+        <div style="margin-top: 30px; font-size: 11px; color: #555;">
           This order has been mailed to Tom Picinich.
-        </p>
+        </div>
       </body>
     </html>
   `;
@@ -40,7 +64,7 @@ export default async function handler(req, res) {
         to: {
           name: 'Tom Picinich',
           address_line1: '4355 Tidemarsh Ct',
-          address_city: 'St. James',
+          address_city: 'Southport',
           address_state: 'NC',
           address_zip: '28461',
         },
