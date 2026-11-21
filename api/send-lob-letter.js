@@ -6,33 +6,42 @@ export default async function handler(req, res) {
 
   const order = req.body || {};
 
-  const lines = [order.line1, order.line2, order.line3, order.line4]
-    .filter(l => l && l.trim())
-    .map(l => l.toUpperCase())
-    .join('<br>') || 'NO INSCRIPTION';
+  const inscriptionLines = [order.line1, order.line2, order.line3, order.line4]
+    .filter(line => line && String(line).trim())
+    .map(line => String(line).toUpperCase());
+
+  const inscriptionHtml = inscriptionLines.length > 0
+    ? inscriptionLines.join('<br>')
+    : 'NO INSCRIPTION PROVIDED';
 
   const html = `
     <!DOCTYPE html>
     <html>
-      <head><meta charset="utf-8"></head>
-      <body style="font-family: Arial, sans-serif; margin: 0.65in; font-size: 13px; color: #000;">
-        <h1 style="color: #c43834; margin: 0 0 4px 0; font-size: 22px;">St. James Veterans Memorial</h1>
-        <div style="font-size: 16px; margin-bottom: 20px;">Brick Order</div>
+      <head>
+        <meta charset="utf-8">
+      </head>
+      <body style="font-family: Arial, Helvetica, sans-serif; margin: 0.7in; font-size: 13px; color: #000; line-height: 1.4;">
+        <h1 style="color: #c43834; margin: 0 0 6px 0; font-size: 24px;">St. James Veterans Memorial</h1>
+        <div style="font-size: 17px; margin-bottom: 24px;">Brick Order</div>
 
-        <p><strong>Confirmation:</strong> ${order.confirmationNumber || 'N/A'}</p>
-
-        <p><strong>Inscription:</strong><br>
-          <span style="line-height: 1.6;">${lines}</span>
+        <p style="margin: 0 0 16px 0;">
+          <strong>Confirmation:</strong> ${order.confirmationNumber || 'N/A'}
         </p>
 
-        <p><strong>Sponsor:</strong><br>
+        <p style="margin: 0 0 16px 0;">
+          <strong>Inscription:</strong><br>
+          <span style="display: inline-block; margin-top: 6px; line-height: 1.6;">${inscriptionHtml}</span>
+        </p>
+
+        <p style="margin: 0 0 16px 0;">
+          <strong>Sponsor:</strong><br>
           ${order.customerName || ''}<br>
           ${order.phone || ''}<br>
           ${order.email || ''}<br>
           ${[order.address, order.city, order.state, order.zip].filter(Boolean).join(', ')}
         </p>
 
-        <p style="margin-top: 30px; font-size: 11px; color: #555;">
+        <p style="margin-top: 32px; font-size: 11px; color: #555;">
           This order has been mailed to Tom Picinich.
         </p>
       </body>
