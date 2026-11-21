@@ -18,6 +18,37 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ArcEleme
 
 const ADMIN_PASSWORD = "Post543Admin2026";
 
+const sendTestLob = async () => {
+  const testOrder = {
+    confirmationNumber: 'TEST-LOB-' + Math.floor(Math.random() * 100000),
+    line1: 'TEST INSCRIPTION LINE 1',
+    line2: 'TEST INSCRIPTION LINE 2',
+    line3: 'TEST LINE 3',
+    line4: 'TEST LINE 4',
+    customerName: 'Test Sponsor',
+    phone: '9105551212',
+    email: 'test@example.com',
+    address: '123 Test Street',
+    city: 'Southport',
+    state: 'NC',
+    zip: '28461',
+  };
+
+  try {
+    const res = await fetch('/api/send-lob-letter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(testOrder),
+    });
+    const data = await res.json();
+    alert(data.success ? 'Test letter sent to Lob!' : 'Error: ' + JSON.stringify(data));
+    console.log('Lob test result:', data);
+  } catch (err) {
+    alert('Failed to send test letter');
+    console.error(err);
+  }
+};
+
 export default function Admin() {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -129,6 +160,13 @@ export default function Admin() {
             </button>
           </div>
         </div>
+
+<button
+  onClick={sendTestLob}
+  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium"
+>
+  Send Free Test Lob Letter
+</button>
 
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">

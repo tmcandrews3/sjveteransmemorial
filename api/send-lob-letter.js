@@ -7,48 +7,34 @@ export default async function handler(req, res) {
   const order = req.body || {};
 
   const lines = [order.line1, order.line2, order.line3, order.line4]
-    .filter(line => line && line.trim())
-    .map(line => line.toUpperCase())
-    .join('<br>') || 'No inscription provided';
+    .filter(l => l && l.trim())
+    .map(l => l.toUpperCase())
+    .join('<br>') || 'NO INSCRIPTION';
 
   const html = `
     <!DOCTYPE html>
     <html>
-      <head>
-        <meta charset="utf-8">
-        <style>
-          body { font-family: Arial, Helvetica, sans-serif; margin: 0.6in; font-size: 13px; color: #000; }
-          h1 { color: #c43834; font-size: 22px; margin-bottom: 4px; }
-          .label { font-weight: bold; }
-          .section { margin: 16px 0; }
-        </style>
-      </head>
-      <body>
-        <h1>St. James Veterans Memorial</h1>
+      <head><meta charset="utf-8"></head>
+      <body style="font-family: Arial, sans-serif; margin: 0.65in; font-size: 13px; color: #000;">
+        <h1 style="color: #c43834; margin: 0 0 4px 0; font-size: 22px;">St. James Veterans Memorial</h1>
         <div style="font-size: 16px; margin-bottom: 20px;">Brick Order</div>
 
-        <div class="section">
-          <span class="label">Confirmation:</span> ${order.confirmationNumber || 'N/A'}
-        </div>
+        <p><strong>Confirmation:</strong> ${order.confirmationNumber || 'N/A'}</p>
 
-        <div class="section">
-          <div class="label">Inscription:</div>
-          <div style="margin-top: 6px; line-height: 1.5;">${lines}</div>
-        </div>
+        <p><strong>Inscription:</strong><br>
+          <span style="line-height: 1.6;">${lines}</span>
+        </p>
 
-        <div class="section">
-          <div class="label">Sponsor:</div>
-          <div style="margin-top: 6px;">
-            ${order.customerName || ''}<br>
-            ${order.phone || ''}<br>
-            ${order.email || ''}<br>
-            ${[order.address, order.city, order.state, order.zip].filter(Boolean).join(', ')}
-          </div>
-        </div>
+        <p><strong>Sponsor:</strong><br>
+          ${order.customerName || ''}<br>
+          ${order.phone || ''}<br>
+          ${order.email || ''}<br>
+          ${[order.address, order.city, order.state, order.zip].filter(Boolean).join(', ')}
+        </p>
 
-        <div style="margin-top: 30px; font-size: 11px; color: #555;">
+        <p style="margin-top: 30px; font-size: 11px; color: #555;">
           This order has been mailed to Tom Picinich.
-        </div>
+        </p>
       </body>
     </html>
   `;
@@ -57,7 +43,7 @@ export default async function handler(req, res) {
     const response = await fetch('https://api.lob.com/v1/letters', {
       method: 'POST',
       headers: {
-        'Authorization': 'Basic ' + Buffer.from(LOB_TEST_KEY + ':').toString('base64'),
+        Authorization: 'Basic ' + Buffer.from(LOB_TEST_KEY + ':').toString('base64'),
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
