@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       </head>
       <body style="font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; font-size: 13px; color: #000;">
         <!-- Extra top space so Lob's address window doesn't cover content -->
-        <div style="height: 2.1in;"></div>
+        <div style="height: 2.4in;"></div>
 
         <div style="padding: 0 0.65in;">
           <h1 style="color: #c43834; margin: 0 0 6px 0; font-size: 22px;">St. James Veterans Memorial</h1>
