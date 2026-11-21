@@ -23,6 +23,20 @@ export default function TestOrder() {
   const [confirmationNumber, setConfirmationNumber] = useState('');
 
   useEffect(() => {
+  if (sessionStorage.getItem('orderAnother') === 'true') {
+    const saved = sessionStorage.getItem('savedSponsor');
+    if (saved) {
+      const sponsor = JSON.parse(saved);
+      setFormData(prev => ({
+        ...prev,
+        ...sponsor,
+      }));
+    }
+    sessionStorage.removeItem('orderAnother');
+  }
+}, []);
+
+  useEffect(() => {
   const params = new URLSearchParams(window.location.search);
 
   if (params.get('success') === 'true' || params.get('success') === '1') {
@@ -30,6 +44,15 @@ export default function TestOrder() {
     if (saved) {
       const order = JSON.parse(saved);          // ← order is declared here
       setConfirmationNumber(order.confirmationNumber || 'AC-543-XXXXXX');
+      localStorage.setItem(SPONSOR_KEY, JSON.stringify({
+        customerName: formData.customerName,
+        phone: formData.phone,
+        email: formData.email,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        zip: formData.zip,
+}));
       setShowSuccess(true);
 
       // Send emails
@@ -82,17 +105,18 @@ export default function TestOrder() {
 
   const orderAnother = () => {
   sessionStorage.setItem('orderAnother', 'true');
-    setShowSuccess(false);
-    setShowPreview(false);
-    setFormData(prev => ({
-      ...prev,
-      line1: '',
-      line2: '',
-      line3: '',
-      line4: '',
-    }));
-  };
 
+  setShowSuccess(false);
+  setShowPreview(false);
+
+  setFormData(prev => ({
+    ...prev,
+    line1: '',
+    line2: '',
+    line3: '',
+    line4: '',
+  }));
+};
   const done = () => {
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem(SPONSOR_KEY);
