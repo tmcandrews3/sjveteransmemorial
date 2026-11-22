@@ -1,9 +1,8 @@
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const LOB_TEST_KEY = process.env.LOB_TEST_KEY;
-  if (!LOB_TEST_KEY) return res.status(500).json({ error: 'Lob key missing' });
-
+  const LOB_KEY = process.env.LOB_LIVE_KEY || process.env.LOB_TEST_KEY;
+if (!LOB_KEY) return res.status(500).json({ error: 'Lob key missing' });
   const order = req.body || {};
 
   const lines = [order.line1, order.line2, order.line3, order.line4]
@@ -78,11 +77,11 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch('https://api.lob.com/v1/letters', {
-      method: 'POST',
-      headers: {
-        Authorization: 'Basic ' + Buffer.from(LOB_TEST_KEY + ':').toString('base64'),
-        'Content-Type': 'application/json',
-      },
+  method: 'POST',
+  headers: {
+    Authorization: 'Basic ' + Buffer.from(LOB_KEY + ':').toString('base64'),
+    'Content-Type': 'application/json',
+  },
       body: JSON.stringify({
         to: {
           name: 'Tom Picinich',
