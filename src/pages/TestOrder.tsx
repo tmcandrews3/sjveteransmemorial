@@ -27,47 +27,23 @@ export default function TestOrder() {
   useEffect(() => {
   const params = new URLSearchParams(window.location.search);
 
+  // Success return from GiveButter (or our fake test)
   if (params.get('success') === 'true' || params.get('success') === '1') {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      const order = JSON.parse(saved);          // ← order is declared here
-      setConfirmationNumber(order.confirmationNumber || 'AC-543-XXXXXX');
-      sessionStorage.setItem('savedSponsor', JSON.stringify({
-      customerName: formData.customerName,
-      phone: formData.phone,
-      email: formData.email,
-      address: formData.address,
-      city: formData.city,
-      state: formData.state,
-      zip: formData.zip,
-}));
-console.log('Saved sponsor:', sessionStorage.getItem('savedSponsor'));
-setShowSuccess(true);
+    setShowSuccess(true);
+    // clear the query string so a refresh doesn’t re-trigger
+    window.history.replaceState({}, '', '/test-order');
+    return;
+  }
 
-      // Send emails
-      fetch('/api/send-order-emails', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(order),
-      }).catch(console.error);
-      
-      // Send to Lob
-      fetch('/api/send-lob-letter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(order),
-      }).catch(console.error);
-    }
-  } else {
-    // Only restore sponsor info if they just clicked "Order Another"
-    const savedSponsor = localStorage.getItem(SPONSOR_KEY);
-    if (savedSponsor && sessionStorage.getItem('orderAnother') === 'true') {
-      const sponsor = JSON.parse(savedSponsor);
+  // Order Another flow
+  if (sessionStorage.getItem('orderAnother') === 'true') {
+    const saved = sessionStorage.getItem('savedSponsor');
+      if (saved) {
+      const sponsor = JSON.parse(saved);
       setFormData(prev => ({ ...prev, ...sponsor }));
-      sessionStorage.removeItem('orderAnother');
-    } else {
-      localStorage.removeItem(SPONSOR_KEY);
     }
+    sessionStorage.removeItem('orderAnother');
+    sessionStorage.removeItem('savedSponsor');
   }
 }, []);
 
@@ -149,9 +125,15 @@ setShowSuccess(true);
               You should receive a copy of your invoice from GiveButter shortly, and a confirmation email from us with your brick details.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button onClick={orderAnother} className="bg-[#c43834] text-white px-8 py-3 rounded-xl font-medium">
-                Order Another Brick
-              </button>
+              <button
+  onClick={() => {
+    sessionStorage.setItem('orderAnother', 'true');
+    window.location.href = '/test-order';
+  }}
+  className="bg-[#c43834] text-white px-8 py-3 rounded-xl font-medium"
+>
+  Order Another Brick
+</button>
               <button onClick={done} className="border border-gray-300 px-8 py-3 rounded-xl font-medium">
                 Done
               </button>
@@ -277,30 +259,25 @@ setShowSuccess(true);
             </div>
             <div className="flex flex-col sm:flex-row gap-4 mt-6">
               <button
-                onClick={() => {
-  const orderToSave = {
-    ...formData,
-    confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
-    amount: '100',
-  };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(orderToSave));
-
-  sessionStorage.setItem('savedSponsor', JSON.stringify({
-    customerName: formData.customerName,
-    phone: formData.phone,
-    email: formData.email,
-    address: formData.address,
-    city: formData.city,
-    state: formData.state,
-    zip: formData.zip,
-  }));
-
-  window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
+  onClick={() => {
+     // Save sponsor data before leaving
+    try {
+    const sponsor = {
+      customerName: formData.customerName,
+      phone: formData.phone,
+      email: formData.email,
+      address: formData.address,
+      city: formData.city,
+      state: formData.state,
+      zip: formData.zip,
+    };
+    sessionStorage.setItem('savedSponsor', JSON.stringify(sponsor));
+    window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
 }}
-                className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-medium"
-              >
-                Continue to GiveButter
-              </button>
+  className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-medium"
+>
+  Continue to GiveButter
+</button>
               <button onClick={() => setShowPreview(false)} className="flex-1 border border-gray-300 py-3 rounded-xl font-medium">
                 Edit
               </button>
