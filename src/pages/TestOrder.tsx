@@ -36,6 +36,27 @@ export default function TestOrder() {
     if (params.get('success') === 'true' || params.get('success') === '1') {
       setShowSuccess(true);
       window.history.replaceState({}, '', '/test-order');
+
+      // Build order object for emails + Lob
+      const order = {
+        ...formData,
+        confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
+      };
+
+      // Send emails
+      fetch('/api/send-order-emails', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(order),
+      }).catch(console.error);
+
+      // Send to Lob
+      fetch('/api/send-lob-letter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(order),
+      }).catch(console.error);
+
       return;
     }
 
@@ -78,101 +99,170 @@ export default function TestOrder() {
     };
     sessionStorage.setItem('savedSponsor', JSON.stringify(sponsor));
 
-      window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
+    // Replace with your real GiveButter URL
+    window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
   };
 
   if (showSuccess) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
-        <div className="bg-white rounded-2xl shadow-xl p-10 max-w-md w-full text-center">
-          <h2 className="text-2xl font-bold text-[#263b6c] mb-4">Order Successful!</h2>
-          <p className="text-gray-600 mb-8">You should receive a confirmation email shortly.</p>
-          <div className="space-y-4">
-            <button
-              onClick={() => {
-                sessionStorage.setItem('orderAnother', 'true');
-                window.location.href = '/test-order';
-              }}
-              className="w-full bg-[#c43834] text-white px-8 py-3 rounded-xl font-medium"
-            >
-              Order Another Brick
-            </button>
-            <button
-              onClick={() => window.close()}
-              className="w-full bg-gray-200 text-gray-800 px-8 py-3 rounded-xl font-medium"
-            >
-              Done
-            </button>
+      <div className="min-h-screen bg-gray-50 flex flex-col">
+        {/* Header */}
+        <div className="bg-white border-b-4 border-[#e04a38]">
+          <div className="max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
+            <a href="https://ncpost543.org" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
+              <img src="/images/american-legion-logo.png" alt="American Legion" className="h-14 md:h-20" />
+            </a>
+            <div className="text-center flex-1 px-4">
+              <div className="text-[#e04a38] text-xl md:text-3xl font-bold tracking-widest">
+                Richard H. Stewart, Jr. Post 543
+              </div>
+              <div className="text-[#e04a38] text-sm md:text-lg font-bold tracking-widest">
+                St. James, NC 28461
+              </div>
+            </div>
+            <a href="https://ncpost543.org" className="bg-[#e04a38] hover:bg-red-700 text-white px-5 md:px-8 py-2.5 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap">
+              Home
+            </a>
           </div>
         </div>
+
+        <div className="flex-1 flex items-center justify-center p-6">
+          <div className="bg-white rounded-2xl shadow-xl p-10 max-w-md w-full text-center">
+            <h2 className="text-2xl font-bold text-[#263b6c] mb-4">Order Successful!</h2>
+            <p className="text-gray-600 mb-8">You should receive a confirmation email shortly.</p>
+            <div className="space-y-4">
+              <button
+                onClick={() => {
+                  sessionStorage.setItem('orderAnother', 'true');
+                  window.location.href = '/test-order';
+                }}
+                className="w-full bg-[#c43834] text-white px-8 py-3 rounded-xl font-medium"
+              >
+                Order Another Brick
+              </button>
+              <button
+                onClick={() => window.close()}
+                className="w-full bg-gray-200 text-gray-800 px-8 py-3 rounded-xl font-medium"
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <footer className="bg-white border-t border-gray-200 py-8 text-center text-[#263b6c]">
+          <div className="max-w-7xl mx-auto px-6">
+            <div>Veterans Memorial • Richard H. Stewart, Jr. Post 543 • St. James, NC 28461</div>
+            <div className="mt-2">
+              For questions or to report issues, please visit our{" "}
+              <a href="https://ncpost543.org/contact-2/" target="_blank" rel="noopener noreferrer" className="text-[#e04a38] hover:underline">
+                Contact Page
+              </a>
+            </div>
+          </div>
+        </footer>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8">
-        <h1 className="text-3xl font-bold text-[#263b6c] mb-2 text-center">Memorial Brick Order</h1>
-        <p className="text-center text-gray-600 mb-8">St. James Veterans Memorial • Post 543</p>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Brick lines */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Line 1</label>
-            <input name="line1" value={formData.line1} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" maxLength={20} />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Line 2</label>
-            <input name="line2" value={formData.line2} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" maxLength={20} />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Line 3</label>
-            <input name="line3" value={formData.line3} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" maxLength={20} />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Line 4</label>
-            <input name="line4" value={formData.line4} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" maxLength={20} />
-          </div>
-
-          <hr className="my-6" />
-
-          {/* Sponsor info */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Your Name *</label>
-            <input name="customerName" value={formData.customerName} onChange={handleChange} required className="w-full border rounded-lg px-4 py-2" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
-            <input name="phone" value={formData.phone} onChange={handleChange} required className="w-full border rounded-lg px-4 py-2" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-            <input name="email" type="email" value={formData.email} onChange={handleChange} required className="w-full border rounded-lg px-4 py-2" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
-            <input name="address" value={formData.address} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
-              <input name="city" value={formData.city} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      {/* Header */}
+      <div className="bg-white border-b-4 border-[#e04a38]">
+        <div className="max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
+          <a href="https://ncpost543.org" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
+            <img src="/images/american-legion-logo.png" alt="American Legion" className="h-14 md:h-20" />
+          </a>
+          <div className="text-center flex-1 px-4">
+            <div className="text-[#e04a38] text-xl md:text-3xl font-bold tracking-widest">
+              Richard H. Stewart, Jr. Post 543
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
-              <input name="state" value={formData.state} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
+            <div className="text-[#e04a38] text-sm md:text-lg font-bold tracking-widest">
+              St. James, NC 28461
             </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">ZIP</label>
-            <input name="zip" value={formData.zip} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
-          </div>
-
-          <button type="submit" className="w-full bg-[#c43834] text-white py-3 rounded-xl font-medium text-lg">
-            Continue to GiveButter
-          </button>
-        </form>
+          <a href="https://ncpost543.org" className="bg-[#e04a38] hover:bg-red-700 text-white px-5 md:px-8 py-2.5 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap">
+            Home
+          </a>
+        </div>
       </div>
+
+      <div className="flex-1 py-12 px-4">
+        <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8">
+          <h1 className="text-3xl font-bold text-[#263b6c] mb-2 text-center">Memorial Brick Order</h1>
+          <p className="text-center text-gray-600 mb-8">St. James Veterans Memorial • Post 543</p>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Line 1</label>
+              <input name="line1" value={formData.line1} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" maxLength={20} />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Line 2</label>
+              <input name="line2" value={formData.line2} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" maxLength={20} />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Line 3</label>
+              <input name="line3" value={formData.line3} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" maxLength={20} />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Line 4</label>
+              <input name="line4" value={formData.line4} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" maxLength={20} />
+            </div>
+
+            <hr className="my-6" />
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Your Name *</label>
+              <input name="customerName" value={formData.customerName} onChange={handleChange} required className="w-full border rounded-lg px-4 py-2" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+              <input name="phone" value={formData.phone} onChange={handleChange} required className="w-full border rounded-lg px-4 py-2" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+              <input name="email" type="email" value={formData.email} onChange={handleChange} required className="w-full border rounded-lg px-4 py-2" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+              <input name="address" value={formData.address} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                <input name="city" value={formData.city} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
+                <input name="state" value={formData.state} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">ZIP</label>
+              <input name="zip" value={formData.zip} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" />
+            </div>
+
+            <button type="submit" className="w-full bg-[#c43834] text-white py-3 rounded-xl font-medium text-lg">
+              Continue to GiveButter
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-gray-200 py-8 text-center text-[#263b6c]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div>Veterans Memorial • Richard H. Stewart, Jr. Post 543 • St. James, NC 28461</div>
+          <div className="mt-2">
+            For questions or to report issues, please visit our{" "}
+            <a href="https://ncpost543.org/contact-2/" target="_blank" rel="noopener noreferrer" className="text-[#e04a38] hover:underline">
+              Contact Page
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
