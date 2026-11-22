@@ -34,31 +34,30 @@ export default function TestOrder() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('success') === 'true' || params.get('success') === '1') {
-      setShowSuccess(true);
-      window.history.replaceState({}, '', '/test-order');
+  setShowSuccess(true);
+  window.history.replaceState({}, '', '/test-order');
 
-      // Build order object for emails + Lob
-      const order = {
-        ...formData,
-        confirmationNumber: 'AC-543-' + Date.now().toString().slice(-6),
-      };
+  // Pull the saved data for emails + Lob
+  const saved = sessionStorage.getItem('savedSponsor');
+  const order = saved ? JSON.parse(saved) : {};
+  order.confirmationNumber = 'AC-543-' + Date.now().toString().slice(-6);
 
-      // Send emails
-      fetch('/api/send-order-emails', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(order),
-      }).catch(console.error);
+  // Send emails
+  fetch('/api/send-order-emails', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(order),
+  }).catch(console.error);
 
-      // Send to Lob
-      fetch('/api/send-lob-letter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(order),
-      }).catch(console.error);
+  // Send to Lob
+  fetch('/api/send-lob-letter', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(order),
+  }).catch(console.error);
 
-      return;
-    }
+  return;
+}
 
     if (sessionStorage.getItem('orderAnother') === 'true') {
       const saved = sessionStorage.getItem('savedSponsor');
