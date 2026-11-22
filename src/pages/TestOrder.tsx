@@ -20,7 +20,7 @@ export default function TestOrder() {
 
   const [showPreview, setShowPreview] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [confirmationNumber, setConfirmationNumber] = useState('');
+  const [confirmationNumber] = useState('AC-543-XXXXXX');
 
   useEffect
 
@@ -67,9 +67,6 @@ export default function TestOrder() {
 
     setShowPreview(true);
   };
-
-  const orderAnother = () => {
-  sessionStorage.setItem('orderAnother', 'true');
 
   setShowSuccess(false);
   setShowPreview(false);
