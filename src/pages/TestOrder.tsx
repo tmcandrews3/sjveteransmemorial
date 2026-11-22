@@ -27,7 +27,7 @@ export default function TestOrder() {
   useEffect(() => {
   const params = new URLSearchParams(window.location.search);
 
-  // Success return from GiveButter (or our fake test)
+  // Success return from GiveButter 
   if (params.get('success') === 'true' || params.get('success') === '1') {
     setShowSuccess(true);
     // clear the query string so a refresh doesn’t re-trigger
