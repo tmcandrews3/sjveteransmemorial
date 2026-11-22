@@ -88,18 +88,21 @@ export default function TestOrder() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const sponsor = {
-      customerName: formData.customerName,
-      phone: formData.phone,
-      email: formData.email,
-      address: formData.address,
-      city: formData.city,
-      state: formData.state,
-      zip: formData.zip,
-    };
-    sessionStorage.setItem('savedSponsor', JSON.stringify(sponsor));
+  line1: formData.line1,
+  line2: formData.line2,
+  line3: formData.line3,
+  line4: formData.line4,
+  customerName: formData.customerName,
+  phone: formData.phone,
+  email: formData.email,
+  address: formData.address,
+  city: formData.city,
+  state: formData.state,
+  zip: formData.zip,
+};
+sessionStorage.setItem('savedSponsor', JSON.stringify(sponsor));
 
-    // Replace with your real GiveButter URL
-    window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
+      window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
   };
 
   if (showSuccess) {
