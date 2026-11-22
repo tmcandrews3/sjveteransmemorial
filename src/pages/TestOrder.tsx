@@ -27,7 +27,7 @@ export default function TestOrder() {
   useEffect(() => {
   const params = new URLSearchParams(window.location.search);
 
-  // Success return from GiveButter 
+  // Success return from GiveButter (or our fake test)
   if (params.get('success') === 'true' || params.get('success') === '1') {
     setShowSuccess(true);
     // clear the query string so a refresh doesn’t re-trigger
@@ -260,18 +260,7 @@ export default function TestOrder() {
             <div className="flex flex-col sm:flex-row gap-4 mt-6">
               <button
   onClick={() => {
-     // Save sponsor data before leaving
-    try {
-    const sponsor = {
-      customerName: formData.customerName,
-      phone: formData.phone,
-      email: formData.email,
-      address: formData.address,
-      city: formData.city,
-      state: formData.state,
-      zip: formData.zip,
-    };
-    sessionStorage.setItem('savedSponsor', JSON.stringify(sponsor));
+ 
     window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
 }}
   className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-medium"
