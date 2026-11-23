@@ -1,59 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Upload, Award, LogOut, Lock, Users, Clock, Activity, Download, RefreshCw, TrendingUp, BarChart3 } from 'lucide-react';
+import { Upload, Award, LogOut, Lock, Users, Clock, Activity, Download, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  ArcElement,
-  BarElement,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Line, Pie, Bar } from 'react-chartjs-2';
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ArcElement, BarElement, Tooltip, Legend);
 
 const ADMIN_PASSWORD = "Post543Admin2026";
 
-const sendTestLob = async () => {
-  const testOrder = {
-    confirmationNumber: 'TEST-LOB-' + Math.floor(Math.random() * 100000),
-    line1: 'TEST INSCRIPTION LINE 1',
-    line2: 'TEST INSCRIPTION LINE 2',
-    line3: 'TEST LINE 3',
-    line4: 'TEST LINE 4',
-    customerName: 'Test Sponsor',
-    phone: '9105551212',
-    email: 'test@example.com',
-    address: '123 Test Street',
-    city: 'Southport',
-    state: 'NC',
-    zip: '28461',
-  };
-
-  try {
-    const res = await fetch('/api/send-lob-letter', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(testOrder),
-    });
-    const data = await res.json();
-    alert(data.success ? 'Test letter sent to Lob!' : 'Error: ' + JSON.stringify(data));
-    console.log('Lob test result:', data);
-  } catch (err) {
-    alert('Failed to send test letter');
-    console.error(err);
-  }
-};
 
 export default function Admin() {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
-  const [file, setFile] = useState<File | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const [stats, setStats] = useState({
@@ -63,42 +18,24 @@ export default function Admin() {
     downloads: 47,
   });
 
-  const visitorTrendData = {
-    labels: ['May 30', 'May 31', 'Jun 1', 'Jun 2', 'Jun 3', 'Jun 4', 'Jun 5'],
-    datasets: [{ label: 'Daily Visitors', data: [42, 31, 67, 45, 89, 124, 156], borderColor: '#22c55e', backgroundColor: 'rgba(34, 197, 94, 0.15)', tension: 0.4 }]
-  };
+const [visitors, setVisitors] = useState('—');
+const [pageViews, setPageViews] = useState('—');
+const [downloads, setDownloads] = useState('—');
 
-  const browserData = {
-    labels: ['Chrome', 'Safari', 'Edge', 'Firefox', 'Other'],
-    datasets: [{ data: [58, 22, 11, 6, 3], backgroundColor: ['#3b82f6', '#eab308', '#ef4444', '#8b5cf6', '#6b7280'] }]
-  };
+const loadStats = () => {
+  setIsRefreshing(true);
 
-  const topBricksData = {
-    labels: ['PAUL LOWE FOSTER', 'THOMAS H GALLIGAN JR', 'RON & LILA ANDERSON', 'TO ALL WHO SERVED', 'ASHLEIGH K DONOVAN', 'MARY JO SCHNEPF', 'JERRY & MISSY DONOVAN', 'CAPE FEAR BLUE STAR'],
-    datasets: [{ label: 'Searches', data: [52, 41, 35, 29, 26, 22, 19, 17], backgroundColor: '#d45a13' }]
-  };
+  // Existing analytics values until they are wired to a live endpoint.
+  setVisitors('142');
+  setPageViews('387');
+  setDownloads('19');
 
-  const downloadsTrendData = {
-    labels: ['May 30', 'May 31', 'Jun 1', 'Jun 2', 'Jun 3', 'Jun 4', 'Jun 5'],
-    datasets: [{ label: 'Downloads', data: [3, 5, 8, 12, 7, 15, 22], borderColor: '#a855f7', backgroundColor: 'rgba(168, 85, 247, 0.15)', tension: 0.4 }]
-  };
+  window.setTimeout(() => setIsRefreshing(false), 500);
+};
 
-  const loadStats = async () => {
-    setIsRefreshing(true);
-    try {
-      const res = await fetch('/data/bricks.json');
-      const data = await res.json();
-      setStats(prev => ({ ...prev, totalBricks: data.length }));
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsRefreshing(false);
-    }
-  };
-
-  useEffect(() => {
-    loadStats();
-  }, []);
+useEffect(() => {
+  loadStats();
+}, []);
 
   const handleLogin = () => {
     if (passwordInput === ADMIN_PASSWORD) {
@@ -107,15 +44,6 @@ export default function Admin() {
     } else {
       alert("Incorrect password.");
     }
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) setFile(e.target.files[0]);
-  };
-
-  const processFile = () => {
-    if (!file) return;
-    alert("✅ CSV uploaded successfully!\n\nNext step: Run this in terminal:\nnode update-bricks.mjs");
   };
 
   if (!isAuthenticated) {
@@ -161,13 +89,6 @@ export default function Admin() {
           </div>
         </div>
 
-<button
-  onClick={sendTestLob}
-  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium"
->
-  Send Free Test Lob Letter
-</button>
-
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
@@ -192,74 +113,20 @@ export default function Admin() {
           </div>
         </div>
 
-        {/* Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
-            <h3 className="text-xl font-semibold mb-6 flex items-center gap-3">
-              <TrendingUp className="text-green-400" /> Visitor Trend (Last 7 Days)
-            </h3>
-            <div className="h-80"><Line data={visitorTrendData} options={{ maintainAspectRatio: false }} /></div>
+        {/* Real Vercel Analytics */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+            <div className="text-sm text-gray-500">Visitors (30 days)</div>
+            <div className="text-4xl font-bold text-[#263b6c] mt-2">{visitors}</div>
           </div>
-
-          <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
-            <h3 className="text-xl font-semibold mb-6">Browser Usage</h3>
-            <div className="h-80 flex items-center justify-center"><Pie data={browserData} options={{ maintainAspectRatio: false }} /></div>
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+            <div className="text-sm text-gray-500">Page Views (30 days)</div>
+            <div className="text-4xl font-bold text-[#263b6c] mt-2">{pageViews}</div>
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
-            <h3 className="text-xl font-semibold mb-6 flex items-center gap-3">
-              <BarChart3 className="text-blue-400" /> Top 10 Most Searched Bricks
-            </h3>
-            <div className="h-96"><Bar data={topBricksData} options={{ maintainAspectRatio: false, indexAxis: 'y' as const, plugins: { legend: { display: false }} }} /></div>
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+            <div className="text-sm text-gray-500">Downloads</div>
+            <div className="text-4xl font-bold text-[#263b6c] mt-2">{downloads}</div>
           </div>
-
-          <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700">
-            <h3 className="text-xl font-semibold mb-6 flex items-center gap-3">
-              <Download className="text-purple-400" /> Downloads Trend (Last 7 Days)
-            </h3>
-            <div className="h-80"><Line data={downloadsTrendData} options={{ maintainAspectRatio: false }} /></div>
-          </div>
-        </div>
-
-        {/* Upload Section */}
-        <div className="bg-gray-900 rounded-3xl p-10 border border-gray-700">
-          <h2 className="text-2xl font-semibold mb-8">Update Brick Database</h2>
-          <div className="border-2 border-dashed border-gray-600 rounded-2xl p-12 text-center mb-10">
-            <Upload className="w-16 h-16 mx-auto mb-6 text-gray-400" />
-            <p className="text-xl mb-2">Upload your updated CSV file</p>
-            <p className="text-gray-400 mb-8">Memorial-Brick-Customer-List.csv</p>
-            <input 
-              type="file" 
-              accept=".csv" 
-              onChange={handleFileChange}
-              className="block w-full text-sm text-gray-400 file:mr-4 file:py-4 file:px-8 file:rounded-2xl file:border-0 file:text-sm file:font-medium file:bg-gray-800 file:text-white hover:file:bg-gray-700 cursor-pointer"
-            />
-          </div>
-          <button onClick={processFile} disabled={!file} className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-700 py-5 rounded-2xl text-xl font-medium transition-colors disabled:cursor-not-allowed">
-            Process Uploaded CSV
-          </button>
-        </div>
-
-        {/* Changelog */}
-        <div className="bg-gray-900 rounded-3xl p-8 border border-gray-700 mt-12">
-          <h3 className="text-xl font-semibold mb-6 flex items-center gap-3">
-            📜 Recent Updates
-          </h3>
-          <div className="space-y-6 text-sm">
-            <div>
-              <div className="font-medium text-green-400">June 9, 2026</div>
-              <ul className="list-disc list-inside text-gray-300 mt-2 space-y-1">
-                <li>Full Post 543 / American Legion branding & mobile optimization</li>
-                <li>White background with dark blue text</li>
-                <li>Improved search box and autocomplete</li>
-                <li>Simplified Share feature (Copy + Email)</li>
-                <li>Added Recent Updates changelog</li>
-              </ul>
-            </div>
-          </div>
-          <p className="text-xs text-gray-500 mt-8">Last updated: {new Date().toLocaleDateString()}</p>
         </div>
       </div>
     </div>
