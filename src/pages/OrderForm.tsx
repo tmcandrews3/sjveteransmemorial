@@ -127,7 +127,11 @@ sessionStorage.setItem('savedSponsor', JSON.stringify(sponsor));
             </a>
           </div>
         </div>
-
+        <div className="text-center py-4 text-sm">
+          <a href="/find-a-brick" className="text-[#e04a38] hover:underline mx-3">Find a Brick</a>
+          <a href="/buy-a-brick" className="text-[#e04a38] hover:underline mx-3">Buy a Brick</a>
+          <a href="https://ncpost543.org" target="_blank" className="text-[#e04a38] hover:underline mx-3">Post 543</a>
+        </div>
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="bg-white rounded-2xl shadow-xl p-10 max-w-md w-full text-center">
             <h2 className="text-2xl font-bold text-[#263b6c] mb-4">Order Successful!</h2>

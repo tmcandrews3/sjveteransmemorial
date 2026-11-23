@@ -72,7 +72,11 @@ return (
               St. James, NC 28461
             </div>
           </div>
-
+          <div className="text-center py-4 text-sm">
+            <a href="/find-a-brick" className="text-[#e04a38] hover:underline mx-3">Find a Brick</a>
+            <a href="/buy-a-brick" className="text-[#e04a38] hover:underline mx-3">Buy a Brick</a>
+            <a href="https://ncpost543.org" target="_blank" className="text-[#e04a38] hover:underline mx-3">Post 543</a>
+          </div>
           {/* Short Mobile Text */}
           <div className="text-center flex-1 px-4 sm:hidden">
             <div className="text-[#e04a38] text-lg font-bold tracking-widest">
