@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Search, Award, X } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 
 interface Brick {
   id: string;
