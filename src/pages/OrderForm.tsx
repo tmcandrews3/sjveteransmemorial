@@ -14,7 +14,7 @@ interface FormData {
   zip: string;
 }
 
-export default function TestOrder() {
+export default function OrderForm() {
   const [formData, setFormData] = useState<FormData>({
     line1: '',
     line2: '',
@@ -35,7 +35,7 @@ export default function TestOrder() {
     const params = new URLSearchParams(window.location.search);
     if (params.get('success') === 'true' || params.get('success') === '1') {
   setShowSuccess(true);
-  window.history.replaceState({}, '', '/test-order');
+  window.history.replaceState({}, '', '/buy-a-brick');
 
   // Pull the saved data for emails + Lob
   const saved = sessionStorage.getItem('savedSponsor');
@@ -141,7 +141,7 @@ sessionStorage.setItem('savedSponsor', JSON.stringify(sponsor));
               <button
                 onClick={() => {
                   sessionStorage.setItem('orderAnother', 'true');
-                  window.location.href = '/test-order';
+                  window.location.href = '/buy-a-brick';
                 }}
                 className="w-full bg-[#c43834] text-white px-8 py-3 rounded-xl font-medium"
               >
