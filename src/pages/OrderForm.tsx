@@ -177,28 +177,48 @@ sessionStorage.setItem('savedSponsor', JSON.stringify(sponsor));
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
       <div className="bg-white border-b-4 border-[#e04a38]">
-        <div className="max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
-          <a href="https://ncpost543.org" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
-            <img src="/images/american-legion-logo.png" alt="American Legion" className="h-14 md:h-20" />
-          </a>
-          <div className="text-center flex-1 px-4">
-            <div className="text-[#e04a38] text-xl md:text-3xl font-bold tracking-widest">
-              Richard H. Stewart, Jr. Post 543
-            </div>
-            <div className="text-[#e04a38] text-sm md:text-lg font-bold tracking-widest">
-              St. James, NC 28461
-            </div>
-          </div>
-          <div className="text-center py-4 text-sm">
-  <a href="/find-a-brick" className="text-[#e04a38] hover:underline mx-3">Find a Brick</a>
-  <a href="/buy-a-brick" className="text-[#e04a38] hover:underline mx-3">Buy a Brick</a>
-  <a href="https://ncpost543.org" target="_blank" className="text-[#e04a38] hover:underline mx-3">Post 543</a>
-</div>
-          <a href="https://ncpost543.org" className="bg-[#e04a38] hover:bg-red-700 text-white px-5 md:px-8 py-2.5 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap">
-            Home
-          </a>
-        </div>
+  <div className="max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
+    <a href="https://ncpost543.org" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
+      <img 
+        src="/images/american-legion-logo.png" 
+        alt="American Legion" 
+        className="h-14 md:h-20"
+      />
+    </a>
+    
+    <div className="text-center flex-1 px-4 hidden sm:block">
+      <div className="text-[#e04a38] text-xl md:text-3xl font-bold tracking-widest">
+        Richard H. Stewart, Jr. Post 543
       </div>
+      <div className="text-[#e04a38] text-sm md:text-lg font-bold tracking-widest">
+        St. James, NC 28461
+      </div>
+    </div>
+
+    <div className="text-center flex-1 px-4 sm:hidden">
+      <div className="text-[#e04a38] text-lg font-bold tracking-widest">
+        Post 543
+      </div>
+    </div>
+
+    <div className="flex items-center gap-3">
+      <a 
+        href="/find-a-brick"
+        className="bg-[#263b6c] hover:bg-[#1e2f4d] text-white px-5 py-2 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap"
+      >
+        Find a Brick
+      </a>
+      <a 
+        href="https://ncpost543.org" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="bg-white border-2 border-[#e04a38] text-[#e04a38] hover:bg-[#e04a38] hover:text-white px-5 py-2 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap"
+      >
+        Post 543
+      </a>
+    </div>
+  </div>
+</div>
 
       <div className="flex-1 py-12 px-4">
         <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8">

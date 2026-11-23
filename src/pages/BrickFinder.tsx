@@ -54,51 +54,55 @@ return (
     <div className="min-h-screen bg-white text-[#263b6c]">
       {/* Responsive Header */}
       <div className="bg-white border-b-4 border-[#e04a38]">
-        <div className="max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
-          <a href="https://ncpost543.org" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
-            <img 
-              src="/images/american-legion-logo.png" 
-              alt="American Legion" 
-              className="h-14 md:h-20"
-            />
-          </a>
-          
-          {/* Full Text - Hidden on very small screens */}
-          <div className="text-center flex-1 px-4 hidden sm:block">
-            <div className="text-[#e04a38] text-xl md:text-3xl font-bold tracking-widest">
-              Richard H. Stewart, Jr. Post 543
-            </div>
-            <div className="text-[#e04a38] text-sm md:text-lg font-bold tracking-widest">
-              St. James, NC 28461
-            </div>
-          </div>
-          <div className="text-center py-4 text-sm">
-            <a href="/find-a-brick" className="text-[#e04a38] hover:underline mx-3">Find a Brick</a>
-            <a href="/buy-a-brick" className="text-[#e04a38] hover:underline mx-3">Buy a Brick</a>
-            <a href="https://ncpost543.org" target="_blank" className="text-[#e04a38] hover:underline mx-3">Post 543</a>
-          </div>
-          {/* Short Mobile Text */}
-          <div className="text-center flex-1 px-4 sm:hidden">
-            <div className="text-[#e04a38] text-lg font-bold tracking-widest">
-              Post 543
-            </div>
-          </div>
-
-          <a 
-            href="https://ncpost543.org" 
-            className="bg-[#e04a38] hover:bg-red-700 text-white px-5 md:px-8 py-2.5 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap"
-          >
-            Home
-          </a>
-        </div>
+  <div className="max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
+    <a href="https://ncpost543.org" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
+      <img 
+        src="/images/american-legion-logo.png" 
+        alt="American Legion" 
+        className="h-14 md:h-20"
+      />
+    </a>
+    
+    <div className="text-center flex-1 px-4 hidden sm:block">
+      <div className="text-[#e04a38] text-xl md:text-3xl font-bold tracking-widest">
+        Richard H. Stewart, Jr. Post 543
       </div>
+      <div className="text-[#e04a38] text-sm md:text-lg font-bold tracking-widest">
+        St. James, NC 28461
+      </div>
+    </div>
 
-       {/* Brick Finder Hero */}
+    <div className="text-center flex-1 px-4 sm:hidden">
+      <div className="text-[#e04a38] text-lg font-bold tracking-widest">
+        Post 543
+      </div>
+    </div>
+
+    <div className="flex items-center gap-3">
+      <a 
+        href="/buy-a-brick"
+        className="bg-[#e04a38] hover:bg-red-700 text-white px-5 py-2 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap"
+      >
+        Buy a Brick
+      </a>
+      <a 
+        href="https://ncpost543.org" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="bg-white border-2 border-[#e04a38] text-[#e04a38] hover:bg-[#e04a38] hover:text-white px-5 py-2 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap"
+      >
+        Post 543
+      </a>
+    </div>
+  </div>
+</div>
+
+       {/* Brick Finder Title*/}
       <div className="bg-[#263b6c] py-12 md:py-16 text-white">
         <div className="max-w-4xl mx-auto text-center px-6">
-          <div className="inline-flex items-center gap-3 bg-[#e04a38] px-8 py-3 rounded-full mb-6">
-            <Award className="w-8 h-8" />
-            <span className="font-bold tracking-widest text-lg">BRICK FINDER</span>
+          <div className="inline-flex items-center gap-4 mb-6">
+          <img src="/images/Black-Magnifying-Glass.png" alt="" className="w-10 h-10 invert" />
+          <span className="text-4xl md:text-5xl font-bold text-white">Brick Finder</span>
           </div>
           
           <h1 className="text-2xl md:text-2xl font-normal mb-6 text-white">
