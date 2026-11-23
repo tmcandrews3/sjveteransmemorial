@@ -122,16 +122,17 @@ sessionStorage.setItem('savedSponsor', JSON.stringify(sponsor));
                 St. James, NC 28461
               </div>
             </div>
+            <div className="text-center py-4 text-sm">
+          <a href="/find-a-brick" className="text-[#e04a38] hover:underline mx-3">Find a Brick</a>
+          <a href="/buy-a-brick" className="text-[#e04a38] hover:underline mx-3">Buy a Brick</a>
+          <a href="https://ncpost543.org" target="_blank" className="text-[#e04a38] hover:underline mx-3">Post 543</a>
+        </div>
             <a href="https://ncpost543.org" className="bg-[#e04a38] hover:bg-red-700 text-white px-5 md:px-8 py-2.5 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap">
               Home
             </a>
           </div>
         </div>
-        <div className="text-center py-4 text-sm">
-          <a href="/find-a-brick" className="text-[#e04a38] hover:underline mx-3">Find a Brick</a>
-          <a href="/buy-a-brick" className="text-[#e04a38] hover:underline mx-3">Buy a Brick</a>
-          <a href="https://ncpost543.org" target="_blank" className="text-[#e04a38] hover:underline mx-3">Post 543</a>
-        </div>
+        
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="bg-white rounded-2xl shadow-xl p-10 max-w-md w-full text-center">
             <h2 className="text-2xl font-bold text-[#263b6c] mb-4">Order Successful!</h2>
@@ -188,6 +189,11 @@ sessionStorage.setItem('savedSponsor', JSON.stringify(sponsor));
               St. James, NC 28461
             </div>
           </div>
+          <div className="text-center py-4 text-sm">
+  <a href="/find-a-brick" className="text-[#e04a38] hover:underline mx-3">Find a Brick</a>
+  <a href="/buy-a-brick" className="text-[#e04a38] hover:underline mx-3">Buy a Brick</a>
+  <a href="https://ncpost543.org" target="_blank" className="text-[#e04a38] hover:underline mx-3">Post 543</a>
+</div>
           <a href="https://ncpost543.org" className="bg-[#e04a38] hover:bg-red-700 text-white px-5 md:px-8 py-2.5 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap">
             Home
           </a>
@@ -251,7 +257,7 @@ sessionStorage.setItem('savedSponsor', JSON.stringify(sponsor));
             </div>
 
             <button type="submit" className="w-full bg-[#c43834] text-white py-3 rounded-xl font-medium text-lg">
-              Continue to GiveButter
+              Preview Order & Pay
             </button>
           </form>
         </div>
