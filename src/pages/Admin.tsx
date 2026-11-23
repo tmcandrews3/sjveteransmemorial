@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Upload, Award, LogOut, Lock, Users, Clock, Activity, Download, RefreshCw } from 'lucide-react';
+import { Award, LogOut, Lock, Users, Clock, Activity, Download, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const ADMIN_PASSWORD = "Post543Admin2026";
@@ -11,7 +11,7 @@ export default function Admin() {
   const [passwordInput, setPasswordInput] = useState('');
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const [stats, setStats] = useState({
+  const [stats] = useState({
     totalBricks: 0,
     visitorsToday: 28,
     totalVisitors: 2156,
