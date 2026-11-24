@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
   try {
     await resend.emails.send({
-      from: 'St. James Veterans Memorial <onboarding@resend.dev>', // change to your verified domain later
+      from: 'St. James Veterans Memorial <contact@sjveteransmemorial.org>',
       to: ['tmcandrews3@gmail.com', 'gforce2730@gmail.com'],
       subject: 'New Contact Form Message – St. James Veterans Memorial',
       html: `
