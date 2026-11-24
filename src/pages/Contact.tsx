@@ -21,7 +21,7 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-white text-[#263b6c]">
-      {/* Header - same as your other pages */}
+      {/* Header */}
       <div className="bg-white border-b-4 border-[#e04a38]">
         <div className="max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
           <a href="https://ncpost543.org" target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
@@ -38,13 +38,28 @@ export default function Contact() {
           <div className="text-center flex-1 px-4 sm:hidden">
             <div className="text-[#e04a38] text-lg font-bold tracking-widest">Post 543</div>
           </div>
-          <div className="flex gap-2">
-            <a href="/" className="bg-[#e04a38] hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium">Find a Brick</a>
-            <a href="/buy-a-brick" className="bg-[#e04a38] hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium">Buy a Brick</a>
-            <a href="https://ncpost543.org" className="bg-[#e04a38] hover:bg-red-700 text-white px-5 md:px-8 py-2.5 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap">
-              Post 543
-            </a>
-          </div>
+          <div className="flex items-center gap-3">
+      <a 
+        href="/buy-a-brick"
+        className="bg-[#e04a38] hover:bg-red-700 text-white px-5 py-2 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap"
+      >
+        <a 
+        href="/find-a-brick"
+        className="bg-[#263b6c] hover:bg-[#1e2f4d] text-white px-5 py-2 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap"
+      >
+        Find a Brick
+      </a>
+        Buy a Brick
+      </a>
+      <a 
+        href="https://ncpost543.org" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="bg-white border-2 border-[#e04a38] text-[#e04a38] hover:bg-[#e04a38] hover:text-white px-5 py-2 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap"
+      >
+        Post 543
+      </a>
+    </div>
         </div>
       </div>
 
