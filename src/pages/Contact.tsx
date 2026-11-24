@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Award } from 'lucide-react';
 
 export default function Contact() {
   const [form, setForm] = useState({
