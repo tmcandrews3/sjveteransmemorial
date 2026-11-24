@@ -42,13 +42,13 @@ export default function Contact() {
             <a href="/" className="bg-[#e04a38] hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium">Find a Brick</a>
             <a href="/buy-a-brick" className="bg-[#e04a38] hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium">Buy a Brick</a>
             <a href="https://ncpost543.org" className="bg-[#e04a38] hover:bg-red-700 text-white px-5 md:px-8 py-2.5 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap">
-              Home
+              Post 543
             </a>
           </div>
         </div>
       </div>
 
-      {/* Hero */}
+      {/* Title */}
       <div className="bg-[#263b6c] py-12 text-white text-center">
           <h1 className="text-3xl md:text-4xl font-normal">Need Assistance?</h1>
       </div>
