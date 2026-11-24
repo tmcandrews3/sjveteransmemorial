@@ -39,8 +39,17 @@ export default function Contact() {
             <div className="text-[#e04a38] text-lg font-bold tracking-widest">Post 543</div>
           </div>
           <div className="flex items-center gap-3">
-       <a href="/find-a-brick" className="text-[#e04a38] hover:underline mx-3">Find a Brick</a>
-       <a href="/buy-a-brick" className="text-[#e04a38] hover:underline mx-3">Buy a Brick</a>
+         <a 
+        href="/find-a-brick"
+        className="bg-[#263b6c] hover:bg-red-700 text-white px-5 py-2 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap"
+      >        Find a Brick
+      </a>
+       <a 
+        href="/buy-a-brick"
+        className="bg-[#e04a38] hover:bg-red-700 text-white px-5 py-2 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap"
+      >
+        Buy a Brick
+      </a>
        <a 
         href="https://ncpost543.org" 
         target="_blank" 
