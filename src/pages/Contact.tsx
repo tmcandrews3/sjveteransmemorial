@@ -13,11 +13,19 @@ export default function Contact() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // For now just show success. Later we can wire to email or form service.
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  const res = await fetch('/api/send-contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(form),
+  });
+  if (res.ok) {
     setSubmitted(true);
-  };
+  } else {
+    alert('Something went wrong. Please try again.');
+  }
+};
 
   return (
     <div className="min-h-screen bg-white text-[#263b6c]">

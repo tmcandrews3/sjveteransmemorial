@@ -73,9 +73,8 @@ export default function Home() {
           <div>Veterans Memorial • Richard H. Stewart, Jr. Post 543 • St. James, NC 28461</div>
           <div className="mt-3">
             For questions or to report issues, please visit our{" "}
-            <a href="https://sjveteransmemorial.org/contact" target="_blank" rel="noopener noreferrer" className="text-[#e04a38] hover:underline">
-              Contact Page
-            </a>
+            <a href="/contact" className="bg-[#e04a38] hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium">
+  Contact Page</a>
           </div>
         </div>
       </footer>
