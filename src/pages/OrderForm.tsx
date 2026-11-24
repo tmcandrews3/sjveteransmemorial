@@ -135,11 +135,10 @@ export default function OrderForm() {
             </div>
             <div className="text-center py-4 text-sm">
           <a href="/find-a-brick" className="text-[#e04a38] hover:underline mx-3">Find a Brick</a>
-          <a href="/buy-a-brick" className="text-[#e04a38] hover:underline mx-3">Buy a Brick</a>
           <a href="https://ncpost543.org" target="_blank" className="text-[#e04a38] hover:underline mx-3">Post 543</a>
         </div>
             <a href="https://ncpost543.org" className="bg-[#e04a38] hover:bg-red-700 text-white px-5 md:px-8 py-2.5 rounded-xl font-medium text-sm md:text-base transition-colors whitespace-nowrap">
-              Home
+              Post 543
             </a>
           </div>
         </div>
