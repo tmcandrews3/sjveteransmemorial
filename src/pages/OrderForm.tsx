@@ -174,7 +174,7 @@ export default function OrderForm() {
             <div>Veterans Memorial • Richard H. Stewart, Jr. Post 543 • St. James, NC 28461</div>
             <div className="mt-2">
               For questions or to report issues, please visit our{" "}
-              <a href="https://ncpost543.org/contact-2/" target="_blank" rel="noopener noreferrer" className="text-[#e04a38] hover:underline">
+              <a href="https://sjveteransmemorial.org/contact" target="_blank" rel="noopener noreferrer" className="text-[#e04a38] hover:underline">
                 Contact Page
               </a>
             </div>
@@ -368,7 +368,7 @@ export default function OrderForm() {
           <div>Veterans Memorial • Richard H. Stewart, Jr. Post 543 • St. James, NC 28461</div>
           <div className="mt-2">
             For questions or to report issues, please visit our{" "}
-            <a href="https://ncpost543.org/contact-2/" target="_blank" rel="noopener noreferrer" className="text-[#e04a38] hover:underline">
+            <a href="https://sjveteransmemorial.org/contact" target="_blank" rel="noopener noreferrer" className="text-[#e04a38] hover:underline">
               Contact Page
             </a>
           </div>
