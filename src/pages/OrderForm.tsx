@@ -30,6 +30,7 @@ export default function OrderForm() {
   });
 
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -86,25 +87,35 @@ export default function OrderForm() {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const sponsor = {
-  line1: formData.line1,
-  line2: formData.line2,
-  line3: formData.line3,
-  line4: formData.line4,
-  customerName: formData.customerName,
-  phone: formData.phone,
-  email: formData.email,
-  address: formData.address,
-  city: formData.city,
-  state: formData.state,
-  zip: formData.zip,
-};
-sessionStorage.setItem('savedSponsor', JSON.stringify(sponsor));
+  e.preventDefault();
 
-      window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
+  // Basic validation – at least one brick line
+  if (!formData.line1 && !formData.line2 && !formData.line3 && !formData.line4) {
+    alert('Please enter at least one line for the brick inscription.');
+    return;
+  }
+
+  // Save sponsor info for later
+  const sponsor = {
+    line1: formData.line1,
+    line2: formData.line2,
+    line3: formData.line3,
+    line4: formData.line4,
+    customerName: formData.customerName,
+    phone: formData.phone,
+    email: formData.email,
+    address: formData.address,
+    city: formData.city,
+    state: formData.state,
+    zip: formData.zip,
   };
+  sessionStorage.setItem('savedSponsor', JSON.stringify(sponsor));
 
+  // Show preview instead of jumping to payment
+  setShowPreview(true);
+};
+
+  
   if (showSuccess) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -228,19 +239,43 @@ sessionStorage.setItem('savedSponsor', JSON.stringify(sponsor));
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Line 1</label>
-              <input name="line1" value={formData.line1} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" maxLength={20} />
+              <input 
+  name="line1" 
+  value={formData.line1} 
+  onChange={(e) => setFormData({ ...formData, line1: e.target.value.toUpperCase() })} 
+  className="w-full border rounded-lg px-4 py-2" 
+  maxLength={20} 
+/>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Line 2</label>
-              <input name="line2" value={formData.line2} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" maxLength={20} />
+              <input 
+  name="line2" 
+  value={formData.line2} 
+  onChange={(e) => setFormData({ ...formData, line2: e.target.value.toUpperCase() })} 
+  className="w-full border rounded-lg px-4 py-2" 
+  maxLength={20} 
+/>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Line 3</label>
-              <input name="line3" value={formData.line3} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" maxLength={20} />
+              <input 
+  name="line3" 
+  value={formData.line3} 
+  onChange={(e) => setFormData({ ...formData, line3: e.target.value.toUpperCase() })} 
+  className="w-full border rounded-lg px-4 py-2" 
+  maxLength={20} 
+/>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Line 4</label>
-              <input name="line4" value={formData.line4} onChange={handleChange} className="w-full border rounded-lg px-4 py-2" maxLength={20} />
+              <input 
+  name="line4" 
+  value={formData.line4} 
+  onChange={(e) => setFormData({ ...formData, line4: e.target.value.toUpperCase() })} 
+  className="w-full border rounded-lg px-4 py-2" 
+  maxLength={20} 
+/>
             </div>
 
             <hr className="my-6" />
@@ -280,6 +315,50 @@ sessionStorage.setItem('savedSponsor', JSON.stringify(sponsor));
               Preview Order & Pay
             </button>
           </form>
+          {/* Preview Modal */}
+      {showPreview && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-auto">
+            <h3 className="text-2xl font-bold text-[#263b6c] mb-4">Order Preview</h3>
+            <div className="bg-gray-50 p-6 rounded-xl mb-6 text-sm">
+              <p className="font-semibold">Brick Inscription:</p>
+              <p>{formData.line1 || '—'}</p>
+              <p>{formData.line2 || '—'}</p>
+              <p>{formData.line3 || '—'}</p>
+              <p>{formData.line4 || '—'}</p>
+              <p className="mt-4 font-semibold">Sponsor:</p>
+              <p>{formData.customerName}</p>
+              <p>{formData.phone}</p>
+              <p>{formData.email}</p>
+              {formData.address && <p>{formData.address}, {formData.city} {formData.state} {formData.zip}</p>}
+            </div>
+            <div className="mt-6 p-6 bg-gray-50 rounded-2xl border border-gray-200">
+              <h3 className="text-xl font-bold text-[#263b6c] mb-3 text-center">Before You Continue to Payment</h3>
+              <p className="text-[#263b6c] mb-4 text-center text-sm">You’ll be taken to GiveButter to complete your $100 payment. Please follow these steps:</p>
+              <ol className="space-y-2 text-[#263b6c] text-sm list-decimal list-inside">
+                <li>Click <strong>“Donate”</strong></li>
+                <li>Select <strong>$100</strong> and complete your information</li>
+                <li>You can unselect any optional fees or extra donations</li>
+                <li>Click <strong>“Continue”</strong> and finish payment</li>
+              </ol>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 mt-6">
+              <button
+  onClick={() => {
+ 
+    window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
+}}
+  className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-medium"
+>
+  Continue to GiveButter
+</button>
+              <button onClick={() => setShowPreview(false)} className="flex-1 border border-gray-300 py-3 rounded-xl font-medium">
+                Edit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
         </div>
       </div>
 
