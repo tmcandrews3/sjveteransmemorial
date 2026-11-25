@@ -333,8 +333,7 @@ export default function OrderForm() {
             <div className="text-left space-y-4">
   <h3 className="text-lg font-semibold text-[#263b6c]">Please Read Before You Continue to Payment</h3>
   <p className="text-sm text-gray-700">
-    You’ll be taken to GiveButter to complete your $100.00 payment. Please follow these steps:
-  </p>
+    You’ll be taken to GiveButter to complete your $100.00 payment. Please follow these steps:</p>
   <div className="space-y-3 text-sm text-gray-700">
     <p><strong>1.</strong> Click <strong>“Donate”</strong> on the upper right of the screen</p>
     <p><strong>2.</strong> Select <strong>$100.00</strong> to buy one brick and complete your information</p>
