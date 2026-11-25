@@ -230,12 +230,18 @@ export default function OrderForm() {
 </div>
 
       <div className="flex-1 py-12 px-4">
-        <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8">
-          <h1 className="text-3xl font-bold text-[#263b6c] mb-2 text-center">Memorial Brick Order</h1>
-          <p className="text-center text-gray-600 mb-8">St. James Veterans Memorial • Post 543</p>
+  <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8">
+    <div className="text-center mb-8">
+      <h1 className="text-3xl md:text-4xl font-bold text-[#263b6c] mb-3">
+        St. James Veterans Memorial Brick Order
+      </h1>
+      <p className="text-gray-600">
+        Using the boxes below enter exactly how you would like your brick to be engraved. Maximum 20 characters per line. You do not have to use all 4 lines.
+      </p>
+    </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Line 1</label>
               <input 
   name="line1" 
@@ -331,11 +337,11 @@ export default function OrderForm() {
               {formData.address && <p>{formData.address}, {formData.city} {formData.state} {formData.zip}</p>}
             </div>
             <div className="text-left">
-  <h3 className="text-lg font-semibold text-[#263b6c] mb-2">Please Read Before You Continue to Payment</h3>
-  <p className="text-sm text-gray-700 mb-1">
+  <h3 className="text-lg font-semibold text-[#263b6c] mb-4">Please Read Before You Continue to Payment</h3>
+  <p className="text-sm text-gray-700 mb-3">
     You’ll be taken to GiveButter to complete your $100.00 payment. Please follow these steps:
   </p>
-  <div className="space-y-1 text-sm text-gray-700">
+  <div className="space-y-2 text-sm text-gray-700">
     <p><strong>1.</strong> Click <strong>“Donate”</strong> on the upper right of the screen</p>
     <p><strong>2.</strong> Select <strong>$100.00</strong> to buy one brick and complete your information</p>
     <p><strong>3.</strong> You can <strong>UNSELECT</strong> any optional fees or extra donations</p>
@@ -363,7 +369,10 @@ export default function OrderForm() {
       )}
         </div>
       </div>
-
+<p className="text-center text-sm text-gray-500 mt-8">
+          You may purchase as many personalized bricks as you wish at $100.00 per brick.<br />
+          It could take several months before your brick is installed into the memorial.
+        </p>
       {/* Footer */}
       <footer className="bg-white border-t border-gray-200 py-8 text-center text-[#263b6c]">
         <div className="max-w-7xl mx-auto px-6">
