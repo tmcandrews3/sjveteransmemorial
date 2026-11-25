@@ -332,13 +332,12 @@ export default function OrderForm() {
             </div>
             <div className="mt-6 p-6 bg-gray-50 rounded-2xl border border-gray-200">
               <h3 className="text-xl font-bold text-[#263b6c] mb-3 text-center">Before You Continue to Payment</h3>
-              <p className="text-[#263b6c] mb-4 text-center text-sm">You’ll be taken to GiveButter to complete your $100 payment. Please follow these steps:</p>
-              <ol className="space-y-2 text-[#263b6c] text-sm list-decimal list-inside">
-                <li>Click <strong>“Donate”</strong></li>
-                <li>Select <strong>$100</strong> and complete your information</li>
-                <li>You can unselect any optional fees or extra donations</li>
-                <li>Click <strong>“Continue”</strong> and finish payment</li>
-              </ol>
+              <p><strong>1.</strong> Click <strong>“Donate”</strong> on the upper right of the screen</p>
+  <p><strong>2.</strong> Select <strong>$100.00</strong> to buy one brick and complete your information</p>
+  <p><strong>3.</strong> You can <strong>UNSELECT</strong> any optional fees or extra donations</p>
+  <p><strong>4.</strong> Click <strong>“Continue”</strong> and finish payment</p>
+  <p><strong>5.</strong> You will receive a payment confirmation email from GiveButter</p>
+  <p><strong>6.</strong> After completing your payment you will be automatically redirected back to this site where you can buy another brick, FIND A BRICK, or exit</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 mt-6">
               <button
