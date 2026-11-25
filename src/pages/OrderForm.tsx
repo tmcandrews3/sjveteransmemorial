@@ -339,19 +339,17 @@ export default function OrderForm() {
               <p>{formData.email}</p>
               {formData.address && <p>{formData.address}, {formData.city} {formData.state} {formData.zip}</p>}
             </div>
-            <div className="text-left">
+            <div className="text-left text-sm text-gray-700">
   <h3 className="text-lg font-semibold text-[#263b6c] mb-3">Please Read Before You Continue to Payment</h3>
-  <p className="text-sm text-gray-700">
+  <p className="mb-1">
     You’ll be taken to GiveButter to complete your $100.00 payment. Please follow these steps:
   </p>
-  <div className="text-sm text-gray-700 mt-2 space-y-1.5">
-    <p><strong>1.</strong> Click <strong>“Donate”</strong> on the upper right of the screen</p>
-    <p><strong>2.</strong> Select <strong>$100.00</strong> to buy one brick and complete your information</p>
-    <p><strong>3.</strong> You can <strong>UNSELECT</strong> any optional fees or extra donations</p>
-    <p><strong>4.</strong> Click <strong>“Continue”</strong> and finish payment</p>
-    <p><strong>5.</strong> You will receive a payment confirmation email from GiveButter</p>
-    <p><strong>6.</strong> After completing your payment you will be automatically redirected back to this site where you can buy another brick, FIND A BRICK, or exit</p>
-  </div>
+  <p><strong>1.</strong> Click <strong>“Donate”</strong> on the upper right of the screen</p>
+  <p><strong>2.</strong> Select <strong>$100.00</strong> to buy one brick and complete your information</p>
+  <p><strong>3.</strong> You can <strong>UNSELECT</strong> any optional fees or extra donations</p>
+  <p><strong>4.</strong> Click <strong>“Continue”</strong> and finish payment</p>
+  <p><strong>5.</strong> You will receive a payment confirmation email from GiveButter</p>
+  <p><strong>6.</strong> After completing your payment you will be automatically redirected back to this site where you can buy another brick, FIND A BRICK, or exit</p>
 </div>
             <div className="flex flex-col sm:flex-row gap-4 mt-6">
               <button
