@@ -341,7 +341,6 @@ export default function OrderForm() {
     <p><strong>5.</strong> You will receive a payment confirmation email from GiveButter</p>
     <p><strong>6.</strong> After completing your payment you will be automatically redirected back to this site where you can buy another brick, FIND A BRICK, or exit</p>
   </div>
-</div>
             <div className="flex flex-col sm:flex-row gap-4 mt-6">
               <button
   onClick={() => {
