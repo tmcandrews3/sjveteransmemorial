@@ -80,7 +80,7 @@ if (params.get('success') === 'true' || params.get('success') === '1') {
       }
       sessionStorage.removeItem('orderAnother');
     }
-  }, []);
+  }, [];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
