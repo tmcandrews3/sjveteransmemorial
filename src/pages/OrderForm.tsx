@@ -166,8 +166,10 @@ const handleDone = () => {
                 className="w-full bg-[#c43834] text-white px-8 py-3 rounded-xl font-medium"
               >
                 Order Another Brick
-              </button>
-              <button onClick={handleDone} className="...">
+              <button 
+  onClick={handleDone}
+  className="w-full bg-gray-600 text-white px-8 py-3 rounded-xl font-medium mt-3"
+>
   Done
 </button>
             </div>
