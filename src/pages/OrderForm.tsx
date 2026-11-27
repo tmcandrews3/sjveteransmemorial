@@ -158,21 +158,23 @@ const handleDone = () => {
             <h2 className="text-2xl font-bold text-[#263b6c] mb-4">Order Successful!</h2>
             <p className="text-gray-600 mb-8">You should receive a confirmation email shortly.</p>
             <div className="space-y-4">
-              <button
-                onClick={() => {
-                  sessionStorage.setItem('orderAnother', 'true');
-                  window.location.href = '/buy-a-brick';
-                }}
-                className="w-full bg-[#c43834] text-white px-8 py-3 rounded-xl font-medium"
-              >
-                Order Another Brick
-              <button 
-  onClick={handleDone}
-  className="w-full bg-gray-600 text-white px-8 py-3 rounded-xl font-medium mt-3"
->
-  Done
-</button>
-            </div>
+  <button
+    onClick={() => {
+      sessionStorage.setItem('orderAnother', 'true');
+      window.location.href = '/buy-a-brick';
+    }}
+    className="w-full bg-[#c43834] text-white px-8 py-3 rounded-xl font-medium"
+  >
+    Order Another Brick
+  </button>
+
+  <button 
+    onClick={handleDone}
+    className="w-full bg-gray-600 text-white px-8 py-3 rounded-xl font-medium mt-3"
+  >
+    Done
+  </button>
+</div>
           </div>
         </div>
 
