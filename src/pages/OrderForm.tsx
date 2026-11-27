@@ -33,92 +33,59 @@ export default function OrderForm() {
   const [showPreview, setShowPreview] = useState(false);
 
 useEffect(() => {
+  // Handle success return from GiveButter
   const params = new URLSearchParams(window.location.search);
   if (params.get('success') === 'true' || params.get('success') === '1') {
     setShowSuccess(true);
     window.history.replaceState({}, '', '/buy-a-brick');
 
     const saved = sessionStorage.getItem('savedSponsor');
-    if (!saved) return;
+    if (saved) {
+      try {
+        const order = JSON.parse(saved);
+        if (order.customerName || order.line1) {
+          order.confirmationNumber = 'AC-543-' + Date.now().toString().slice(-6);
 
-    try {
-      const order = JSON.parse(saved);
-      if (!order.customerName && !order.line1) return;
+          fetch('/api/send-order-emails', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(order),
+          }).catch(console.error);
 
-      order.confirmationNumber = 'AC-543-' + Date.now().toString().slice(-6);
-
-      fetch('/api/send-order-emails', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(order),
-      }).catch(console.error);
-
-      fetch('/api/send-lob-letter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(order),
-      }).catch(console.error);
-
-      sessionStorage.removeItem('savedSponsor');
-    } catch (e) {
-      console.error(e);
-    }
-  }
-}, []);
-useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('success') === 'true' || params.get('success') === '1') {
-    setShowSuccess(true);
-    window.history.replaceState({}, '', '/buy-a-brick');
-
-    const saved = sessionStorage.getItem('savedSponsor');
-    if (!saved) return;
-
-    try {
-      const order = JSON.parse(saved);
-      if (!order.customerName && !order.line1) return;
-
-      order.confirmationNumber = 'AC-543-' + Date.now().toString().slice(-6);
-
-      fetch('/api/send-order-emails', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(order),
-      }).catch(console.error);
-
-      fetch('/api/send-lob-letter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(order),
-      }).catch(console.error);
-
-      sessionStorage.removeItem('savedSponsor');
-    } catch (e) {
-      console.error(e);
-    }
-  }
-}, []);
-    if (sessionStorage.getItem('orderAnother') === 'true') {
-      const saved = sessionStorage.getItem('savedSponsor');
-      if (saved) {
-        try {
-          const data = JSON.parse(saved);
-          setFormData(prev => ({
-            ...prev,
-            customerName: data.customerName || '',
-            phone: data.phone || '',
-            email: data.email || '',
-            address: data.address || '',
-            city: data.city || '',
-            state: data.state || '',
-            zip: data.zip || '',
-          }));
-        } catch (e) {}
+          fetch('/api/send-lob-letter', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(order),
+          }).catch(console.error);
+        }
+        sessionStorage.removeItem('savedSponsor');
+      } catch (e) {
+        console.error(e);
       }
-      sessionStorage.removeItem('orderAnother');
     }
-  }, []);
+  }
 
+  // Handle "order another" pre-fill
+  if (sessionStorage.getItem('orderAnother') === 'true') {
+    const saved = sessionStorage.getItem('savedSponsor');
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        setFormData(prev => ({
+          ...prev,
+          customerName: data.customerName || '',
+          phone: data.phone || '',
+          email: data.email || '',
+          address: data.address || '',
+          city: data.city || '',
+          state: data.state || '',
+          zip: data.zip || '',
+        }));
+      } catch (e) {}
+    }
+    sessionStorage.removeItem('orderAnother');
+  }
+}, []);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
