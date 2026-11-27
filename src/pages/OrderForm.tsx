@@ -31,6 +31,9 @@ export default function OrderForm() {
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const handleDone = () => {
+  sessionStorage.removeItem('savedSponsor');
+  setShowSuccess(false);
 
 useEffect(() => {
   // Handle success return from GiveButter
@@ -100,9 +103,7 @@ useEffect(() => {
     alert('Please enter at least one line for the brick inscription.');
     return;
   }
-const handleDone = () => {
-  sessionStorage.removeItem('savedSponsor');
-  setShowSuccess(false);
+
   // or window.location = '/' if you want to leave the page
 };
   // Save sponsor info for later
