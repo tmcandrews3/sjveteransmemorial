@@ -84,26 +84,6 @@ useEffect(() => {
     sessionStorage.removeItem('orderAnother');
   }
 }, []);
-    if (sessionStorage.getItem('orderAnother') === 'true') {
-      const saved = sessionStorage.getItem('savedSponsor');
-      if (saved) {
-        try {
-          const data = JSON.parse(saved);
-          setFormData(prev => ({
-            ...prev,
-            customerName: data.customerName || '',
-            phone: data.phone || '',
-            email: data.email || '',
-            address: data.address || '',
-            city: data.city || '',
-            state: data.state || '',
-            zip: data.zip || '',
-          }));
-        } catch (e) {}
-      }
-      sessionStorage.removeItem('orderAnother');
-    }
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
