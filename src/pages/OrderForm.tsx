@@ -65,7 +65,39 @@ useEffect(() => {
     }
   }
 }, []);
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('success') === 'true' || params.get('success') === '1') {
+    setShowSuccess(true);
+    window.history.replaceState({}, '', '/buy-a-brick');
 
+    const saved = sessionStorage.getItem('savedSponsor');
+    if (!saved) return;
+
+    try {
+      const order = JSON.parse(saved);
+      if (!order.customerName && !order.line1) return;
+
+      order.confirmationNumber = 'AC-543-' + Date.now().toString().slice(-6);
+
+      fetch('/api/send-order-emails', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(order),
+      }).catch(console.error);
+
+      fetch('/api/send-lob-letter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(order),
+      }).catch(console.error);
+
+      sessionStorage.removeItem('savedSponsor');
+    } catch (e) {
+      console.error(e);
+    }
+  }
+}, []);
     if (sessionStorage.getItem('orderAnother') === 'true') {
       const saved = sessionStorage.getItem('savedSponsor');
       if (saved) {
