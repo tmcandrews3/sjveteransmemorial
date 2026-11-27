@@ -32,31 +32,32 @@ export default function OrderForm() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('success') === 'true' || params.get('success') === '1') {
+const params = new URLSearchParams(window.location.search);
+if (params.get('success') === 'true' || params.get('success') === '1') {
   setShowSuccess(true);
   window.history.replaceState({}, '', '/buy-a-brick');
 
-  // Pull the saved data for emails + Lob
   const saved = sessionStorage.getItem('savedSponsor');
-  const order = saved ? JSON.parse(saved) : {};
+  if (!saved) return;   // nothing to send
+
+  const order = JSON.parse(saved);
+  if (!order.name && !order.line1) return;   // extra guard
+
   order.confirmationNumber = 'AC-543-' + Date.now().toString().slice(-6);
 
-  // Send emails
   fetch('/api/send-order-emails', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(order),
   }).catch(console.error);
 
-  // Send to Lob
   fetch('/api/send-lob-letter', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(order),
   }).catch(console.error);
 
+  sessionStorage.removeItem('savedSponsor');   // prevent a second fire
   return;
 }
 
