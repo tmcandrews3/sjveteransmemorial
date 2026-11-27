@@ -58,7 +58,7 @@ useEffect(() => {
             body: JSON.stringify(order),
           }).catch(console.error);
         }
-        sessionStorage.removeItem('savedSponsor');
+        // Do NOT remove savedSponsor here — keep it for "Order Another"
       } catch (e) {
         console.error(e);
       }
@@ -86,6 +86,7 @@ useEffect(() => {
     sessionStorage.removeItem('orderAnother');
   }
 }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -99,7 +100,11 @@ useEffect(() => {
     alert('Please enter at least one line for the brick inscription.');
     return;
   }
-
+const handleDone = () => {
+  sessionStorage.removeItem('savedSponsor');
+  setShowSuccess(false);
+  // or window.location = '/' if you want to leave the page
+};
   // Save sponsor info for later
   const sponsor = {
     line1: formData.line1,
