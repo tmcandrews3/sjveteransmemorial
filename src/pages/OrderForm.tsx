@@ -167,12 +167,9 @@ const handleDone = () => {
               >
                 Order Another Brick
               </button>
-              <button
-                onClick={() => window.close()}
-                className="w-full bg-gray-200 text-gray-800 px-8 py-3 rounded-xl font-medium"
-              >
-                Done
-              </button>
+              <button onClick={handleDone} className="...">
+  Done
+</button>
             </div>
           </div>
         </div>
