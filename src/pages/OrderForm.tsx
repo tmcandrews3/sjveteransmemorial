@@ -33,32 +33,35 @@ export default function OrderForm() {
   const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('success') === 'true' || params.get('success') === '1') {
-  setShowSuccess(true);
-  window.history.replaceState({}, '', '/buy-a-brick');
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('success') !== 'true') return;
 
-  // Pull the saved data for emails + Lob
-  const saved = sessionStorage.getItem('savedSponsor');
-  const order = saved ? JSON.parse(saved) : {};
-  order.confirmationNumber = 'AC-543-' + Date.now().toString().slice(-6);
+  // Prevent double-send
+  if (sessionStorage.getItem('orderSent')) return;
+  sessionStorage.setItem('orderSent', 'true');
 
-  // Send emails
-  fetch('/api/send-order-emails', {
+  const saved = sessionStorage.getItem('pendingOrder');
+  if (!saved) return;
+
+  const order = JSON.parse(saved);
+
+  // Send customer email + Lob letter
+  fetch('/api/send-customer-email', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(order),
-  }).catch(console.error);
+  });
 
-  // Send to Lob
   fetch('/api/send-lob-letter', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(order),
-  }).catch(console.error);
+  });
 
-  return;
-}
+  // Clean up and show success
+  sessionStorage.removeItem('pendingOrder');
+  setShowSuccess(true);
+}, []);
 
     if (sessionStorage.getItem('orderAnother') === 'true') {
       const saved = sessionStorage.getItem('savedSponsor');
@@ -365,6 +368,8 @@ export default function OrderForm() {
 }}
   className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-medium"
 >
+sessionStorage.setItem('pendingOrder', JSON.stringify(formData));
+
   Continue to GiveButter
 </button>
               <button onClick={() => setShowPreview(false)} className="flex-1 border border-gray-300 py-3 rounded-xl font-medium">
