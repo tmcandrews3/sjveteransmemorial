@@ -63,6 +63,27 @@ export default function OrderForm() {
   setShowSuccess(true);
 }, []);
 
+useEffect(() => {
+  if (sessionStorage.getItem('orderAnother') === 'true') {
+    const saved = sessionStorage.getItem('savedSponsor');
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        setFormData(prev => ({
+          ...prev,
+          customerName: data.customerName || '',
+          phone: data.phone || '',
+          email: data.email || '',
+          address: data.address || '',
+          city: data.city || '',
+          state: data.state || '',
+          zip: data.zip || '',
+        }));
+      } catch (e) {}
+    }
+    sessionStorage.removeItem('orderAnother');
+  }
+}, []);
     if (sessionStorage.getItem('orderAnother') === 'true') {
       const saved = sessionStorage.getItem('savedSponsor');
       if (saved) {
@@ -363,13 +384,11 @@ export default function OrderForm() {
             <div className="flex flex-col sm:flex-row gap-4 mt-6">
               <button
   onClick={() => {
- 
+    sessionStorage.setItem('pendingOrder', JSON.stringify(formData));
     window.location.href = 'https://givebutter.com/memorial-brick-sales-vdqe3n/?amount=100';
-}}
+  }}
   className="flex-1 bg-[#c43834] text-white py-3 rounded-xl font-medium"
 >
-sessionStorage.setItem('pendingOrder', JSON.stringify(formData));
-
   Continue to GiveButter
 </button>
               <button onClick={() => setShowPreview(false)} className="flex-1 border border-gray-300 py-3 rounded-xl font-medium">
