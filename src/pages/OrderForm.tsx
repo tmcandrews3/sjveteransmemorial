@@ -31,64 +31,55 @@ export default function OrderForm() {
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
-  const handleDone = () => {
-  sessionStorage.removeItem('savedSponsor');
-  setShowSuccess(false);
 
-useEffect(() => {
-  // Handle success return from GiveButter
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('success') === 'true' || params.get('success') === '1') {
-    setShowSuccess(true);
-    window.history.replaceState({}, '', '/buy-a-brick');
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('success') === 'true' || params.get('success') === '1') {
+  setShowSuccess(true);
+  window.history.replaceState({}, '', '/buy-a-brick');
 
-    const saved = sessionStorage.getItem('savedSponsor');
-    if (saved) {
-      try {
-        const order = JSON.parse(saved);
-        if (order.customerName || order.line1) {
-          order.confirmationNumber = 'AC-543-' + Date.now().toString().slice(-6);
+  // Pull the saved data for emails + Lob
+  const saved = sessionStorage.getItem('savedSponsor');
+  const order = saved ? JSON.parse(saved) : {};
+  order.confirmationNumber = 'AC-543-' + Date.now().toString().slice(-6);
 
-          fetch('/api/send-order-emails', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(order),
-          }).catch(console.error);
+  // Send emails
+  fetch('/api/send-order-emails', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(order),
+  }).catch(console.error);
 
-          fetch('/api/send-lob-letter', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(order),
-          }).catch(console.error);
-        }
-        // Do NOT remove savedSponsor here — keep it for "Order Another"
-      } catch (e) {
-        console.error(e);
+  // Send to Lob
+  fetch('/api/send-lob-letter', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(order),
+  }).catch(console.error);
+
+  return;
+}
+
+    if (sessionStorage.getItem('orderAnother') === 'true') {
+      const saved = sessionStorage.getItem('savedSponsor');
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          setFormData(prev => ({
+            ...prev,
+            customerName: data.customerName || '',
+            phone: data.phone || '',
+            email: data.email || '',
+            address: data.address || '',
+            city: data.city || '',
+            state: data.state || '',
+            zip: data.zip || '',
+          }));
+        } catch (e) {}
       }
+      sessionStorage.removeItem('orderAnother');
     }
-  }
-
-  // Handle "order another" pre-fill
-  if (sessionStorage.getItem('orderAnother') === 'true') {
-    const saved = sessionStorage.getItem('savedSponsor');
-    if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        setFormData(prev => ({
-          ...prev,
-          customerName: data.customerName || '',
-          phone: data.phone || '',
-          email: data.email || '',
-          address: data.address || '',
-          city: data.city || '',
-          state: data.state || '',
-          zip: data.zip || '',
-        }));
-      } catch (e) {}
-    }
-    sessionStorage.removeItem('orderAnother');
-  }
-}, []);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -104,8 +95,6 @@ useEffect(() => {
     return;
   }
 
-  // or window.location = '/' if you want to leave the page
-};
   // Save sponsor info for later
   const sponsor = {
     line1: formData.line1,
@@ -159,23 +148,22 @@ useEffect(() => {
             <h2 className="text-2xl font-bold text-[#263b6c] mb-4">Order Successful!</h2>
             <p className="text-gray-600 mb-8">You should receive a confirmation email shortly.</p>
             <div className="space-y-4">
-  <button
-    onClick={() => {
-      sessionStorage.setItem('orderAnother', 'true');
-      window.location.href = '/buy-a-brick';
-    }}
-    className="w-full bg-[#c43834] text-white px-8 py-3 rounded-xl font-medium"
-  >
-    Order Another Brick
-  </button>
-
-  <button 
-    onClick={handleDone}
-    className="w-full bg-gray-600 text-white px-8 py-3 rounded-xl font-medium mt-3"
-  >
-    Done
-  </button>
-</div>
+              <button
+                onClick={() => {
+                  sessionStorage.setItem('orderAnother', 'true');
+                  window.location.href = '/buy-a-brick';
+                }}
+                className="w-full bg-[#c43834] text-white px-8 py-3 rounded-xl font-medium"
+              >
+                Order Another Brick
+              </button>
+              <button
+                onClick={() => window.close()}
+                className="w-full bg-gray-200 text-gray-800 px-8 py-3 rounded-xl font-medium"
+              >
+                Done
+              </button>
+            </div>
           </div>
         </div>
 
