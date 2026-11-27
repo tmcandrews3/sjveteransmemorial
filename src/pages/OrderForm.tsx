@@ -32,34 +32,39 @@ export default function OrderForm() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
 
-const params = new URLSearchParams(window.location.search);
-if (params.get('success') === 'true' || params.get('success') === '1') {
-  setShowSuccess(true);
-  window.history.replaceState({}, '', '/buy-a-brick');
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('success') === 'true' || params.get('success') === '1') {
+    setShowSuccess(true);
+    window.history.replaceState({}, '', '/buy-a-brick');
 
-  const saved = sessionStorage.getItem('savedSponsor');
-  if (!saved) return;   // nothing to send
+    const saved = sessionStorage.getItem('savedSponsor');
+    if (!saved) return;
 
-  const order = JSON.parse(saved);
-  if (!order.name && !order.line1) return;   // extra guard
+    try {
+      const order = JSON.parse(saved);
+      if (!order.customerName && !order.line1) return;
 
-  order.confirmationNumber = 'AC-543-' + Date.now().toString().slice(-6);
+      order.confirmationNumber = 'AC-543-' + Date.now().toString().slice(-6);
 
-  fetch('/api/send-order-emails', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(order),
-  }).catch(console.error);
+      fetch('/api/send-order-emails', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(order),
+      }).catch(console.error);
 
-  fetch('/api/send-lob-letter', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(order),
-  }).catch(console.error);
+      fetch('/api/send-lob-letter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(order),
+      }).catch(console.error);
 
-  sessionStorage.removeItem('savedSponsor');   // prevent a second fire
-  return;
-}
+      sessionStorage.removeItem('savedSponsor');
+    } catch (e) {
+      console.error(e);
+    }
+  }
+}, []);
 
     if (sessionStorage.getItem('orderAnother') === 'true') {
       const saved = sessionStorage.getItem('savedSponsor');
@@ -80,7 +85,7 @@ if (params.get('success') === 'true' || params.get('success') === '1') {
       }
       sessionStorage.removeItem('orderAnother');
     }
-  }, [];
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
